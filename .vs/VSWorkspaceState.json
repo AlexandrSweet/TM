@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\TaskManagement_Summer2021\\ClientApp",
+    "\\TaskManagement_Summer2021\\Controllers"
   ],
-  "SelectedNode": "\\C:\\Users\\tdtia\\Source\\Repos\\TaskManagement_Summer2021",
+  "SelectedNode": "\\TaskManagement_Summer2021",
   "PreviewInSolutionExplorer": false
 }
