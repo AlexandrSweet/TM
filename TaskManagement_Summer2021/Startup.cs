@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Reflection;
 using System.IO;
+using DataAccessLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskManagement_Summer2021
 {
@@ -23,6 +25,14 @@ namespace TaskManagement_Summer2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(option =>
+            {
+                option.UseSqlServer(Configuration["SqlServerConnectionString"],
+                    b => b.MigrationsAssembly("DataAccessLayer"));
+            });
+
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
