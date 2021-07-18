@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DataAccessLayer.Entities
+namespace BusinessLogicLayer.ModelsDto
 {
-    public class Message
+    public class MessageDto
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string MessageFrom { get; set; }
         public string UserId { get; set; }
