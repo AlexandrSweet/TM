@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace DataAccessLayer.Entities
+namespace BusinessLogicLayer.ModelsDto
 {
-    public class Task
+    public class TaskDto
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -16,7 +14,6 @@ namespace DataAccessLayer.Entities
         public string Files { get; set; }
         public string StatusId { get; set; }
         public string UserId { get; set; }
-        public ICollection<Message> Messages { get; set; }
-
+        public List<MessageDto> MessagesDto { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,7 +6,11 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
+using System.Linq;
+using System.Text;
 using System.Reflection;
 using System.IO;
 using DataAccessLayer;
@@ -29,6 +34,23 @@ namespace TaskManagement_Summer2021
             {
                 option.UseSqlServer(Configuration["SqlServerConnectionString"],
                     b => b.MigrationsAssembly("DataAccessLayer"));
+            });
+
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = Configuration["http://localhost:44379"],
+                    ValidAudience = Configuration["http://localhost:44379"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
+                };
             });
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
@@ -75,6 +97,10 @@ namespace TaskManagement_Summer2021
             }
 
             app.UseRouting();
+            //SeedDefault(app); по умолчанию добавляет админа.
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -96,5 +122,22 @@ namespace TaskManagement_Summer2021
                 }
             });
         }
+        //private void SeedDefault(IApplicationBuilder app)
+        //{
+        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+        //    using (var scope = scopeFactory.CreateScope())
+        //    {
+        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        //        if (dbContext.Users.FirstOrDefault(u => u.RoleId == "admin") == null)
+        //        {
+
+        //            dbContext.Users.Add(new DataAccessLayer.Entities.User { Email = "Admin@gmail.com", Password = "admin", RoleId = "admin" });
+
+        //            dbContext.SaveChanges();
+
+        //        }
+
+        //    }
+        //}
     }
 }
