@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogicLayer.TaskService;
-using BusinessLogicLayer.Models;
+using BusinessLogicLayer.ModelsDto;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -17,43 +17,73 @@ namespace TaskManagement_Summer2021.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly ITaskService _taskService;        
-        Serilog.ILogger _logger = Serilog.Log.ForContext<TaskService>();
+        private readonly ITaskService _taskService;
+        private ILogger<TaskController> _logger;//= Log.Logger.ForContext<TaskController>();
 
 
         public TaskController(ITaskService taskService, ILogger<TaskController> logger)
         {
             _taskService = taskService;
-            
+            _logger = logger;
         }
 
         [HttpPost]
         [Route("AddTask")]
         public ActionResult<TaskDto> CreateTask(TaskDto taskModel)
-        {
-            TaskDto testTask = new TaskDto()
-            {
-                Id = "1",
-                Title = "TestTitle",
-                Description = "Random text"
-            };
+        {            
             try
             {
-                Log.Information("First Run");
+                _taskService.AddTask(taskModel);
+                //Log.Information("Good Run");
                 return
-                    Ok(_taskService.AddTask(testTask));
-                                    
+                    Ok();
             }
             catch (Exception e)
             {
-                Log.Fatal(e, "Not good api");
+                _logger.LogError(e, e.Message);
                 return
                     BadRequest();
             }
-            //if (taskModel.Title != null && taskModel.Description != null)
-            //    return _taskService.AddTask(testTask);
-            //else
-            //    return BadRequest();
+            
+        }
+
+        [HttpGet]
+        [Route("GetAllTasks")]
+        public IEnumerable<TaskDto> GetTasks(string number)
+        {
+            try
+            {
+                int tempNumber;
+                if(!int.TryParse(number, out tempNumber))
+                    throw new Exception("uncorrect input");
+                return _taskService.GetTasks(tempNumber);                
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return null;
+            }
+            
+        }
+
+        [HttpDelete]
+        [Route("DeleteTask")]
+        public ActionResult DeleteTask(string taskId)
+        {
+            try
+            {
+                _taskService.DeleteTask(taskId);
+                //Log.Information("Good Run");
+                return
+                    Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return
+                    BadRequest();
+            }
+            
         }
     }
 }

@@ -14,12 +14,25 @@ namespace TaskManagement_Summer2021
     {
         public static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()//create serilog configuration
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            Log.Logger = new LoggerConfiguration()//create serilog logger
+                .ReadFrom.Configuration(config)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .Enrich.FromLogContext()
+                //.WriteTo.MSSqlServer();
+                .CreateLogger();
             CreateHostBuilder(args).Build().Run();
         }
 
+
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog() //Uses Serilog instead of default .NET Logger
+            .UseSerilog() //Uses Serilog instead of default .NET Logger
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
