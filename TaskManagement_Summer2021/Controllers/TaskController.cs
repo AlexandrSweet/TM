@@ -33,30 +33,23 @@ namespace TaskManagement_Summer2021.Controllers
         {            
             try
             {
-                _taskService.AddTask(taskModel);
-                //Log.Information("Good Run");
-                return
-                    Ok();
+                return Ok(_taskService.AddTask(taskModel));
             }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
-                return
-                    BadRequest();
+                return BadRequest(e.Message);
             }
             
         }
 
         [HttpGet]
-        [Route("GetAllTasks")]
-        public IEnumerable<TaskDto> GetTasks(string number)
+        [Route("GetTasks")]
+        public IEnumerable<TaskDto> GetTasks(int numberOfTasks)
         {
             try
-            {
-                int tempNumber;
-                if(!int.TryParse(number, out tempNumber))
-                    throw new Exception("uncorrect input");
-                return _taskService.GetTasks(tempNumber);                
+            {                
+                return _taskService.GetTasks(numberOfTasks);                
             }
             catch (Exception e)
             {

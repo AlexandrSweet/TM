@@ -4,12 +4,10 @@ using System.Text;
 
 namespace BusinessLogicLayer.ModelsDto
 {
-    public class MessageDto
+    public class ListViewTaskDto
     {
         public Guid Id { get; set; }
-        public string MessageFrom { get; set; }
+        public string Title { get; set; }
         public Guid UserId { get; set; }
-        public Guid TaskId { get; set; }
-        public DateTime Data { get; set; }
     }
 }
