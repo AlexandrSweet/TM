@@ -36,9 +36,16 @@ namespace BusinessLogicLayer.TaskService
 
         public CreateTaskDto AddTask(CreateTaskDto TaskDto)
         {
-            try
+            TaskDto.Date = DateTime.UtcNow;
+            Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
+
+            _applicationDbContext.Tasks.Add(newTask);
+            _applicationDbContext.SaveChanges();
+            TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
+            return TaskDto;
+            /*try
             {
-                /*if (_applicationDbContext.Users.Count() == 0)
+                if (_applicationDbContext.Users.Count() == 0)
                 {
                      _applicationDbContext.Users.Add(
                         new User()
@@ -86,9 +93,9 @@ namespace BusinessLogicLayer.TaskService
                          },
                      });
                     _applicationDbContext.SaveChanges();
-                }*/
-                var temp = _applicationDbContext.Users.FirstOrDefault(u =>
-                u.FirstName == "Tom"&&u.Email== "tom.hanks@gmail.co").Id;
+                }
+                //var temp = _applicationDbContext.Users.FirstOrDefault(u =>
+                //u.FirstName == "Tom" && u.Email == "tom.hanks@gmail.co").Id;
                 //TaskDto.Id = Guid.NewGuid().ToString();
                 TaskDto.Date = DateTime.UtcNow;
                 Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
@@ -98,16 +105,16 @@ namespace BusinessLogicLayer.TaskService
                 TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
                 return TaskDto;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                _logger.LogError(e, e.Message);
-                if (e.InnerException!=null)
-                {
-                    _logger.LogError(e.InnerException, e.InnerException.Message);
-                }
+                //_logger.LogError(e, e.Message);
+                //if (e.InnerException!=null)
+                //{
+                //    _logger.LogError(e.InnerException, e.InnerException.Message);
+                //}
                 return new CreateTaskDto();
-            }
-            
+            }*/
+
         }
 
         public List<ListViewTaskDto> GetTasks(int number)
@@ -127,9 +134,9 @@ namespace BusinessLogicLayer.TaskService
                 }
                 return resultList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                _logger.LogError(e, e.Message);
+                //_logger.LogError(e, e.Message);
                 return new List<ListViewTaskDto>();
             }
             
@@ -147,11 +154,11 @@ namespace BusinessLogicLayer.TaskService
                 //Guid actualGuid = Guid.Parse(taskId);
                 _applicationDbContext.Tasks.Remove(new Task() { Id = Guid.Parse(taskId) });
                 _applicationDbContext.SaveChanges();
-                _logger.LogInformation("Task Service");
+                //_logger.LogInformation("Task Service");
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                _logger.LogError(e, e.Message);
+                //_logger.LogError(e, e.Message);
             }
 
         }

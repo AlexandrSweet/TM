@@ -29,7 +29,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<TaskDto> CreateTask(TaskDto taskModel)
+        public ActionResult<TaskDto> CreateTask(CreateTaskDto taskModel)
         {            
             try
             {
@@ -37,7 +37,7 @@ namespace TaskManagement_Summer2021.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
+                //_logger.LogError(e, e.Message);
                 return BadRequest(e.Message);
             }
             
@@ -45,15 +45,15 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpGet]
         [Route("GetTasks")]
-        public IEnumerable<TaskDto> GetTasks(int numberOfTasks)
+        public IEnumerable<ListViewTaskDto> GetTasks(int numberOfTasks)
         {
             try
             {                
                 return _taskService.GetTasks(numberOfTasks);                
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                _logger.LogError(e, e.Message);
+                //_logger.LogError(e, e.Message);
                 return null;
             }
             
@@ -72,7 +72,7 @@ namespace TaskManagement_Summer2021.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
+                //_logger.LogError(e, e.Message);
                 return
                     BadRequest();
             }
