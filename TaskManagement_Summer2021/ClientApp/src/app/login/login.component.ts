@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   }
   login(form: NgForm) {
     const payload = form.value;
-    this.http.post('https://localhost:44379/' + 'auth/login', payload).subscribe(result => {
+    this.http.post('https://localhost:44379/auth/login', payload).subscribe(result => {
       const token = (<any>result).token;
       localStorage.setItem('jwt', token);
       this.invalidLogin = false;

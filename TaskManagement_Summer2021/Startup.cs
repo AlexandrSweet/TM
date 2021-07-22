@@ -27,13 +27,29 @@ namespace TaskManagement_Summer2021
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(c =>
+            services.AddCors(options =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("https://localhost:44379",
+                                        "http://localhost:4200"                                        
+                                        )
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
             });
+
+
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            //});
 
             //services.AddCors(options =>
             //{
@@ -114,7 +130,8 @@ namespace TaskManagement_Summer2021
             app.UseRouting();
 
             //app.UseCors();
-            app.UseCors(options => options.AllowAnyOrigin());
+            //app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors(MyAllowSpecificOrigins);
 
             //SeedDefault(app); по умолчанию добавляет админа.
 
