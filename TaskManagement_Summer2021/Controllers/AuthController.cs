@@ -16,8 +16,7 @@ namespace TaskManagement_Summer2021.Controllers
     {
 
         [HttpPost]
-        [Route("login")]
-        [EnableCors("AllowOrigin")]
+        [Route("login")]        
         public IActionResult Login(LoginModel user)
         {
             if (user == null)
