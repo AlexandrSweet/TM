@@ -13,10 +13,10 @@ namespace DataAccessLayer.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Requirement { get; set; }
-        public string Date { get; set; }
-        public string Files { get; set; }
+        public DateTime Date { get; set; }
+        //public string Files { get; set; }
         public string StatusId { get; set; }
-        public string UserId { get; set; }
+        public Guid? UserId { get; set; }
         public ICollection<Message> Messages { get; set; }
 
     }
