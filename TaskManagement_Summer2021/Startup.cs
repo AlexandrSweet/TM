@@ -30,46 +30,61 @@ namespace TaskManagement_Summer2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(builder =>
+            //    {
+            //        builder.WithOrigins("http://localhost:4200");
+            //    });
+            //});// можно добавить разные политики
+
             services.AddDbContext<ApplicationDbContext>(option =>
-            {
-                option.UseSqlServer(Configuration["SqlServerConnectionString"],
-                    b => b.MigrationsAssembly("DataAccessLayer"));
-            });
-
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidIssuer = Configuration["http://localhost:44379"],
-                    ValidAudience = Configuration["http://localhost:44379"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
-                };
-            });
+                    option.UseSqlServer(Configuration["SqlServerConnectionString"],
+                        b => b.MigrationsAssembly("DataAccessLayer"));
+                });
 
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+                services.AddAuthentication(opt =>
+                {
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = Configuration["http://localhost:44379"],
+                        ValidAudience = Configuration["http://localhost:44379"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
+                    };
+                });
 
-            services.AddControllersWithViews();
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
+                services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+                services.AddControllersWithViews();
+                // In production, the Angular files will be served from this directory
+                services.AddSpaStaticFiles(configuration =>
+                {
+                    configuration.RootPath = "ClientApp/dist";
+                });
+                // Register the Swagger generator, defining 1 or more Swagger documents
+                services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
+
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+            app.UseSwagger();            
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
@@ -97,6 +112,10 @@ namespace TaskManagement_Summer2021
             }
 
             app.UseRouting();
+
+            //app.UseCors();
+            app.UseCors(options => options.AllowAnyOrigin());
+
             //SeedDefault(app); по умолчанию добавляет админа.
 
             app.UseAuthentication();

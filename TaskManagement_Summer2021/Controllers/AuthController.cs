@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-
-
+using Microsoft.AspNetCore.Cors;
 
 namespace TaskManagement_Summer2021.Controllers
 {
@@ -18,6 +17,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("login")]
+        [EnableCors("AllowOrigin")]
         public IActionResult Login(LoginModel user)
         {
             if (user == null)
