@@ -8,10 +8,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent }];
 
 @NgModule({
-  imports: [RouterModule.forRoot([
-    { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'login', component: LoginComponent }
-  ])],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
