@@ -36,11 +36,9 @@ namespace TaskManagement_Summer2021.Controllers
                 return Ok(_taskService.AddTask(taskModel));
             }
             catch (Exception e)
-            {
-                //_logger.LogError(e, e.Message);
+            {                
                 return BadRequest(e.Message);
-            }
-            
+            }            
         }
 
         [HttpGet]
@@ -51,12 +49,10 @@ namespace TaskManagement_Summer2021.Controllers
             {                
                 return _taskService.GetTasks(numberOfTasks);                
             }
-            catch (Exception )
+            catch (Exception)
             {
-                //_logger.LogError(e, e.Message);
                 return null;
-            }
-            
+            }            
         }
 
         [HttpDelete]
@@ -65,18 +61,13 @@ namespace TaskManagement_Summer2021.Controllers
         {
             try
             {
-                _taskService.DeleteTask(taskId);
-                //Log.Information("Good Run");
-                return
-                    Ok();
+                _taskService.DeleteTask(taskId);                
+                return Ok();
             }
             catch (Exception e)
             {
-                //_logger.LogError(e, e.Message);
-                return
-                    BadRequest();
-            }
-            
+                return BadRequest(e.Message);
+            }            
         }
     }
 }
