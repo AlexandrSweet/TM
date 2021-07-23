@@ -34,6 +34,8 @@ namespace BusinessLogicLayer.TaskService
             _autoMapper = new Mapper(mapperConfig);
         }
 
+        //Creates new task in database
+        //Requires minimum of information, no files, user ID or status
         public CreateTaskDto AddTask(CreateTaskDto TaskDto)
         {
             TaskDto.Date = DateTime.UtcNow;
@@ -53,6 +55,7 @@ namespace BusinessLogicLayer.TaskService
             }
         }
 
+        //Returns a list of a specific number of tasks
         public List<ListViewTaskDto> GetTasks(int number)
         {
             var tasks = _applicationDbContext.Tasks?.ToList();
@@ -75,6 +78,8 @@ namespace BusinessLogicLayer.TaskService
             }
         }
 
+        //Returns task from database with all fields (either setted up or not)
+        //Requires  ID of existing task
         public TaskDto GetOneTask(string taskId)
         {
             if (taskId == null)
@@ -94,10 +99,11 @@ namespace BusinessLogicLayer.TaskService
                     _logger.LogError(e.Message);
                     return tempTaskDto;
                 }
-
             };
         }
 
+        //Updates existing task
+        //Saving requires User ID for current task (guid)
         public TaskDto EditTask(TaskDto taskDto)
         {
             if (taskDto.Id == null)
