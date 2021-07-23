@@ -16,6 +16,7 @@ using System.IO;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using BusinessLogicLayer.TaskService;
+using Serilog;
 
 namespace TaskManagement_Summer2021
 {
@@ -30,7 +31,7 @@ namespace TaskManagement_Summer2021
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlServer(Configuration["SqlServerConnectionString"],
@@ -69,9 +70,11 @@ namespace TaskManagement_Summer2021
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        { 
+        {
+            app.UseSerilogRequestLogging();//Serilog
+
             if (env.IsDevelopment())
-            {
+            {                
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
@@ -81,14 +84,14 @@ namespace TaskManagement_Summer2021
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });
+                });                                
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+            }            
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -121,7 +124,7 @@ namespace TaskManagement_Summer2021
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
-            });
+            });            
         }
         //private void SeedDefault(IApplicationBuilder app)
         //{
