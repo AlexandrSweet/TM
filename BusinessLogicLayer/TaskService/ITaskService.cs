@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.ModelsDto;
+﻿using BusinessLogicLayer.ModelsDto.TaskModel;
 using System;
 using System.Collections.Generic;
 using System.Text;

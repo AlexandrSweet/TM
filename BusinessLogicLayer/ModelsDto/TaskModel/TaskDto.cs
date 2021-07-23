@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BusinessLogicLayer.ModelsDto
+namespace BusinessLogicLayer.ModelsDto.TaskModel
 {
     enum TaskId { New, InProgress, Checking, Done};
 

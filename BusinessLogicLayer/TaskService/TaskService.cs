@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using BusinessLogicLayer.ModelsDto;
+using BusinessLogicLayer.ModelsDto.TaskModel;
 using DataAccessLayer;
 using DataAccessLayer.Entities;
 using Microsoft.Extensions.Logging;

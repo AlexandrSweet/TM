@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using DataAccessLayer.Entities;
+using BusinessLogicLayer.ModelsDto.TaskModel;
 
-namespace BusinessLogicLayer.ModelsDto
+namespace BusinessLogicLayer.ModelsDto.UserModel
 {
     public class UserDto
     {

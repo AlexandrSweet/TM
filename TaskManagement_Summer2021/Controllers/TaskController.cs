@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogicLayer.TaskService;
-using BusinessLogicLayer.ModelsDto;
+using BusinessLogicLayer.ModelsDto.TaskModel;
 using Microsoft.Extensions.Logging;
-using Serilog;
-
-using Microsoft.Extensions.Configuration;
 
 namespace TaskManagement_Summer2021.Controllers
 {
@@ -18,7 +15,7 @@ namespace TaskManagement_Summer2021.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
-        private ILogger<TaskController> _logger;//= Log.Logger.ForContext<TaskController>();
+        private ILogger<TaskController> _logger;
 
 
         public TaskController(ITaskService taskService, ILogger<TaskController> logger)
