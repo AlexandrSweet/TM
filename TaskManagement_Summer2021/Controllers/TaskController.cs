@@ -57,30 +57,29 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpGet]
         [Route("GetOneTasks")]
-        public TaskDto GetOneTask(string taskId)
+        public ActionResult<TaskDto> GetOneTask(string taskId)
         {
             try
             {
-                return _taskService.GetOneTask(taskId);
+                return Ok(_taskService.GetOneTask(taskId));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut]
         [Route("EditTask")]
-        public TaskDto EditTask(TaskDto taskDto)
+        public ActionResult<TaskDto> EditTask(TaskDto taskDto)
         {
             try
             {
-                return _taskService.EditTask(taskDto);
+                return Ok(_taskService.EditTask(taskDto));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return BadRequest(e.Message);
             }
         }
 

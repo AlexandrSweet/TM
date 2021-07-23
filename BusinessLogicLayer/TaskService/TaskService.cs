@@ -84,7 +84,7 @@ namespace BusinessLogicLayer.TaskService
                 TaskDto tempTaskDto = new TaskDto();
                 try
                 {
-                    Task task = _applicationDbContext.Tasks.Find(new Task() { Id = Guid.Parse(taskId) });
+                    Task task = _applicationDbContext.Tasks.Find(Guid.Parse(taskId));
                     tempTaskDto = _autoMapper.Map<Task, TaskDto>(task);
                     _logger.LogInformation($"Task displayed, id = {tempTaskDto.Id}");
                     return tempTaskDto;
@@ -107,8 +107,9 @@ namespace BusinessLogicLayer.TaskService
                 try 
                 {
                     Task updatedTask = _autoMapper.Map<TaskDto, Task>(taskDto);
-                    //Task task = _applicationDbContext.Tasks.Find(new Task() { Id = taskDto.Id });
                     _applicationDbContext.Tasks.Update(updatedTask);
+                    _applicationDbContext.SaveChanges();
+                    _logger.LogInformation("Task updated");
                     return taskDto;
                 }
                 catch (Exception e)
