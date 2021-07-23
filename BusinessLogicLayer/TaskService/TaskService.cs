@@ -38,11 +38,19 @@ namespace BusinessLogicLayer.TaskService
         {
             TaskDto.Date = DateTime.UtcNow;
             Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
-
-            _applicationDbContext.Tasks.Add(newTask);
-            _applicationDbContext.SaveChanges();
-            TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
-            return TaskDto;
+            try
+            {
+                _applicationDbContext.Tasks.Add(newTask);
+                _applicationDbContext.SaveChanges();
+                TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
+                _logger.LogInformation("New task added");
+                return TaskDto;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return TaskDto;
+            }
         }
 
         public List<ListViewTaskDto> GetTasks(int number)
@@ -53,22 +61,77 @@ namespace BusinessLogicLayer.TaskService
             int? range = tasks.Count();
             if (range < number)
                 number = (int)range;
-
-            for (int i = 0; i < number; i++)            
-                resultList.Add(_autoMapper.Map<Task, ListViewTaskDto>(tasks[i]));
-            
-            return resultList;
+            try
+            {
+                for (int i = 0; i < number; i++)
+                    resultList.Add(_autoMapper.Map<Task, ListViewTaskDto>(tasks[i]));
+                _logger.LogInformation("List of tasks displayed");
+                return resultList;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return resultList;
+            }
         }
-        
-        public TaskDto EditTask(string taskId)
+
+        public TaskDto GetOneTask(string taskId)
         {
-            throw new NotImplementedException();
+            if (taskId == null)
+                return new TaskDto();
+            else
+            {
+                TaskDto tempTaskDto = new TaskDto();
+                try
+                {
+                    Task task = _applicationDbContext.Tasks.Find(new Task() { Id = Guid.Parse(taskId) });
+                    tempTaskDto = _autoMapper.Map<Task, TaskDto>(task);
+                    _logger.LogInformation($"Task displayed, id = {tempTaskDto.Id}");
+                    return tempTaskDto;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e.Message);
+                    return tempTaskDto;
+                }
+
+            };
+        }
+
+        public TaskDto EditTask(TaskDto taskDto)
+        {
+            if (taskDto.Id == null)
+                return null;
+            else
+            {
+                try 
+                {
+                    Task updatedTask = _autoMapper.Map<TaskDto, Task>(taskDto);
+                    //Task task = _applicationDbContext.Tasks.Find(new Task() { Id = taskDto.Id });
+                    _applicationDbContext.Tasks.Update(updatedTask);
+                    return taskDto;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e.Message);
+                    return taskDto;
+                }
+                
+            };
         }
 
         public void DeleteTask(string taskId)
-        {
-            _applicationDbContext.Tasks.Remove(new Task() { Id = Guid.Parse(taskId) });
-            _applicationDbContext.SaveChanges();
+        {            
+            try
+            {
+                _applicationDbContext.Tasks.Remove(new Task() { Id = Guid.Parse(taskId) });
+                _applicationDbContext.SaveChanges();
+                _logger.LogInformation("Task deleted");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
         }
 
     }

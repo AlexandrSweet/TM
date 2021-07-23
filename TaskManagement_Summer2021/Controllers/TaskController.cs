@@ -55,6 +55,35 @@ namespace TaskManagement_Summer2021.Controllers
             }            
         }
 
+        [HttpGet]
+        [Route("GetOneTasks")]
+        public TaskDto GetOneTask(string taskId)
+        {
+            try
+            {
+                return _taskService.GetOneTask(taskId);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        [HttpPut]
+        [Route("EditTask")]
+        public TaskDto EditTask(TaskDto taskDto)
+        {
+            try
+            {
+                return _taskService.EditTask(taskDto);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpDelete]
         [Route("DeleteTask")]
         public ActionResult DeleteTask(string taskId)
