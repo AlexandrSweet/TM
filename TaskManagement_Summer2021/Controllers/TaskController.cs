@@ -30,16 +30,17 @@ namespace TaskManagement_Summer2021.Controllers
         {
             if (taskModel.Title.Length>=0 && taskModel.Description.Length >= 0)
             {
-                return Ok(_taskService.AddTask(taskModel));
+                string taskId = _taskService.AddTask(taskModel);
+                return Ok($"Task created. ID {taskId}");
             }
             return BadRequest("Invalid Data");
         }
 
         [HttpGet]
         [Route("ViewTasks")]
-        public IEnumerable<ListViewTaskDto> GetTasks(int numberOfTasks = 3)
+        public IEnumerable<ListViewTaskDto> GetTasks(int index, int count = 3)
         {
-            return _taskService.GetTasks(numberOfTasks); 
+            return _taskService.GetTasks(index, count); 
         }
 
         [HttpGet]

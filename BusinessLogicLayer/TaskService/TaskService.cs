@@ -41,43 +41,29 @@ namespace BusinessLogicLayer.TaskService
         {
             TaskDto.Date = DateTime.UtcNow;
             Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
-            try
-            {
-                _applicationDbContext.Tasks.Add(newTask);
-                _applicationDbContext.SaveChanges();
-                TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
-                _logger.LogInformation("New task added");
-                return TaskDto;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return TaskDto;
-            }
+            _applicationDbContext.Tasks.Add(newTask);
+            _applicationDbContext.SaveChanges();
+            TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
+            _logger.LogInformation("New task added");
+            return newTask.Id.ToString();
         }
 
         //Returns a list of a specific number of tasks
-        public List<ListViewTaskDto> GetTasks(int number)
-        {            
-            var resultList = new List<ListViewTaskDto>();            
+        //Index is where displaying list begins, count is how many items will be displayed
+        public List<ListViewTaskDto> GetTasks(int index, int count)
+        {
+            var resultList = new List<ListViewTaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
-
-            if (number <= 0)
-                number = 1;
-            int range = tasks.Count();
-            if(range == 0)
+            if (tasks.Count < count )
             {
-                _logger.LogInformation("There are no tasks to display");
-                return resultList;
+                count = tasks.Count;
+                if (index>=count)
+                {
+                    index = count - 1;
+                }
             }
-            if (range < number)
-                number = range;
-
-            for (int i = 0; i < number; i++)
-                resultList.Add(_autoMapper.Map<Task, ListViewTaskDto>(tasks[i]));
-            _logger.LogInformation("List of tasks displayed");
-            return resultList;
-           
+            resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
+            return resultList;           
         }
 
         //Returns task from database with all fields (either setted up or not)
