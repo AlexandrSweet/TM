@@ -95,6 +95,7 @@ namespace BusinessLogicLayer.TaskService
             return taskDto;
         }
 
+        //Deletes chosen task
         public void DeleteTask(Guid taskId)
         {
             _applicationDbContext.Tasks.Remove(new Task() { Id=taskId});
