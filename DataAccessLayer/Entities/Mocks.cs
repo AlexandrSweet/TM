@@ -79,33 +79,38 @@ namespace DataAccessLayer.Entities
                     {
                         Date = DateTime.UtcNow,
                         Title = "first task",
-                        Description = "wserdtfghuj"
+                        Description = "wserdtfghuj",
+                        StatusId = TaskStatusId.New
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "second task",
-                        Description = "aghgwtgfa"
+                        Description = "aghgwtgfa",
+                        StatusId = TaskStatusId.New
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "third task",
-                        Description = "tcfvygbuhjnmk,mk"
+                        Description = "tcfvygbuhjnmk,mk",
+                        StatusId = TaskStatusId.New
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "forth task",
-                        Description = "jnuytvgbh"
+                        Description = "jnuytvgbh",
+                        StatusId = TaskStatusId.New
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "fifth task",
-                        Description = "njhbiuvyc"
+                        Description = "njhbiuvyc",
+                        StatusId = TaskStatusId.New
                     },
-                });
+                }) ;
                 _applicationDbContext.SaveChanges();
             }
             

@@ -7,11 +7,11 @@ namespace BusinessLogicLayer.TaskService
 {
     public interface ITaskService
     {
-        public CreateTaskDto AddTask(CreateTaskDto task);
-        public TaskDto GetOneTask(string taskId);
+        public string AddTask(CreateTaskDto task);
+        public TaskDto GetOneTask(Guid taskId);
         public List<ListViewTaskDto> GetTasks(int number);       
-        public TaskDto EditTask(TaskDto taskDto);
-        public void DeleteTask(string taskId);
+        public EditTaskDto EditTask(EditTaskDto taskDto);
+        public void DeleteTask(Guid taskDto);
 
     }
 }

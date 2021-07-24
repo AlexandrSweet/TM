@@ -10,6 +10,7 @@ namespace DataAccessLayer
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
         {
+            Database.EnsureCreated();
             Mocks mocks = new Mocks(this);
             mocks.FillBase();
         }

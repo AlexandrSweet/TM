@@ -26,73 +26,42 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<TaskDto> CreateTask(CreateTaskDto taskModel)
-        {            
-            try
+        public ActionResult<string> CreateTask(CreateTaskDto taskModel)
+        {
+            if (taskModel.Title.Length>=0 && taskModel.Description.Length >= 0)
             {
                 return Ok(_taskService.AddTask(taskModel));
             }
-            catch (Exception e)
-            {                
-                return BadRequest(e.Message);
-            }            
+            return BadRequest("Invalid Data");
         }
 
         [HttpGet]
-        [Route("GetTasks")]
-        public IEnumerable<ListViewTaskDto> GetTasks(int numberOfTasks)
+        [Route("ViewTasks")]
+        public IEnumerable<ListViewTaskDto> GetTasks(int numberOfTasks = 3)
         {
-            try
-            {                
-                return _taskService.GetTasks(numberOfTasks);                
-            }
-            catch (Exception)
-            {
-                return null;
-            }            
+            return _taskService.GetTasks(numberOfTasks); 
         }
 
         [HttpGet]
-        [Route("GetOneTasks")]
-        public ActionResult<TaskDto> GetOneTask(string taskId)
+        [Route("{taskId}")]
+        public ActionResult<TaskDto> GetOneTask(Guid taskId)
         {
-            try
-            {
-                return Ok(_taskService.GetOneTask(taskId));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(_taskService.GetOneTask(taskId));
         }
 
         [HttpPut]
-        [Route("EditTask")]
-        public ActionResult<TaskDto> EditTask(TaskDto taskDto)
+        [Route("{taskDto.Id}/edit")]
+        public ActionResult<EditTaskDto> EditTask(EditTaskDto taskDto)
         {
-            try
-            {
-                return Ok(_taskService.EditTask(taskDto));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(_taskService.EditTask(taskDto));
         }
 
         [HttpDelete]
-        [Route("DeleteTask")]
-        public ActionResult DeleteTask(string taskId)
+        [Route("DeleteTask/{taskId}")]
+        public ActionResult DeleteTask(Guid taskId)
         {
-            try
-            {
-                _taskService.DeleteTask(taskId);                
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }            
+            _taskService.DeleteTask(taskId);                
+            return Ok();
         }
     }
 }
