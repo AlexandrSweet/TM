@@ -106,6 +106,7 @@ namespace DataAccessLayer.Entities
                         Description = "njhbiuvyc"
                     },
                 });
+                _applicationDbContext.SaveChanges();
             }
             
         }
