@@ -25,7 +25,7 @@ import { getBaseUrl } from '../main';
     AppRoutingModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: 'BASE_URL', useValue: "https://localhost:44379/" }  ],
+    { provide: 'BASE_URL', useValue: "https://localhost:44379/", multi: true }  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
