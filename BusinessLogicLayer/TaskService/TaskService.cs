@@ -54,12 +54,12 @@ namespace BusinessLogicLayer.TaskService
         {
             var resultList = new List<ListViewTaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
-            if (tasks.Count < count )
+            if (tasks.Count < index )
             {
-                count = tasks.Count;
-                if (index>=count)
+                index = tasks.Count-1;
+                if ((index+ count )>tasks.Count)
                 {
-                    index = count - 1;
+                    count = 1;
                 }
             }
             resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
