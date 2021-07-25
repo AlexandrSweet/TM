@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.TaskService
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly Mapper _autoMapper;
-        private ILogger<TaskService> _logger;// = Log.ForContext<TaskService>();
+        private ILogger<TaskService> _logger;
 
 
         public TaskService(IApplicationDbContext applicationDbContext, ILogger<TaskService> logger)
@@ -61,7 +61,10 @@ namespace BusinessLogicLayer.TaskService
                 {
                     count = 1;
                 }
+                
             }
+            if (count > tasks.Count)
+                count = tasks.Count;
             resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
             return resultList;           
         }
@@ -75,8 +78,9 @@ namespace BusinessLogicLayer.TaskService
             if (task==null)
             {
                 _logger.LogError($"Wrong taskID {taskId}");
-                tempTaskDto.Description = "NOT EXIST";
+                //tempTaskDto.Description = "NOT EXIST";
                 return tempTaskDto;
+                //throw new Exception($"Wrong taskID {taskId}");
             }
             tempTaskDto = _autoMapper.Map<Task, TaskDto>(task);
             _logger.LogInformation($"Task displayed, id = {tempTaskDto.Id}");

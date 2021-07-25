@@ -12,13 +12,13 @@ namespace TaskManagement_Summer2021.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    public class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
-        private ILogger<TaskController> _logger;
+        private ILogger<TasksController> _logger;
 
 
-        public TaskController(ITaskService taskService, ILogger<TaskController> logger)
+        public TasksController(ITaskService taskService, ILogger<TasksController> logger)
         {
             _taskService = taskService;
             _logger = logger;
@@ -26,9 +26,9 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<string> CreateTask(CreateTaskDto taskModel)
+        public ActionResult<string> CreateTask([FromBody] CreateTaskDto taskModel)
         {
-            if (taskModel.Title.Length>=0 && taskModel.Description.Length >= 0)
+            if (ModelState.IsValid)
             {
                 string taskId = _taskService.AddTask(taskModel);
                 return Ok($"Task created. ID {taskId}");
@@ -40,26 +40,28 @@ namespace TaskManagement_Summer2021.Controllers
         [Route("ViewTasks")]
         public IEnumerable<ListViewTaskDto> GetTasks(int index, int count = 3)
         {
-            return _taskService.GetTasks(index, count); 
+            return _taskService.GetTasks(index, count);
         }
 
         [HttpGet]
         [Route("{taskId}")]
-        public ActionResult<TaskDto> GetOneTask(Guid taskId)
+        public ActionResult<TaskDto> GetOneTask([FromRoute] Guid taskId)//([FromRoute] Guid taskId) how to use this param
         {
             return Ok(_taskService.GetOneTask(taskId));
         }
 
         [HttpPut]
-        [Route("{taskDto.Id}/edit")]
-        public ActionResult<EditTaskDto> EditTask(EditTaskDto taskDto)
+        //[ValidateAntiForgeryToken]
+        [Route("{taskId}/edit")]
+        public ActionResult<EditTaskDto> EditTask([FromBody] EditTaskDto taskDto, [FromRoute] Guid taskId)
         {
+            taskDto.Id = taskId;
             return Ok(_taskService.EditTask(taskDto));
         }
 
         [HttpDelete]
-        [Route("DeleteTask/{taskId}")]
-        public ActionResult DeleteTask(Guid taskId)
+        [Route("{taskId}")]
+        public ActionResult DeleteTask([FromRoute] Guid taskId)
         {
             _taskService.DeleteTask(taskId);                
             return Ok();
