@@ -10,8 +10,9 @@
     <br />
     <label for="password">Password</label>
     <input type="text" id="password" name="password" ngModel class="form-control" />
+    <br />
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <button class="btn btn-lg btn-primary btn-block" type="button" disabled="">Registration</button>
+    <button class="btn btn-lg btn-primary btn-block" type="button" (click)="registration()">Registration</button>
     <br />
   </div>
 </form>

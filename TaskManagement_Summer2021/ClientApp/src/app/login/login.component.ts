@@ -19,6 +19,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+  registration() {
+    this.router.navigate(['/registration']);
+  }
+
   login(form: NgForm) {
     const payload = form.value;
     this.http.post(this.baseUrl + 'auth/login', payload).subscribe(result => {
