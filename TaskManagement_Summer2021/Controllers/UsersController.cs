@@ -49,11 +49,11 @@ namespace TaskManagement_Summer2021.Controllers
 
         // PUT api/<UsersController>/5 1dc95143-949e-43c3-8f7a-08d94ea28798
         [HttpPut("{guid}")]
-        public void Put([FromRoute] Guid guid, RegisterUserDto userDto)
+        public ActionResult Put([FromRoute] Guid guid, [FromForm] RegisterUserDto userDto)
         {
             userDto.Id = guid;
             _userService.EditUser(userDto);
-
+            return Ok($"{userDto.FirstName} {userDto.LastName} profile updated");
         }
 
         // DELETE api/<UsersController>/5

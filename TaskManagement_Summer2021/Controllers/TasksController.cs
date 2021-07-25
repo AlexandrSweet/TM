@@ -26,7 +26,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<string> CreateTask([FromBody] CreateTaskDto taskModel)
+        public ActionResult<string> CreateTask([FromForm] CreateTaskDto taskModel)
         {
             if (ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpGet]
         [Route("{taskId}")]
-        public ActionResult<TaskDto> GetOneTask([FromRoute] Guid taskId)//([FromRoute] Guid taskId) how to use this param
+        public ActionResult<TaskDto> GetOneTask([FromRoute] Guid taskId)
         {
             return Ok(_taskService.GetOneTask(taskId));
         }
@@ -53,7 +53,7 @@ namespace TaskManagement_Summer2021.Controllers
         [HttpPut]
         //[ValidateAntiForgeryToken]
         [Route("{taskId}/edit")]
-        public ActionResult<EditTaskDto> EditTask([FromBody] EditTaskDto taskDto, [FromRoute] Guid taskId)
+        public ActionResult<EditTaskDto> EditTask([FromForm] EditTaskDto taskDto, [FromRoute] Guid taskId)
         {
             taskDto.Id = taskId;
             return Ok(_taskService.EditTask(taskDto));
