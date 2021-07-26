@@ -33,8 +33,8 @@ namespace TaskManagement_Summer2021.Controllers
                 var tokenOptions = new JwtSecurityToken(
                     issuer: "https://localhost:44379",
                     audience: "https://localhost:44379",
-                    claims: new List<Claim> { new Claim(ClaimsIdentity.DefaultRoleClaimType, "admin"),  // роль брать у юсера с базы
-                        new Claim("role", "admin") },
+                    claims: new List<Claim> { new Claim(ClaimsIdentity.DefaultRoleClaimType, user.role),  // роль брать у юсера с базы
+                         },
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: signinCredentials);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
