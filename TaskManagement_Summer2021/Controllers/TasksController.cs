@@ -26,14 +26,15 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<string> CreateTask( CreateTaskDto taskModel)
+        public ActionResult CreateTask( CreateTaskDto taskModel)
         {
             if (ModelState.IsValid)
             {
                 string taskId = _taskService.AddTask(taskModel);
                 return Ok($"Task created. ID {taskId}");
             }
-            return BadRequest("Invalid Data");
+            else
+                throw new ArgumentException("Enter valid data");
         }
 
         [HttpGet]

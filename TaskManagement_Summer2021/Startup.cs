@@ -78,24 +78,12 @@ namespace TaskManagement_Summer2021
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //Serilog
-            app.UseSerilogRequestLogging(options =>
-            {
-                // Customize the message template
-                options.MessageTemplate = "Handled {RequestPath}";
-
-                // Emit debug-level events instead of the defaults
-                options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
-
-                // Attach additional properties to the request completion event
-                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-                {
-                    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-                    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-                };
-            });
+            app.UseSerilogRequestLogging();
+            
 
             if (env.IsDevelopment())
-            {                
+            {
+                
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
