@@ -14,10 +14,10 @@ namespace DataAccessLayer.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [Required]
+        [MaxLength(50)]
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
-        public string Requirement { get; set; }
         public DateTime Date { get; set; }
         //public string Files { get; set; }
         public TaskStatusId StatusId { get; set; }

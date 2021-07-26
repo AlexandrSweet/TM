@@ -44,8 +44,8 @@ namespace TaskManagement_Summer2021.Controllers
         }
 
         [HttpGet]
-        [Route("{taskId}")]
-        public ActionResult<TaskDto> GetOneTask([FromRoute] Guid taskId)
+        [Route("{userId}/{taskId}")]
+        public ActionResult<TaskDto> GetOneTask([FromRoute] Guid userId, [FromRoute] Guid taskId)//!!!
         {
             return Ok(_taskService.GetOneTask(taskId));
         }

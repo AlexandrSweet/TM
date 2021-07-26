@@ -29,7 +29,8 @@ namespace DataAccessLayer.Entities
                        FirstName = "Tim",
                        LastName = "Rott",
                        RoleId = Role.User,
-                       Email = "tim.rott@gmail.com"
+                       Email = "tim.rott@gmail.com",
+                       Password = "123"
                    });
                 _applicationDbContext.Users.AddRange(new List<User>() {
                          new User()
@@ -37,35 +38,41 @@ namespace DataAccessLayer.Entities
                              FirstName = "Bill",
                              LastName = "Clinton",
                              RoleId = Role.User,
-                             Email = "bill.clinton@gmail.com"
+                             Email = "bill.clinton@gmail.com",
+                             Password = "123"
+
                          },
                          new User()
                          {
                              FirstName = "Tom",
                              LastName = "Hanks",
                              RoleId = Role.User,
-                             Email = "tom.hanks@gmail.com"
+                             Email = "tom.hanks@gmail.com",
+                             Password = "123"
                          },
                          new User()
                          {
                              FirstName = "Vasya",
                              LastName = "Poopkin",
                              RoleId = Role.Customer,
-                             Email = "v.poopkin@gmail.com"
+                             Email = "v.poopkin@gmail.com",
+                             Password = "123"
                          },
                          new User()
                          {
                              FirstName = "Johnny",
                              LastName = "Depp",
                              RoleId = Role.User,
-                             Email = "johnny.depp@gmail.com"
+                             Email = "johnny.depp@gmail.com",
+                             Password = "123"
                          },
                          new User()
                          {
                              FirstName = "Eddi",
                              LastName = "Johnes",
                              RoleId = Role.Administrator,
-                             Email = "eddie.johnes@gmail.com"
+                             Email = "eddie.johnes@gmail.com",
+                             Password = "123"
                          },
                      });
                 _applicationDbContext.SaveChanges();
@@ -80,35 +87,40 @@ namespace DataAccessLayer.Entities
                         Date = DateTime.UtcNow,
                         Title = "first task",
                         Description = "wserdtfghuj",
-                        StatusId = TaskStatusId.New
+                        StatusId = TaskStatusId.New,
+                        UserId = _applicationDbContext.Users.First(u => u.Email=="tom.hanks@gmail.com").Id
                     },
-                    new Task()
+                    new Task()  
                     {
                         Date = DateTime.UtcNow,
                         Title = "second task",
                         Description = "aghgwtgfa",
-                        StatusId = TaskStatusId.New
+                        StatusId = TaskStatusId.New,
+                        UserId = _applicationDbContext.Users.First(u => u.Email=="johnny.depp@gmail.com").Id
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "third task",
                         Description = "tcfvygbuhjnmk,mk",
-                        StatusId = TaskStatusId.New
+                        StatusId = TaskStatusId.New,
+                        UserId = _applicationDbContext.Users.First(u => u.Email=="johnny.depp@gmail.com").Id
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "forth task",
                         Description = "jnuytvgbh",
-                        StatusId = TaskStatusId.New
+                        StatusId = TaskStatusId.New,
+                        UserId = _applicationDbContext.Users.First(u => u.Email=="johnny.depp@gmail.com").Id
                     },
                     new Task()
                     {
                         Date = DateTime.UtcNow,
                         Title = "fifth task",
                         Description = "njhbiuvyc",
-                        StatusId = TaskStatusId.New
+                        StatusId = TaskStatusId.New,
+                        UserId = _applicationDbContext.Users.First(u => u.Email=="johnny.depp@gmail.com").Id
                     },
                 }) ;
                 _applicationDbContext.SaveChanges();

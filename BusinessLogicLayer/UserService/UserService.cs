@@ -16,16 +16,16 @@ namespace BusinessLogicLayer.UserService
         private readonly Mapper _autoMapper;
         private ILogger<UserService> _logger;
 
-        public UserService(IApplicationDbContext applicationDbContext, ILogger<UserService> _logger)
+        public UserService(IApplicationDbContext applicationDbContext, ILogger<UserService> logger)
         {
-
+            _logger = logger;
             _applicationDbContext = applicationDbContext;
             var mapperConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<User, UserDto>().ReverseMap();
                 config.CreateMap<User, RegisterUserDto>().ReverseMap();
                 config.CreateMap<User, ListViewUserDto>().ReverseMap();
-
+            
             });
             _autoMapper = new Mapper(mapperConfig);
         }
@@ -62,11 +62,11 @@ namespace BusinessLogicLayer.UserService
         }
 
         public void EditUser(RegisterUserDto userDto)
-        {       
-                User updatedUser = _autoMapper.Map<RegisterUserDto, User>(userDto);
-                _applicationDbContext.Users.Update(updatedUser);
-                _applicationDbContext.SaveChanges();                
-                //return userDto;            
+        {
+            User updatedUser = _autoMapper.Map<RegisterUserDto, User>(userDto);   
+            _applicationDbContext.Users.Update(updatedUser);
+            _applicationDbContext.SaveChanges();                
+            //return userDto;            
         }
 
         public List<ListViewUserDto> ListViewUserDtos()

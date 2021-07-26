@@ -10,13 +10,16 @@ namespace BusinessLogicLayer.ModelsDto.UserModel
     public class UserDto
     {
         public Guid Id { get; set; }
+        [Required]
         [MaxLength(20)]
         public string FirstName { get; set; }
         [MaxLength(20)]
         public string LastName { get; set; }
-        [MaxLength(50)]
+        [Required]
+        [MaxLength(30)]
         public string Email { get; set; }
-        [MaxLength(16)]
+        [Required]
+        [MaxLength(20)]
         public string Password { get; set; }
         public Role RoleId { get; set; }
         public List<TaskDto> Tasks { get; set; }

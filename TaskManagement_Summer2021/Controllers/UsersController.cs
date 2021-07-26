@@ -21,25 +21,31 @@ namespace TaskManagement_Summer2021.Controllers
         }
 
         // GET: api/<UsersController>
+        //[HttpGet("Get all users in base")]
         [HttpGet]
+        [Route("AllUsers")]
         public IEnumerable<ListViewUserDto> GetAll()
         {
-            return _userService.ListViewUserDtos();
-            //return new string[] { "value1", "value2" };
+            return _userService.ListViewUserDtos();            
         }
 
         // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public ActionResult<UserDto> Get(Guid id)
+        //[HttpGet("Get user by ID")]
+        [HttpGet]
+        [Route("{userId}")]
+        public ActionResult<UserDto> Get(Guid userId)
         {
-            if (_userService.GetUser(id) != null)
-                return Ok();
+            UserDto user = _userService.GetUser(userId);
+            if (user != null)
+                return Ok(user);
             else
                 return BadRequest();
         }
 
         // POST api/<UsersController>
+        //[HttpPost("Add new user")]
         [HttpPost]
+        [Route("AddNewUser")]
         public ActionResult Post([FromBody] RegisterUserDto userDto)
         {
             if (_userService.AddUser(userDto))
@@ -48,29 +54,24 @@ namespace TaskManagement_Summer2021.Controllers
                 return BadRequest();
         }
 
-        // PUT api/<UsersController>/5 1dc95143-949e-43c3-8f7a-08d94ea28798
-        /*[HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }*/
-
-        // PUT api/<UsersController>/5 1dc95143-949e-43c3-8f7a-08d94ea28798
-        [HttpPut("{guid}")]
-        public ActionResult Put([FromRoute] Guid guid, [FromForm] RegisterUserDto userDto)
+        
+        //[HttpPut("Edit user")]
+        [HttpPut]
+        [Route("{guid}")]
+        public ActionResult Put([FromRoute] Guid guid, RegisterUserDto userDto)
         {
             userDto.Id = guid;
-            _userService.EditUser(userDto);
-            return Ok($"{userDto.FirstName} {userDto.LastName} profile updated");
-        }
-        /*
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{userId}")]
-        public ActionResult Delete([FromRoute] Guid userId)
-        {
-            if (_userService.DeleteUser(userId))
-                return Ok($"User deleted, ID {userId}");
+            if (ModelState.IsValid)
+            {
+                _userService.EditUser(userDto);
+                return Ok($"{userDto.FirstName} {userDto.LastName} profile updated");
+            }
             else
-                return BadRequest();
-        }*/
+            {
+                return BadRequest("Fill in all fields");
+            }
+            
+        }
+        
     }
 }
