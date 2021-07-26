@@ -1,13 +1,12 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using DataAccessLayer.Entities;
-using BusinessLogicLayer.ModelsDto.TaskModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace BusinessLogicLayer.ModelsDto.UserModel
 {
-    public class UserDto
+    public class RegisterUserDto
     {
         public Guid Id { get; set; }
         [Required]
@@ -22,7 +21,5 @@ namespace BusinessLogicLayer.ModelsDto.UserModel
         [MaxLength(20)]
         public string Password { get; set; }
         public Role RoleId { get; set; }
-        public List<TaskDto> Tasks { get; set; }
-        public List<MessageDto> Messages { get; set; }
     }
 }
