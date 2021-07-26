@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.TaskService
     {
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly Mapper _autoMapper;
-        private ILogger<TaskService> _logger;// = Log.ForContext<TaskService>();
+        private ILogger<TaskService> _logger;
 
 
         public TaskService(IApplicationDbContext applicationDbContext, ILogger<TaskService> logger)
@@ -54,14 +54,17 @@ namespace BusinessLogicLayer.TaskService
         {
             var resultList = new List<ListViewTaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
-            if (tasks.Count < count )
+            if (tasks.Count < index )
             {
-                count = tasks.Count;
-                if (index>=count)
+                index = tasks.Count-1;
+                if ((index+ count )>tasks.Count)
                 {
-                    index = count - 1;
+                    count = 1;
                 }
+                
             }
+            if (count > tasks.Count)
+                count = tasks.Count;
             resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
             return resultList;           
         }
@@ -75,8 +78,9 @@ namespace BusinessLogicLayer.TaskService
             if (task==null)
             {
                 _logger.LogError($"Wrong taskID {taskId}");
-                tempTaskDto.Description = "NOT EXIST";
+                //tempTaskDto.Description = "NOT EXIST";
                 return tempTaskDto;
+                //throw new Exception($"Wrong taskID {taskId}");
             }
             tempTaskDto = _autoMapper.Map<Task, TaskDto>(task);
             _logger.LogInformation($"Task displayed, id = {tempTaskDto.Id}");
@@ -100,8 +104,7 @@ namespace BusinessLogicLayer.TaskService
         {
             _applicationDbContext.Tasks.Remove(new Task() { Id=taskId});
             _applicationDbContext.SaveChanges();
-            _logger.LogInformation("Task deleted");
-            
+            _logger.LogInformation("Task deleted");            
         }
 
     }

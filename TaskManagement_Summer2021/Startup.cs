@@ -17,6 +17,11 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using BusinessLogicLayer.TaskService;
 using Serilog;
+using Serilog.Events;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
+using BusinessLogicLayer.UserService;
 
 namespace TaskManagement_Summer2021
 {
@@ -57,6 +62,7 @@ namespace TaskManagement_Summer2021
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -71,7 +77,22 @@ namespace TaskManagement_Summer2021
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSerilogRequestLogging();//Serilog
+            //Serilog
+            app.UseSerilogRequestLogging(options =>
+            {
+                // Customize the message template
+                options.MessageTemplate = "Handled {RequestPath}";
+
+                // Emit debug-level events instead of the defaults
+                options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
+
+                // Attach additional properties to the request completion event
+                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                {
+                    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+                    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                };
+            });
 
             if (env.IsDevelopment())
             {                
@@ -88,7 +109,29 @@ namespace TaskManagement_Summer2021
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        context.Response.ContentType = "text/html";
+
+                        await context.Response.WriteAsync("<html lang=\"en\"><body>\r\n");
+                        await context.Response.WriteAsync("ERROR!<br><br>\r\n");
+
+                        var exceptionHandlerPathFeature =
+                            context.Features.Get<IExceptionHandlerPathFeature>();
+
+                        if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+                        {
+                            await context.Response.WriteAsync("File error thrown!<br><br>\r\n");
+                        }
+
+                        await context.Response.WriteAsync("<a href=\"/\">Home</a><br>\r\n");
+                        await context.Response.WriteAsync("</body></html>\r\n");
+                        await context.Response.WriteAsync(new string(' ', 512)); // IE padding
+                    });
+                });
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }            
