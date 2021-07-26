@@ -104,8 +104,7 @@ namespace BusinessLogicLayer.TaskService
         {
             _applicationDbContext.Tasks.Remove(new Task() { Id=taskId});
             _applicationDbContext.SaveChanges();
-            _logger.LogInformation("Task deleted");
-            
+            _logger.LogInformation("Task deleted");            
         }
 
     }

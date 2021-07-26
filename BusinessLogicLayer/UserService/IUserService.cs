@@ -9,7 +9,9 @@ namespace BusinessLogicLayer.UserService
     {
         public bool AddUser(RegisterUserDto userDto);
         public List<ListViewUserDto> ListViewUserDtos();
+        public UserDto GetUser(Guid Id);
         public void EditUser(RegisterUserDto userDto);
+        public bool DeleteUser(Guid userId);
          
     }
 }

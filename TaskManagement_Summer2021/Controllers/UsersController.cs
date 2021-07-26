@@ -22,7 +22,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<ListViewUserDto> Get()
+        public IEnumerable<ListViewUserDto> GetAll()
         {
             return _userService.ListViewUserDtos();
             //return new string[] { "value1", "value2" };
@@ -30,15 +30,22 @@ namespace TaskManagement_Summer2021.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<UserDto> Get(Guid id)
         {
-            return "value";
+            if (_userService.GetUser(id) != null)
+                return Ok();
+            else
+                return BadRequest();
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] RegisterUserDto userDto)
         {
+            if (_userService.AddUser(userDto))
+                return Ok($"New user profile created. {userDto.FirstName} {userDto.LastName}");
+            else
+                return BadRequest();
         }
 
         // PUT api/<UsersController>/5 1dc95143-949e-43c3-8f7a-08d94ea28798
@@ -55,11 +62,15 @@ namespace TaskManagement_Summer2021.Controllers
             _userService.EditUser(userDto);
             return Ok($"{userDto.FirstName} {userDto.LastName} profile updated");
         }
-
+        /*
         // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{userId}")]
+        public ActionResult Delete([FromRoute] Guid userId)
         {
-        }
+            if (_userService.DeleteUser(userId))
+                return Ok($"User deleted, ID {userId}");
+            else
+                return BadRequest();
+        }*/
     }
 }

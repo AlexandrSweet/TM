@@ -26,7 +26,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<string> CreateTask([FromForm] CreateTaskDto taskModel)
+        public ActionResult<string> CreateTask( CreateTaskDto taskModel)
         {
             if (ModelState.IsValid)
             {
@@ -37,8 +37,8 @@ namespace TaskManagement_Summer2021.Controllers
         }
 
         [HttpGet]
-        [Route("ViewTasks")]
-        public IEnumerable<ListViewTaskDto> GetTasks(int index, int count = 3)
+        [Route("ViewTasks/{userId}")]
+        public IEnumerable<ListViewTaskDto> GetTasks([FromRoute] Guid userId, int index, int count = 3)//!!!
         {
             return _taskService.GetTasks(index, count);
         }
