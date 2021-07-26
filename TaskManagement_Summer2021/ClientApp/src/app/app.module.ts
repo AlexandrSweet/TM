@@ -11,13 +11,15 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { getBaseUrl } from '../main';
 import { RegistrationComponent } from './registration/registration.component';
+import { TaskListComponent } from './task-list/task-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    TaskListComponent
   ],
   imports: [
     BrowserModule,
