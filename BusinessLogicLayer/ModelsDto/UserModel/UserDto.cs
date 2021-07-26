@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using DataAccessLayer.Entities;
+using BusinessLogicLayer.ModelsDto.TaskModel;
 
-namespace DataAccessLayer.Entities
+namespace BusinessLogicLayer.ModelsDto.UserModel
 {
-    public enum Role { User, Customer, Administrator};
-
-    public class User
+    public class UserDto
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public Role RoleId { get; set; }
-        public ICollection<Task> Tasks { get; set; }
-        public ICollection<Message> Messages { get; set; }
-
+        public List<TaskDto> Tasks { get; set; }
+        public List<MessageDto> Messages { get; set; }
     }
 }

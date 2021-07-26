@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogicLayer.TaskService;
-using BusinessLogicLayer.ModelsDto;
+using BusinessLogicLayer.ModelsDto.TaskModel;
 using Microsoft.Extensions.Logging;
-using Serilog;
-
-using Microsoft.Extensions.Configuration;
 
 namespace TaskManagement_Summer2021.Controllers
 {
@@ -18,7 +15,7 @@ namespace TaskManagement_Summer2021.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
-        private ILogger<TaskController> _logger;//= Log.Logger.ForContext<TaskController>();
+        private ILogger<TaskController> _logger;
 
 
         public TaskController(ITaskService taskService, ILogger<TaskController> logger)
@@ -29,61 +26,43 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<TaskDto> CreateTask(TaskDto taskModel)
-        {            
-            try
+        public ActionResult<string> CreateTask(CreateTaskDto taskModel)
+        {
+            if (taskModel.Title.Length>=0 && taskModel.Description.Length >= 0)
             {
-                _taskService.AddTask(taskModel);
-                //Log.Information("Good Run");
-                return
-                    Ok();
+                string taskId = _taskService.AddTask(taskModel);
+                return Ok($"Task created. ID {taskId}");
             }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return
-                    BadRequest();
-            }
-            
+            return BadRequest("Invalid Data");
         }
 
         [HttpGet]
-        [Route("GetAllTasks")]
-        public IEnumerable<TaskDto> GetTasks(string number)
+        [Route("ViewTasks")]
+        public IEnumerable<ListViewTaskDto> GetTasks(int index, int count = 3)
         {
-            try
-            {
-                int tempNumber;
-                if(!int.TryParse(number, out tempNumber))
-                    throw new Exception("uncorrect input");
-                return _taskService.GetTasks(tempNumber);                
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return null;
-            }
-            
+            return _taskService.GetTasks(index, count); 
+        }
+
+        [HttpGet]
+        [Route("{taskId}")]
+        public ActionResult<TaskDto> GetOneTask(Guid taskId)
+        {
+            return Ok(_taskService.GetOneTask(taskId));
+        }
+
+        [HttpPut]
+        [Route("{taskDto.Id}/edit")]
+        public ActionResult<EditTaskDto> EditTask(EditTaskDto taskDto)
+        {
+            return Ok(_taskService.EditTask(taskDto));
         }
 
         [HttpDelete]
-        [Route("DeleteTask")]
-        public ActionResult DeleteTask(string taskId)
+        [Route("DeleteTask/{taskId}")]
+        public ActionResult DeleteTask(Guid taskId)
         {
-            try
-            {
-                _taskService.DeleteTask(taskId);
-                //Log.Information("Good Run");
-                return
-                    Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return
-                    BadRequest();
-            }
-            
+            _taskService.DeleteTask(taskId);                
+            return Ok();
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using BusinessLogicLayer.ModelsDto;
+using BusinessLogicLayer.ModelsDto.TaskModel;
 using DataAccessLayer;
 using DataAccessLayer.Entities;
 using Microsoft.Extensions.Logging;
@@ -27,67 +27,81 @@ namespace BusinessLogicLayer.TaskService
             var mapperConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<Task, TaskDto>().ReverseMap();
+                config.CreateMap<Task, CreateTaskDto>().ReverseMap();
+                config.CreateMap<Task, ListViewTaskDto>().ReverseMap();
+                config.CreateMap<Task, EditTaskDto>().ReverseMap();
 
             });
             _autoMapper = new Mapper(mapperConfig);
         }
 
-        public TaskDto AddTask(TaskDto TaskDto)
-        {            
-            try
+        //Creates new task in database
+        //Requires minimum of information, no files, user ID or status
+        public string AddTask(CreateTaskDto TaskDto)
+        {
+            TaskDto.Date = DateTime.UtcNow;
+            Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
+            _applicationDbContext.Tasks.Add(newTask);
+            _applicationDbContext.SaveChanges();
+            TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
+            _logger.LogInformation("New task added");
+            return newTask.Id.ToString();
+        }
+
+        //Returns a list of a specific number of tasks
+        //Index is where displaying list begins, count is how many items will be displayed
+        public List<ListViewTaskDto> GetTasks(int index, int count)
+        {
+            var resultList = new List<ListViewTaskDto>();
+            var tasks = _applicationDbContext.Tasks.ToList();
+            if (tasks.Count < count )
             {
-                if (TaskDto.Id == null)
-                    return null;
-                else
+                count = tasks.Count;
+                if (index>=count)
                 {
-                    TaskDto.Id = Guid.NewGuid();
-                    Task newTask = _autoMapper.Map<TaskDto, Task>(TaskDto);
-                    _applicationDbContext.Tasks.Add(newTask);
-                    _applicationDbContext.SaveChanges();
-                    TaskDto = _autoMapper.Map<Task, TaskDto>(newTask);
-                    return TaskDto;
+                    index = count - 1;
                 }
             }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return null;
-                throw e;
-            }
+            resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
+            return resultList;           
         }
 
-        public List<TaskDto> GetTasks(int number)
+        //Returns task from database with all fields (either setted up or not)
+        //Requires  ID of existing task
+        public TaskDto GetOneTask(Guid taskId)
         {
-            var tasks = _applicationDbContext.Tasks?.ToList();
-            //var resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks);
-            //resultList.RemoveRange(number, resultList.Count);
-            var resultList = new List<TaskDto>();
-            for (int i = 0; i < number; i++)
+            TaskDto tempTaskDto = new TaskDto();                
+            Task task = _applicationDbContext.Tasks.Find(taskId);
+            if (task==null)
             {
-                resultList.Add(_autoMapper.Map<Task, TaskDto>(tasks[i]));
+                _logger.LogError($"Wrong taskID {taskId}");
+                tempTaskDto.Description = "NOT EXIST";
+                return tempTaskDto;
             }
-            return resultList;
-        }
-        
-        public TaskDto EditTask(string taskId)
-        {
-            throw new NotImplementedException();
+            tempTaskDto = _autoMapper.Map<Task, TaskDto>(task);
+            _logger.LogInformation($"Task displayed, id = {tempTaskDto.Id}");
+            return tempTaskDto; 
+            
         }
 
-        public void DeleteTask(string taskId)
+        //Updates existing task
+        //Saving requires User ID for current task (guid)
+        public EditTaskDto EditTask(EditTaskDto taskDto)
         {
-            try
-            {
-                Guid actualGuid = Guid.Parse(taskId);
-                _applicationDbContext.Tasks.Remove(new Task() { Id = actualGuid });
-                _applicationDbContext.SaveChanges();
-                _logger.LogInformation("Task Service");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-            }
+            Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
+            _applicationDbContext.Tasks.Update(updatedTask);
+            _applicationDbContext.SaveChanges();
+            _logger.LogInformation("Task updated");
+            return taskDto;
+        }
 
+        //Deletes chosen task
+        public void DeleteTask(Guid taskId)
+        {
+            _applicationDbContext.Tasks.Remove(new Task() { Id=taskId});
+            _applicationDbContext.SaveChanges();
+            _logger.LogInformation("Task deleted");
+            
         }
 
     }

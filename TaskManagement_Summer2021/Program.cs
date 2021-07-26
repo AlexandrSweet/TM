@@ -21,8 +21,9 @@ namespace TaskManagement_Summer2021
             Log.Logger = new LoggerConfiguration()//create serilog logger
                 .ReadFrom.Configuration(config)
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .Enrich.FromLogContext()
+                //.WriteTo.Console()
+                //.MinimumLevel.Information()
+                //.Enrich.FromLogContext()
                 //.WriteTo.MSSqlServer();
                 .CreateLogger();
             CreateHostBuilder(args).Build().Run();
