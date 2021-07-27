@@ -7,6 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using BusinessLogicLayer.UserService;
+using BusinessLogicLayer.ModelsDto.UserModel;
 
 namespace TaskManagement_Summer2021.Controllers
 {
@@ -14,6 +16,11 @@ namespace TaskManagement_Summer2021.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IUserService _userService;
+        public AuthController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         [HttpPost]
         [Route("login")]        
@@ -23,9 +30,15 @@ namespace TaskManagement_Summer2021.Controllers
             {
                 return BadRequest("Invalid data");
             }
-           
 
-            if (user.Email == "Admin@Gmail.com")
+            UserDto foundUser = _userService.GetUserByEmail(user.Email);
+
+            if(foundUser == null)
+            {
+                return BadRequest("User with this email non found");
+            }
+
+            if (foundUser.Password == user.Password)
             {         
                
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"));
@@ -33,7 +46,11 @@ namespace TaskManagement_Summer2021.Controllers
                 var tokenOptions = new JwtSecurityToken(
                     issuer: "https://localhost:44379",
                     audience: "https://localhost:44379",
-                    claims: new List<Claim> { new Claim(ClaimsIdentity.DefaultRoleClaimType, user.role),  // роль брать у юсера с базы
+                    claims: new List<Claim> { new Claim(ClaimsIdentity.DefaultRoleClaimType, foundUser.RoleId.ToString()),
+                    new Claim("firstName", foundUser.FirstName),
+                    new Claim("lastName", foundUser.LastName),
+                    new Claim("email", foundUser.Email),
+                    new Claim("role", foundUser.RoleId.ToString())// роль брать у юсера с базы
                          },
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: signinCredentials);

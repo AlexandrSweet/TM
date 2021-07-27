@@ -164,7 +164,7 @@ namespace TaskManagement_Summer2021
             //app.UseCors(options => options.AllowAnyOrigin());
             app.UseCors(MyAllowSpecificOrigins);
 
-            //SeedDefault(app); по умолчанию добавляет админа.
+            SeedDefault(app); //по умолчанию добавляет админа.
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -189,22 +189,19 @@ namespace TaskManagement_Summer2021
                 }
             });            
         }
-        //private void SeedDefault(IApplicationBuilder app)
-        //{
-        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-        //    using (var scope = scopeFactory.CreateScope())
-        //    {
-        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        //        if (dbContext.Users.FirstOrDefault(u => u.RoleId == "admin") == null)
-        //        {
-
-        //            dbContext.Users.Add(new DataAccessLayer.Entities.User { Email = "Admin@gmail.com", Password = "admin", RoleId = "admin" });
-
-        //            dbContext.SaveChanges();
-
-        //        }
-
-        //    }
-        //}
+        private void SeedDefault(IApplicationBuilder app)
+        {
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
+                {
+                    dbContext.Users.Add(new DataAccessLayer.Entities.User {FirstName="Admin", LastName="Admin",
+                        Email = "Admin@gmail.com", Password = "admin", RoleId = DataAccessLayer.Entities.Role.Administrator });
+                    dbContext.SaveChanges();
+                }
+            }
+        }
     }
 }
