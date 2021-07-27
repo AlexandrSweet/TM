@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Task } from './task';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Observable } from 'rxjs';
@@ -17,8 +17,8 @@ export class TasksService {
     return this.http.post(this.url + "AddTask", task);
   }
 
-  getTasks(range: number): Observable<Task[]> {
-    const tasks = this.http.get <any[]>(this.url + "ViewTasks");
+  getTasks(index: number, range: number): Observable<Task[]> {      
+    const tasks = this.http.get<any[]>(this.url + "ViewTasks");
     return tasks;
   }
 

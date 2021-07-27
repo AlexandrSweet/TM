@@ -17,15 +17,14 @@ export class TasksComponent implements OnInit {
   constructor(private tasksService: TasksService) { }
 
   ngOnInit() {
-    this.loadTasks(5);    // загрузка данных при старте компонента
+    this.loadTasks(0,5);    // загрузка данных при старте компонента
   }
+
   // получаем данные через сервис
-  loadTasks(range: number) :void{
-    this.tasksService.getTasks(range)
+  loadTasks(index:number,range: number) :void{
+    this.tasksService.getTasks(index, range)
       .subscribe(tasks => this.tasks = tasks);
   }
-
-
 
   save() {
     if (this.task.id == null) {
@@ -33,11 +32,12 @@ export class TasksComponent implements OnInit {
         .subscribe((data: Task) => this.tasks.push(data));
     } else {
       this.tasksService.updateTask(this.task)
-        .subscribe(data => this.loadTasks(3));
+        .subscribe(data => this.loadTasks(0,5));
     }
     this.cancel();
   }
 
+  
   editTask(t: Task) {
     this.task = t;    
   }
@@ -50,7 +50,7 @@ export class TasksComponent implements OnInit {
   delete(t: Task) {
     if (t.id != null) {
       this.tasksService.deleteTask(t.id)
-        .subscribe(data => this.loadTasks(3));
+        .subscribe(data => this.loadTasks(0,3));
     }
     
   }

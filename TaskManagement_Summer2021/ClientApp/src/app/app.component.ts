@@ -10,5 +10,5 @@ import { Identifiers } from '@angular/compiler';
   providers: [TasksService]
 })
 export class AppComponent {
-  title = "ClientApp";
+  title = "Task Manager";
 }

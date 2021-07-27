@@ -10,13 +10,17 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    TasksComponent
+    TasksComponent,
+    TaskDetailComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
