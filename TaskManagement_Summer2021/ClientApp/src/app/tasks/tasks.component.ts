@@ -17,13 +17,15 @@ export class TasksComponent implements OnInit {
   constructor(private tasksService: TasksService) { }
 
   ngOnInit() {
-    this.loadTasks(3);    // загрузка данных при старте компонента
+    this.loadTasks(5);    // загрузка данных при старте компонента
   }
   // получаем данные через сервис
   loadTasks(range: number) :void{
     this.tasksService.getTasks(range)
       .subscribe(tasks => this.tasks = tasks);
   }
+
+
 
   save() {
     if (this.task.id == null) {
@@ -36,13 +38,14 @@ export class TasksComponent implements OnInit {
     this.cancel();
   }
 
-  editProduct(t: Task) {
-    this.task = t;
+  editTask(t: Task) {
+    this.task = t;    
   }
 
-  cancel() {
+  cancel(): boolean {
     this.task = new Task();
     this.tableMode = true;
+    return true;
   }
   delete(t: Task) {
     if (t.id != null) {

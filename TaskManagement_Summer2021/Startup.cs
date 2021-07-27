@@ -153,6 +153,10 @@ namespace TaskManagement_Summer2021
                 
                 if (env.IsDevelopment())
                 {
+                    //Time limit extended
+                    //spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 2, seconds: 30);
+                    //Time limit extended
+
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });            

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TasksService {
-  private url = "/Tasks";
+  private url = "/Tasks/";
 
   constructor(private http: HttpClient) {
   }
@@ -18,7 +18,7 @@ export class TasksService {
   }
 
   getTasks(range: number): Observable<Task[]> {
-    const tasks = this.http.get <Task[]>(this.url + "ViewTasks");
+    const tasks = this.http.get <any[]>(this.url + "ViewTasks");
     return tasks;
   }
 
