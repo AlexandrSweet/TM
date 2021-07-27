@@ -18,7 +18,8 @@ export class TasksService {
   }
 
   getTasks(range: number): Observable<Task[]> {
-    return this.http.get(this.url + "ViewTasks");
+    const tasks = this.http.get <Task[]>(this.url + "ViewTasks");
+    return tasks;
   }
 
   updateTask(task: Task) {
