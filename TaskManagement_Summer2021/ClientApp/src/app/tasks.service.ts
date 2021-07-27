@@ -13,6 +13,19 @@ export class TasksService {
   constructor(private http: HttpClient) {
   }
 
+  private currentTask?: Task;
+
+  setCurrentTask(task: Task) {
+    this.currentTask = task;
+  }
+  getCurrentTask(): Task|null {
+    if (this.currentTask != null)
+      return this.currentTask;
+    else
+      return null;
+  }
+
+
   addTask(task: Task) {
     return this.http.post(this.url + "AddTask", task);
   }
@@ -22,12 +35,8 @@ export class TasksService {
     return tasks;
   }
 
-  getTask(id: number): Observable<Task> {
-    // For now, assume that a hero with the specified `id` always exists.
-    // Error handling will be added in the next step of the tutorial.
-    const task = this.http.get<Task>(this.url + "ViewTasks"+id.toString);
-    //const hero = HEROES.find(h => h.id === id)!;
-    //this.messageService.add(`HeroService: fetched hero id=${id}`);
+  getTask(id: Identifiers): Observable<Task> {    
+    const task = this.http.get<any>(this.url + id);    
     return task;
   }
 
@@ -37,7 +46,7 @@ export class TasksService {
   }
 
   deleteTask(id: Identifiers) {
-    return this.http.delete(this.url + '/' + id);
+    return this.http.delete(this.url + id);
   }
   
 }

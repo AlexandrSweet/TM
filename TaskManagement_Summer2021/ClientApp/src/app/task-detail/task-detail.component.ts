@@ -3,6 +3,7 @@ import { Task } from '../task'
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TasksService } from '../tasks.service';
+import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 
 @Component({
   selector: 'app-task-detail',
@@ -11,8 +12,7 @@ import { TasksService } from '../tasks.service';
 })
 export class TaskDetailComponent implements OnInit {
 
-
-  @Input() task?: Task;
+  task: Task | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,12 +21,20 @@ export class TaskDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
+    this.getTask();
+  }    
 
   getTask(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.tasksService.getTask(id)
-      .subscribe(task => this.task = task);
+    const id = this.tasksService.getCurrentTask()?.id;
+    if (id != null)
+      this.tasksService.getTask(id)
+        .subscribe(task => this.task = task);    
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+      
 }
+
+

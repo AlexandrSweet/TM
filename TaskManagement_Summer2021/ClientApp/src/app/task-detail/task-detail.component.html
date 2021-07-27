@@ -1,12 +1,9 @@
 <div *ngIf="task">
-
   <h2>{{task.title | uppercase}} Details</h2>
   <div><span>id: </span>{{task.id}}</div>
   <div>
-    <label for="task-title">Task title: </label>
-    <input id="task-title" [(ngModel)]="task.title" placeholder="title">
-    
+    <label for="task-title">Task's title: </label>
+    <input id="task-title" [(ngModel)]="task-title" placeholder="Task's title" />
   </div>
+  <button (click)="goBack()">go back</button>
 </div>
-
-

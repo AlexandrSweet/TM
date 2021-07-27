@@ -59,5 +59,9 @@ export class TasksComponent implements OnInit {
     this.cancel();
     this.tableMode = false;
   }
+    
+  onSelect(task: Task): void {
+    this.tasksService.setCurrentTask(task);
+  }
 }
 
