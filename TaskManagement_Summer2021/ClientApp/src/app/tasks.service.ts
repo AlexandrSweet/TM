@@ -22,6 +22,15 @@ export class TasksService {
     return tasks;
   }
 
+  getTask(id: number): Observable<Task> {
+    // For now, assume that a hero with the specified `id` always exists.
+    // Error handling will be added in the next step of the tutorial.
+    const task = this.http.get<Task>(this.url + "ViewTasks"+id.toString);
+    //const hero = HEROES.find(h => h.id === id)!;
+    //this.messageService.add(`HeroService: fetched hero id=${id}`);
+    return task;
+  }
+
   updateTask(task: Task) {
 
     return this.http.put(this.url, task);
