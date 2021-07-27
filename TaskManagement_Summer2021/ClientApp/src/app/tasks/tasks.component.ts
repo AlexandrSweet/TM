@@ -1,3 +1,4 @@
+import { Identifiers } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 import { Task } from '../task';
@@ -10,9 +11,8 @@ import { TasksService } from '../tasks.service';
   providers: [TasksService]
 })
 export class TasksComponent implements OnInit {
-  task: Task = new Task();
-  tasks: Task[] = [];
-  tableMode: boolean = true;
+  task: Task = new Task(1);
+  tasks: Task[] = [];  
 
   constructor(private tasksService: TasksService) { }
 
@@ -26,7 +26,7 @@ export class TasksComponent implements OnInit {
       .subscribe(tasks => this.tasks = tasks);
   }
 
-  save() {
+  /*save() {
     if (this.task.id == null) {
       this.tasksService.addTask(this.task)
         .subscribe((data: Task) => this.tasks.push(data));
@@ -35,18 +35,19 @@ export class TasksComponent implements OnInit {
         .subscribe(data => this.loadTasks(0,5));
     }
     this.cancel();
-  }
+  }*/
 
   
   editTask(t: Task) {
     this.task = t;    
   }
 
-  cancel(): boolean {
+  /*cancel(): boolean {
     this.task = new Task();
     this.tableMode = true;
     return true;
-  }
+  }*/
+
   delete(t: Task) {
     if (t.id != null) {
       this.tasksService.deleteTask(t.id)
@@ -55,13 +56,11 @@ export class TasksComponent implements OnInit {
     
   }
 
-  add() {
-    this.cancel();
-    this.tableMode = false;
-  }
+  
     
-  onSelect(task: Task): void {
-    this.tasksService.setCurrentTask(task);
+  onSelect(selectedTask: Task): void {
+    if (selectedTask != undefined)
+      this.tasksService.setCurrentTask(selectedTask.id);
   }
 }
 

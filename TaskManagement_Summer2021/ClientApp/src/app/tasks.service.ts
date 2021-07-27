@@ -13,10 +13,11 @@ export class TasksService {
   constructor(private http: HttpClient) {
   }
 
-  private currentTask?: Task;
+  private currentTask?: Task | any;
+  
 
-  setCurrentTask(task: Task) {
-    this.currentTask = task;
+  setCurrentTask(taskId: Identifiers) {
+    this.currentTask = this.getTask(taskId);
   }
   getCurrentTask(): Task|null {
     if (this.currentTask != null)
@@ -36,8 +37,9 @@ export class TasksService {
   }
 
   getTask(id: Identifiers): Observable<Task> {    
-    const task = this.http.get<any>(this.url + id);    
-    return task;
+    const result = this.http.get<Task>(this.url + id);
+    
+    return result;
   }
 
   updateTask(task: Task) {

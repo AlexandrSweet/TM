@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  cookieValue: string;
+  constructor(private cookieService: CookieService) {
+    this.cookieService.set('Test', 'Hello World');
+    this.cookieValue = this.cookieService.get('Test');
+  }
+}
