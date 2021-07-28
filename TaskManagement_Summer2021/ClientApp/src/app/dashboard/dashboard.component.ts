@@ -11,17 +11,25 @@ import { TasksService } from '../tasks.service';
 export class DashboardComponent implements OnInit {
 
   tasks: Task[] = [];
+  //task: Task = new Task(1);
 
 
-  constructor(private taskService: TasksService) { }
+  constructor(private tasksService: TasksService) { }
 
   ngOnInit(): void {
     this.getCurrentTasks();
   }
 
   getCurrentTasks(): void {
-    this.taskService.getTasks(0, 4)
+    this.tasksService.getTasks(0, 4)
       .subscribe(tasks => this.tasks = tasks);
   }
 
+  
+  onSelect(selectedTask: Task): void {
+    if (selectedTask != undefined)
+      this.tasksService.setCurrentTask(selectedTask.id);
+    //this.task = selectedTask;
+  }
+  
 }

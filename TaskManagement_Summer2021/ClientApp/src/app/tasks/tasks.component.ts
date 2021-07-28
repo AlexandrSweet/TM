@@ -61,6 +61,7 @@ export class TasksComponent implements OnInit {
   onSelect(selectedTask: Task): void {
     if (selectedTask != undefined)
       this.tasksService.setCurrentTask(selectedTask.id);
+    this.task = selectedTask;
   }
 }
 

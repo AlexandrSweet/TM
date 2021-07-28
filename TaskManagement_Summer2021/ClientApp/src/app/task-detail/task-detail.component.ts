@@ -12,7 +12,7 @@ import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 })
 export class TaskDetailComponent implements OnInit {
 
-  @Input() task?: Task ;  
+  @Input() task: Task | null = new Task(1);
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +27,8 @@ export class TaskDetailComponent implements OnInit {
   getTask(): void {
     const id = this.tasksService.getCurrentTask()?.id;
     if (id != undefined) {
-      this.tasksService.getTask(id)
-        .subscribe(task => this.task = task);      
+      //this.tasksService.getTask(id);
+      this.task = this.tasksService.getCurrentTask();
     }          
   }
 

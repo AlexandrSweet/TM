@@ -37,9 +37,9 @@ import { CookieService } from 'ngx-cookie-service';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  cookieValue: string;
+
   constructor(private cookieService: CookieService) {
-    this.cookieService.set('Test', 'Hello World');
-    this.cookieValue = this.cookieService.get('Test');
+
   }
+
 }

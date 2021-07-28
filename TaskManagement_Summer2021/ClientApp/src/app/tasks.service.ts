@@ -3,28 +3,37 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Task } from './task';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
   private url = "/Tasks/";
+  cookieValue: string = "";
 
-  constructor(private http: HttpClient) {
-  }
+  private currentTask?: Observable<Task> | any;
 
-  private currentTask?: Task | any;
-  
 
   setCurrentTask(taskId: Identifiers) {
     this.currentTask = this.getTask(taskId);
+    //this.cookieService.set('currentTaskId', taskId.toString());
   }
-  getCurrentTask(): Task|null {
+  getCurrentTask(): Task | null {
     if (this.currentTask != null)
       return this.currentTask;
+    //this.cookieValue = this.cookieService.get('currentTaskId');
+    //if (this.cookieValue != null)
+    //  return this.getTask(this.cookieValue);
     else
       return null;
   }
+
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    //this.cookieService.set('currentTaskId', '');
+    //cookieValue = this.cookieService.get('currentTaskId');
+  }  
 
 
   addTask(task: Task) {
@@ -36,10 +45,11 @@ export class TasksService {
     return tasks;
   }
 
-  getTask(id: Identifiers): Observable<Task> {    
-    const result = this.http.get<Task>(this.url + id);
-    
-    return result;
+  getTask(id: Identifiers | string): Task {
+    this.http.get<Task>(this.url + id)
+      .subscribe(task => this.currentTask = task);
+
+    return this.currentTask;
   }
 
   updateTask(task: Task) {
