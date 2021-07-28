@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class TasksService {
   private url = "/Tasks/";
+  private taskUrl = '/Tasks/';
   cookieValue: string = "";
 
   private currentTask?: Observable<Task> | any;
@@ -40,20 +41,18 @@ export class TasksService {
     return this.http.post(this.url + "AddTask", task);
   }
 
-  getTasks(index: number, range: number): Observable<Task[]> {      
-    const tasks = this.http.get<any[]>(this.url + "ViewTasks");
+  getTasks(index: number, range: number): Observable<Task[]> { //returns an Observable<Task[]>
+    const tasks = this.http.get<Task[]>(this.url + "ViewTasks");
     return tasks;
   }
 
-  getTask(id: Identifiers | string): Task {
+  getTask(id: Identifiers | string): Task { //returns currentTask : Task
     this.http.get<Task>(this.url + id)
       .subscribe(task => this.currentTask = task);
-
     return this.currentTask;
   }
 
   updateTask(task: Task) {
-
     return this.http.put(this.url, task);
   }
 
