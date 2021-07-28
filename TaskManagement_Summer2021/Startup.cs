@@ -160,8 +160,6 @@ namespace TaskManagement_Summer2021
 
             app.UseRouting();
 
-            //app.UseCors();
-            //app.UseCors(options => options.AllowAnyOrigin());
             app.UseCors(MyAllowSpecificOrigins);
 
             SeedDefault(app); //по умолчанию добавляет админа.
