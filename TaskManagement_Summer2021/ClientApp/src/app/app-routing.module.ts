@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { TaskListComponent } from './task-list/task-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "/dashboard", pathMatch: 'full' },
@@ -13,6 +15,10 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent }
 ];
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'task - list', component: TaskListComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
