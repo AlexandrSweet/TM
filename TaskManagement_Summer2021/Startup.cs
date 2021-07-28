@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using BusinessLogicLayer.UserService;
+using Microsoft.AspNetCore.Identity;
 
 namespace TaskManagement_Summer2021
 {
@@ -57,6 +58,10 @@ namespace TaskManagement_Summer2021
                 option.UseSqlServer(Configuration["SqlServerConnectionString"],
                     b => b.MigrationsAssembly("DataAccessLayer"));
             });
+
+            services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+            opt.User.RequireUniqueEmail = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthentication(opt =>
             {
@@ -110,7 +115,7 @@ namespace TaskManagement_Summer2021
             });
 
             if (env.IsDevelopment())
-            {                
+            {
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
@@ -120,7 +125,7 @@ namespace TaskManagement_Summer2021
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });                                
+                });
             }
             else
             {
@@ -149,7 +154,7 @@ namespace TaskManagement_Summer2021
                 });
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }            
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -187,7 +192,7 @@ namespace TaskManagement_Summer2021
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
-            });            
+            });
         }
         private void SeedDefault(IApplicationBuilder app)
         {
@@ -197,8 +202,14 @@ namespace TaskManagement_Summer2021
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
                 {
-                    dbContext.Users.Add(new DataAccessLayer.Entities.User {FirstName="Admin", LastName="Admin",
-                        Email = "Admin@gmail.com", Password = "admin", RoleId = DataAccessLayer.Entities.Role.Administrator });
+                    dbContext.Users.Add(new DataAccessLayer.Entities.User
+                    {
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        Email = "Admin@gmail.com",
+                        Password = "admin",
+                        RoleId = DataAccessLayer.Entities.Role.Administrator
+                    });
                     dbContext.SaveChanges();
                 }
             }
