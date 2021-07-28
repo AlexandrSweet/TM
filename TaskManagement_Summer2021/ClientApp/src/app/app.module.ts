@@ -9,12 +9,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { getBaseUrl } from '../main';
+import { RegistrationComponent } from './registration/registration.component';
+import { TaskListComponent } from './task-list/task-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    RegistrationComponent,
+    TaskListComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,8 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: 'BASE_URL', useValue: "https://localhost:44379/", multi: true }  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

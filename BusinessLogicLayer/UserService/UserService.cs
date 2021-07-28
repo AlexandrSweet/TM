@@ -84,5 +84,17 @@ namespace BusinessLogicLayer.UserService
             _logger.LogInformation("User deleted");
             return true;
         }
+
+        public UserDto GetUserByEmail(string email)
+        {
+            var userContext = _applicationDbContext.Users.FirstOrDefault(u => u.Email==email);
+            if (userContext == null)
+            {
+                Serilog.Log.Error($"User {email} doesn't exist");
+                return null;
+            }
+            var userDto = _autoMapper.Map<User, UserDto>(userContext);
+            return userDto;
+        }
     }
 }

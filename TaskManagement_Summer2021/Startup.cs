@@ -34,9 +34,24 @@ namespace TaskManagement_Summer2021
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("https://localhost:44379",
+                                        "http://localhost:4200"
+                                        )
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
+            });
+
             services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlServer(Configuration["SqlServerConnectionString"],
@@ -46,7 +61,7 @@ namespace TaskManagement_Summer2021
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(opt =>
             {
                 opt.TokenValidationParameters = new TokenValidationParameters
@@ -144,7 +159,10 @@ namespace TaskManagement_Summer2021
             }
 
             app.UseRouting();
-            //SeedDefault(app); по умолчанию добавляет админа.
+
+            app.UseCors(MyAllowSpecificOrigins);
+
+            SeedDefault(app); //по умолчанию добавляет админа.
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -169,22 +187,19 @@ namespace TaskManagement_Summer2021
                 }
             });            
         }
-        //private void SeedDefault(IApplicationBuilder app)
-        //{
-        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-        //    using (var scope = scopeFactory.CreateScope())
-        //    {
-        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        //        if (dbContext.Users.FirstOrDefault(u => u.RoleId == "admin") == null)
-        //        {
-
-        //            dbContext.Users.Add(new DataAccessLayer.Entities.User { Email = "Admin@gmail.com", Password = "admin", RoleId = "admin" });
-
-        //            dbContext.SaveChanges();
-
-        //        }
-
-        //    }
-        //}
+        private void SeedDefault(IApplicationBuilder app)
+        {
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
+                {
+                    dbContext.Users.Add(new DataAccessLayer.Entities.User {FirstName="Admin", LastName="Admin",
+                        Email = "Admin@gmail.com", Password = "admin", RoleId = DataAccessLayer.Entities.Role.Administrator });
+                    dbContext.SaveChanges();
+                }
+            }
+        }
     }
 }
