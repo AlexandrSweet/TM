@@ -26,26 +26,27 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpPost]
         [Route("AddTask")]
-        public ActionResult<string> CreateTask( CreateTaskDto taskModel)
+        public ActionResult CreateTask( CreateTaskDto taskModel)
         {
             if (ModelState.IsValid)
             {
                 string taskId = _taskService.AddTask(taskModel);
                 return Ok($"Task created. ID {taskId}");
             }
-            return BadRequest("Invalid Data");
+            else
+                throw new ArgumentException("Enter valid data");
         }
 
         [HttpGet]
-        [Route("ViewTasks/{userId}")]
-        public IEnumerable<ListViewTaskDto> GetTasks([FromRoute] Guid userId, int index, int count = 3)//!!!
+        [Route("ViewTasks")]
+        public IEnumerable<ListViewTaskDto> GetTasks( int index=0, int count = 3)//!!![FromRoute] Guid userId,
         {
             return _taskService.GetTasks(index, count);
         }
 
-        [HttpGet]
-        [Route("{userId}/{taskId}")]
-        public ActionResult<TaskDto> GetOneTask([FromRoute] Guid userId, [FromRoute] Guid taskId)//!!!
+        [HttpGet("{taskId}")]
+        //[Route("{userId}/")]
+        public ActionResult<TaskDto> GetOneTask( [FromRoute] Guid taskId)//!!![FromRoute] Guid userId,
         {
             return Ok(_taskService.GetOneTask(taskId));
         }

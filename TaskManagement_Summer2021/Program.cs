@@ -25,7 +25,8 @@ namespace TaskManagement_Summer2021
                 //.MinimumLevel.Information()
                 //.Enrich.FromLogContext()
                 //.WriteTo.MSSqlServer();
-                .CreateLogger();
+                //.CreateLogger();
+                .CreateBootstrapLogger();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -33,7 +34,10 @@ namespace TaskManagement_Summer2021
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .UseSerilog() //Uses Serilog instead of default .NET Logger
+            .UseSerilog((context, services, configuration) => configuration
+                //.WriteTo.Console()
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)) //Uses Serilog instead of default .NET Logger
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

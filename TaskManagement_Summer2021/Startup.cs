@@ -44,11 +44,11 @@ namespace TaskManagement_Summer2021
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("https://localhost:44379",
+                    /*builder.WithOrigins("https://localhost:44379",
                                         "http://localhost:4200"
                                         )
                                         .AllowAnyHeader()
-                                        .AllowAnyMethod();
+                                        .AllowAnyMethod();*/
                 });
             });
 
@@ -69,8 +69,8 @@ namespace TaskManagement_Summer2021
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidIssuer = Configuration["http://localhost:44379"],
-                    ValidAudience = Configuration["http://localhost:44379"],
+                    //ValidIssuer = Configuration["http://localhost:44379"],
+                    //ValidAudience = Configuration["http://localhost:44379"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
                 };
             });
@@ -93,24 +93,12 @@ namespace TaskManagement_Summer2021
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //Serilog
-            app.UseSerilogRequestLogging(options =>
-            {
-                // Customize the message template
-                options.MessageTemplate = "Handled {RequestPath}";
-
-                // Emit debug-level events instead of the defaults
-                options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
-
-                // Attach additional properties to the request completion event
-                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-                {
-                    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-                    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-                };
-            });
+            app.UseSerilogRequestLogging();
+            
 
             if (env.IsDevelopment())
-            {                
+            {
+                
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
@@ -180,10 +168,15 @@ namespace TaskManagement_Summer2021
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
-
+                
                 if (env.IsDevelopment())
                 {
+                    
+
                     spa.UseAngularCliServer(npmScript: "start");
+                    //Time limit extended
+                    //spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 0);
+                    //Time limit extended
                 }
             });            
         }
