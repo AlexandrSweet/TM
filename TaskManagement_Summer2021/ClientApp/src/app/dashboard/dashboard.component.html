@@ -6,4 +6,25 @@
     {{task.title}}
   </a>
 </div>
-<!--(click)="onSelect(task)"-->
+
+<div>
+  <label for="new-task">Task's title: </label>
+  <input id="new-task" #taskTitle />
+</div>
+<div>
+  <label for="new-task">Task's description: </label>
+  <input id="new-task" #taskDescription />
+</div>
+
+
+  
+
+
+<div>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button class="add-button"
+          (click)="add(taskTitle.value, taskDescription.value );
+            taskTitle.value=''; taskDescription.value='' ">
+    Add task
+  </button>
+</div>

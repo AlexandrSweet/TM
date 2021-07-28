@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Task = void 0;
 var Task = /** @class */ (function () {
-    function Task(id, title, description, date, requirement, statusId, userId) {
+    function Task(id, title, description, date, statusId, userId
+    //public messages?:messages
+    ) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
-        this.requirement = requirement;
         this.statusId = statusId;
         this.userId = userId;
     }

@@ -54,7 +54,7 @@ namespace TaskManagement_Summer2021.Controllers
         [HttpPut]
         //[ValidateAntiForgeryToken]
         [Route("{taskId}/edit")]
-        public ActionResult<EditTaskDto> EditTask([FromForm] EditTaskDto taskDto, [FromRoute] Guid taskId)
+        public ActionResult<EditTaskDto> EditTask( EditTaskDto taskDto, [FromRoute] Guid taskId)//[FromForm]
         {
             taskDto.Id = taskId;
             return Ok(_taskService.EditTask(taskDto));

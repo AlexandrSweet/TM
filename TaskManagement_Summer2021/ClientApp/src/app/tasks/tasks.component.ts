@@ -48,12 +48,11 @@ export class TasksComponent implements OnInit {
     return true;
   }*/
 
-  delete(t: Task) {
+  delete(t: Task):void {
     if (t.id != null) {
       this.tasksService.deleteTask(t.id)
         .subscribe(data => this.loadTasks(0,3));
-    }
-    
+    }    
   }
 
   

@@ -6,6 +6,8 @@
     <a routerLink="/detail/{{task.id}}">
       <span class="badge">{{task.title}}</span> {{task.id}}
     </a>
+    <button class="delete" title="delete task"
+            (click)="delete(task)"> x </button>
   </li>
 </ul>
 

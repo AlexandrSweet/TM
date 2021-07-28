@@ -52,8 +52,8 @@ export class TasksService {
     return this.currentTask;
   }
 
-  updateTask(task: Task) {
-    return this.http.put(this.url, task);
+  updateTask(task: Task): Observable<any> {
+    return this.http.put(this.url + task.id + '/edit', task);
   }
 
   deleteTask(id: Identifiers) {
