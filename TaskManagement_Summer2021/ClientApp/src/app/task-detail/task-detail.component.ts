@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { TasksService } from '../tasks.service';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { __param } from 'tslib';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-detail',
@@ -13,6 +14,9 @@ import { __param } from 'tslib';
 })
 export class TaskDetailComponent implements OnInit {
 
+  private id: Identifiers = 1;
+  private subscription: Subscription | undefined;
+
   @Input() task: Task| null = new Task(1);
 
   constructor(
@@ -20,23 +24,20 @@ export class TaskDetailComponent implements OnInit {
     private tasksService: TasksService,
     private location: Location
   ) {
-    const id = this.tasksService.getCurrentTask()?.id;
-    if (id != undefined)
-    this.task = new Task(id);
+    this.subscription = route.params.subscribe(params => this.id = params['id']);
+
+    //const id = this.tasksService.getCurrentTask()?.id;
+    //if (id != undefined)
+    //this.task = new Task(id);
   }
   //const url = `${this.heroesUrl}/${id}`;
   ngOnInit(): void {
-    //const id = this.tasksService.getCurrentTask()?.id;
-    //if (id != undefined)
-    let url ;
-    let routeID = this.route.
-      queryParams.subscribe(
-        params => url = params.id
-      );
+    
     
     this.task = this.tasksService.getCurrentTask();
-    if (this.task == null) {
-      this.task = this.tasksService.getTask(url);
+    
+   if (this.task == null) {
+      this.task = this.tasksService.getTask(this.id);
     }
   }    
 
