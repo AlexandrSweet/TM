@@ -38,33 +38,31 @@ namespace BusinessLogicLayer.TaskService
         //Creates new task in database
         //Requires minimum of information, no files, user ID or status
         public string AddTask(CreateTaskDto TaskDto)
-        {
+        { 
             TaskDto.Date = DateTime.UtcNow;
             Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
             _applicationDbContext.Tasks.Add(newTask);
             _applicationDbContext.SaveChanges();
-            TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
+            //TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
             _logger.LogInformation("New task added");
             return newTask.Id.ToString();
         }
 
         //Returns a list of a specific number of tasks
         //Index is where displaying list begins, count is how many items will be displayed
-        public List<ListViewTaskDto> GetTasks(int index, int count)
+        public List<ListViewTaskDto> GetTasks(int index)
         {
+            int count = 5;
             var resultList = new List<ListViewTaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
             if (tasks.Count < index )
             {
-                index = tasks.Count-1;
+                index = tasks.Count-count;
                 if ((index+ count )>tasks.Count)
                 {
-                    count = 1;
-                }
-                
-            }
-            if (count > tasks.Count)
-                count = tasks.Count;
+                    count = tasks.Count-index;
+                }                
+            }            
             resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
             return resultList;           
         }

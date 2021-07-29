@@ -9,7 +9,7 @@ namespace BusinessLogicLayer.TaskService
     {
         public string AddTask(CreateTaskDto task);
         public TaskDto GetOneTask(Guid taskId);
-        public List<ListViewTaskDto> GetTasks(int index, int count);       
+        public List<ListViewTaskDto> GetTasks(int index);       
         public EditTaskDto EditTask(EditTaskDto taskDto);
         public void DeleteTask(Guid taskDto);
 

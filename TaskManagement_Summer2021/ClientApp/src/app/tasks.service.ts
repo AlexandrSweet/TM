@@ -4,6 +4,7 @@ import { Task } from './task';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { __param } from 'tslib';
 
 
 @Injectable({
@@ -41,7 +42,7 @@ export class TasksService {
     return this.http.post(this.url + "AddTask", task);
   }
 
-  getTasks(index: number, range: number): Observable<Task[]> { //returns an Observable<Task[]>
+  getTasks(index: number): Observable<Task[]> { //returns an Observable<Task[]>    
     const tasks = this.http.get<Task[]>(this.url + "ViewTasks");
     return tasks;
   }

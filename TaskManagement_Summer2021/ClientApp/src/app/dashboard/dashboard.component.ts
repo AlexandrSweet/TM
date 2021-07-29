@@ -23,15 +23,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getCurrentTasks(): void {
-    this.tasksService.getTasks(0, 4)
+    this.tasksService.getTasks(0)
       .subscribe(tasks => this.tasks = tasks);
   }
 
-    add(title: string, decription: string): void {//, data: Dates
+  add(title: string, description: string): void {//, data: Dates
     const id: Identifiers = 1;
     title = title.trim();
     if (!title) { return; }
-    this.tasksService.addTask({ id, title, decription } as Task)
+      this.tasksService.addTask({ id, title, description } as Task)
       .subscribe();
   }
 
