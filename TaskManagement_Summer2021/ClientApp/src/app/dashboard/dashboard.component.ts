@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
       .subscribe(tasks => this.tasks = tasks);
   }
 
-  add(title: string, description: string, date: DatePipe|null): void {//, data: Dates
+  add(title: string, description: string, date: Date |null): void {//, data: Dates
     const id: Identifiers = 1;
     title = title.trim();
     if (!title) { return; }
