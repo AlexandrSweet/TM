@@ -17,6 +17,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { MaterialModule } from './material/material.module';
+import { EditorComponent } from './editor/editor.component';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 
 
@@ -31,7 +33,9 @@ import { MaterialModule } from './material/material.module';
     TasksComponent, 
     TaskDetailComponent,
     DashboardComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    EditorComponent,
+    NewTaskComponent
   ],
     imports: [
     BrowserModule,

@@ -23,8 +23,8 @@ export class DashboardComponent implements OnInit {
     this.getCurrentTasks();
   }
 
-  getCurrentTasks(): void {
-    this.tasksService.getTasks(0)
+  private getCurrentTasks(): void {
+    this.tasksService.getTasksList(0)
       .subscribe(tasks => this.tasks = tasks);
   }
 
@@ -38,10 +38,8 @@ export class DashboardComponent implements OnInit {
   }
 
   
-  onSelect(selectedTask: Task): void {
-    if (selectedTask != undefined)
-      this.tasksService.setCurrentTask(selectedTask.id);
-    //this.task = selectedTask;
+  onSelect(selectedTask: Task): void {    
+      this.tasksService.setCurrentTask(selectedTask.id);    
   }
   
 }

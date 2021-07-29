@@ -11,42 +11,43 @@ import { __param } from 'tslib';
 })
 export class TasksService {
   private url = "/Tasks/";
-  private taskUrl = '/Tasks/';
-  cookieValue: string = "";
+  private currentTaskId: Identifiers | string | any;
 
-  private currentTask?: Observable<Task> | any;
-
+  constructor(private http: HttpClient) { }
 
   setCurrentTask(taskId: Identifiers) {
-    this.currentTask = this.getTask(taskId);
-    //this.cookieService.set('currentTaskId', taskId.toString());
+    if (taskId == this.currentTaskId) { return; }
+    this.currentTaskId = taskId;
+    //this.currentTaskId = this.getTask(taskId).id;
   }
+
   getCurrentTask(): Task | null {
-    if (this.currentTask != null)
-      return this.currentTask;
-    //this.cookieValue = this.cookieService.get('currentTaskId');
-    //if (this.cookieValue != null)
-    //  return this.getTask(this.cookieValue);
+    if (this.currentTaskId == null) { return null; }
     else
-      return null;
+      return this.getTask(this.currentTaskId);
   }
-
-  constructor(private http: HttpClient) { }  
-
 
   addTask(task: Task) {
     return this.http.post(this.url + "AddTask", task);
   }
 
-  getTasks(index: number): Observable<Task[]> { //returns an Observable<Task[]>    
+  getTasksList(index: number): Observable<Task[]> { //returns an Observable<Task[]>    
     const tasks = this.http.get<Task[]>(this.url + "ViewTasks");
     return tasks;
   }
 
-  getTask(id: Identifiers | string): Task { //returns currentTask : Task
-    this.http.get<Task>(this.url + id)
-      .subscribe(task => this.currentTask = task);
-    return this.currentTask;
+  getTask(id: Identifiers | string): Task {
+    let taskTemp = new Task(id);
+    let observable = this.http.get<Task>(this.url + id)
+      .subscribe(task => {
+        taskTemp.title = task.title,
+          taskTemp.description = task.description,
+          taskTemp.date = task.date,
+          taskTemp.statusId = task.statusId,
+          taskTemp.userId = task.userId
+      });
+
+    return taskTemp;
   }
 
   updateTask(task: Task): Observable<any> {
@@ -56,5 +57,5 @@ export class TasksService {
   deleteTask(id: Identifiers) {
     return this.http.delete(this.url + id);
   }
-  
+
 }

@@ -22,45 +22,23 @@ export class TasksComponent implements OnInit {
 
   // получаем данные через сервис
   loadTasks(index:number) :void{
-    this.tasksService.getTasks(index)
+    this.tasksService.getTasksList(index)
       .subscribe(tasks => this.tasks = tasks);
   }
+    
+  editTask(task: Task) {//is this useless?
+    this.tasksService.updateTask(task);
+  }   
 
-  /*save() {
-    if (this.task.id == null) {
-      this.tasksService.addTask(this.task)
-        .subscribe((data: Task) => this.tasks.push(data));
-    } else {
-      this.tasksService.updateTask(this.task)
-        .subscribe(data => this.loadTasks(0,5));
-    }
-    this.cancel();
-  }*/
-
-  
-  editTask(t: Task) {
-    this.task = t;    
-  }
-
-  /*cancel(): boolean {
-    this.task = new Task();
-    this.tableMode = true;
-    return true;
-  }*/
-
-  delete(t: Task):void {
-    if (t.id != null) {
-      this.tasksService.deleteTask(t.id)
+  delete(task: Task):void {
+    if (task.id != null) {
+      this.tasksService.deleteTask(task.id)
         .subscribe(data => this.loadTasks(0));
     }    
   }
 
-  
-    
   onSelect(selectedTask: Task): void {
-    if (selectedTask != undefined)
-      this.tasksService.setCurrentTask(selectedTask.id);
-    this.task = selectedTask;
+    this.tasksService.setCurrentTask(selectedTask.id);
   }
 }
 

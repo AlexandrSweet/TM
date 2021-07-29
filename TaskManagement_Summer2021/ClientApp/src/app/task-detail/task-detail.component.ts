@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TasksService } from '../tasks.service';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
+import { __param } from 'tslib';
 
 @Component({
   selector: 'app-task-detail',
@@ -21,21 +22,32 @@ export class TaskDetailComponent implements OnInit {
   ) {
     const id = this.tasksService.getCurrentTask()?.id;
     if (id != undefined)
-      this.task = new Task(id);
+    this.task = new Task(id);
   }
-
+  //const url = `${this.heroesUrl}/${id}`;
   ngOnInit(): void {
-    this.getTask();
+    //const id = this.tasksService.getCurrentTask()?.id;
+    //if (id != undefined)
+    let url ;
+    let routeID = this.route.
+      queryParams.subscribe(
+        params => url = params.id
+      );
+    
+    this.task = this.tasksService.getCurrentTask();
+    if (this.task == null) {
+      this.task = this.tasksService.getTask(url);
+    }
   }    
 
-  getTask(): void {
+  /*getTask(): void {
     const id = this.tasksService.getCurrentTask()?.id;
     if (id != undefined) {
       //this.tasksService.getTask(id);
       this.task = new Task(id);
       this.task = this.tasksService.getCurrentTask();
     }          
-  }
+  }*/
 
   save(): void {
     if (this.task) {
