@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using BusinessLogicLayer.UserService;
 using Microsoft.AspNetCore.Identity;
+using DataAccessLayer.Entities;
 
 namespace TaskManagement_Summer2021
 {
@@ -57,11 +58,20 @@ namespace TaskManagement_Summer2021
             {
                 option.UseSqlServer(Configuration["SqlServerConnectionString"],
                     b => b.MigrationsAssembly("DataAccessLayer"));
-            });
+            })
+                .AddIdentity<User, ApplicationRole>(config =>
+                {
+                    config.Password.RequireDigit = false;
+                    config.Password.RequireLowercase = false;
+                    config.Password.RequireNonAlphanumeric = false;
+                    config.Password.RequireUppercase = false;
+                    config.Password.RequiredLength = 6;
+                })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(opt =>
-            opt.User.RequireUniqueEmail = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+            //opt.User.RequireUniqueEmail = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthentication(opt =>
             {
@@ -79,6 +89,8 @@ namespace TaskManagement_Summer2021
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
                 };
             });
+
+            services.AddAuthorization();
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITaskService, TaskService>();
@@ -160,16 +172,14 @@ namespace TaskManagement_Summer2021
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
-                app.UseSpaStaticFiles();
-            }
+                app.UseSpaStaticFiles();            }
 
             app.UseRouting();
 
-            //app.UseCors();
-            //app.UseCors(options => options.AllowAnyOrigin());
+            
             app.UseCors(MyAllowSpecificOrigins);
 
-            SeedDefault(app); //по умолчанию добавляет админа.
+            //SeedDefault(app); //по умолчанию добавляет админа.
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -194,25 +204,25 @@ namespace TaskManagement_Summer2021
                 }
             });
         }
-        private void SeedDefault(IApplicationBuilder app)
-        {
-            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
-                {
-                    dbContext.Users.Add(new DataAccessLayer.Entities.User
-                    {
-                        FirstName = "Admin",
-                        LastName = "Admin",
-                        Email = "Admin@gmail.com",
-                        Password = "admin",
-                        RoleId = DataAccessLayer.Entities.Role.Administrator
-                    });
-                    dbContext.SaveChanges();
-                }
-            }
-        }
+        //private void SeedDefault(IApplicationBuilder app)
+        //{
+        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+        //    using (var scope = scopeFactory.CreateScope())
+        //    {
+        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        //        if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
+        //        {
+        //            dbContext.Users.Add(new DataAccessLayer.Entities.User
+        //            {
+        //                FirstName = "Admin",
+        //                LastName = "Admin",
+        //                Email = "Admin@gmail.com",
+        //                Password = "admin",
+        //                RoleId = DataAccessLayer.Entities.Role.Administrator
+        //            });
+        //            dbContext.SaveChanges();
+        //        }
+        //    }
+        //}
     }
 }
