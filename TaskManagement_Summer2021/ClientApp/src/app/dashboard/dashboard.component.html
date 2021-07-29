@@ -14,16 +14,19 @@
 <div>
   <label for="new-task-description">Task's description: </label>
   <input id="new-task-description" #taskDescription />
+  <input id="new-task-date" type="date"
+         value="2021-01-01"
+         name="date" #deadline />
 </div>
 
 
-  
+
 
 
 <div>
   <!-- (click) passes input value to add() and then clears the input -->
   <button class="add-button"
-          (click)="add(taskTitle.value, taskDescription.value );
+          (click)="add(taskTitle.value, taskDescription.value, deadline.valueAsDate);
             taskTitle.value=''; taskDescription.value='' ">
     Add task
   </button>

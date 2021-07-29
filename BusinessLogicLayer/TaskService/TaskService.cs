@@ -39,7 +39,7 @@ namespace BusinessLogicLayer.TaskService
         //Requires minimum of information, no files, user ID or status
         public string AddTask(CreateTaskDto TaskDto)
         { 
-            TaskDto.Date = DateTime.UtcNow;
+            //TaskDto.Date = DateTime.UtcNow;
             Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
             _applicationDbContext.Tasks.Add(newTask);
             _applicationDbContext.SaveChanges();

@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Task } from './task';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
 import { __param } from 'tslib';
 
 
@@ -32,10 +31,7 @@ export class TasksService {
       return null;
   }
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {
-    //this.cookieService.set('currentTaskId', '');
-    //cookieValue = this.cookieService.get('currentTaskId');
-  }  
+  constructor(private http: HttpClient) { }  
 
 
   addTask(task: Task) {

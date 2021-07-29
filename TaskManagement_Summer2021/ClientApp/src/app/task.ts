@@ -6,7 +6,7 @@ export class Task {
     public id: Identifiers,
     public title?: string,
     public description?: string,
-    public date?: Date,
+    public date?: DatePipe,
     public statusId?: number,
     public userId?: Identifiers
     //public messages?:messages

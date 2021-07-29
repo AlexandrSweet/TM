@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Component, NgModule, OnInit } from '@angular/core';
+import { Data } from '@angular/router';
 import { from } from 'rxjs';
 import { Task } from '../task';
 import { TasksService } from '../tasks.service';
@@ -27,11 +28,12 @@ export class DashboardComponent implements OnInit {
       .subscribe(tasks => this.tasks = tasks);
   }
 
-  add(title: string, description: string): void {//, data: Dates
+  add(title: string, description: string, date: DatePipe|null): void {//, data: Dates
     const id: Identifiers = 1;
     title = title.trim();
     if (!title) { return; }
-      this.tasksService.addTask({ id, title, description } as Task)
+    if (!date) { return; }
+    this.tasksService.addTask({ id, title, description, date } as Task)
       .subscribe();
   }
 
