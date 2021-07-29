@@ -30,7 +30,7 @@ export class RegistrationComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      passwordConfirm: ['', Validators.required]
     });
   }
 
@@ -39,10 +39,13 @@ export class RegistrationComponent implements OnInit {
     localStorage.setItem('userToRegistration', JSON.stringify(this.userToRegistration));
 
     const payload = this.userToRegistration;
-    //this.http.post(this.baseUrl + 'user/add-user', payload).subscribe(
-    //  result => { console.log("Users controller says: OK") },
-    //  error => { console.log("Users controller says: " + error) });
-    //this.router.navigate(['/users']);
+    this.http.post(this.baseUrl + 'account', payload).subscribe(
+      result => {
+        //this.router.navigate(['/login']);
+        console.log("Account controller says: OK");        
+      },
+      error => { console.log("Account controller says: " + error) });
+    this.router.navigate(['/login']);
   }
  
 
@@ -57,5 +60,5 @@ export class UserToRegistration {
   lastName!: string;
   email!: string;
   password!: string;
-  confirmPassword!: string;
+  passwordConfirm!: string;
 }

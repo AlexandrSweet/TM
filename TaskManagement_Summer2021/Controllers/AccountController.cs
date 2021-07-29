@@ -12,7 +12,7 @@ namespace TaskManagement_Summer2021.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -23,12 +23,8 @@ namespace TaskManagement_Summer2021.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return Ok();
-        }
-        [HttpPost]
+        
+        [HttpPost]        
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -51,7 +47,7 @@ namespace TaskManagement_Summer2021.Controllers
                     }
                 }
             }
-            return BadRequest();
+            return BadRequest("User not add");
         }
 
     }

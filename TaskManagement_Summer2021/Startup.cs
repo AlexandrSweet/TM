@@ -28,10 +28,10 @@ using DataAccessLayer.Entities;
 namespace TaskManagement_Summer2021
 {
     public class Startup
-    {
+    {        
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;            
         }
 
         public IConfiguration Configuration { get; }
@@ -68,11 +68,7 @@ namespace TaskManagement_Summer2021
                     config.Password.RequiredLength = 6;
                 })
             .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            //services.AddIdentity<IdentityUser, IdentityRole>(opt =>
-            //opt.User.RequireUniqueEmail = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -212,15 +208,24 @@ namespace TaskManagement_Summer2021
         //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         //        if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
         //        {
-        //            dbContext.Users.Add(new DataAccessLayer.Entities.User
-        //            {
-        //                FirstName = "Admin",
-        //                LastName = "Admin",
-        //                Email = "Admin@gmail.com",
-        //                Password = "admin",
-        //                RoleId = DataAccessLayer.Entities.Role.Administrator
-        //            });
-        //            dbContext.SaveChanges();
+        //            var user = new User { 
+        //                FirstName = "Admin", 
+        //                LastName = "Admin", 
+        //                Email = "Admin@Gmail.com", 
+        //                UserName = "Admin@Gmail.com", 
+        //                RoleId = DataAccessLayer.Entities.Role.Administrator };
+
+        //            _userManager.CreateAsync(user, "admin");
+
+        //            //dbContext.Users.Add(new DataAccessLayer.Entities.User
+        //            //{
+        //            //    FirstName = "Admin",
+        //            //    LastName = "Admin",
+        //            //    Email = "Admin@gmail.com",
+        //            //    Password = "admin",
+        //            //    RoleId = DataAccessLayer.Entities.Role.Administrator
+        //            //});
+        //            //dbContext.SaveChanges();
         //        }
         //    }
         //}
