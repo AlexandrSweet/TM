@@ -17,10 +17,10 @@ export class TasksComponent implements OnInit {
   constructor(private tasksService: TasksService) { }
 
   ngOnInit() {
-    this.loadTasks(0);    // загрузка данных при старте компонента
+    this.loadTasks(0);
   }
 
-  // получаем данные через сервис
+  
   loadTasks(index:number) :void{
     this.tasksService.getTasksList(index)
       .subscribe(tasks => this.tasks = tasks);

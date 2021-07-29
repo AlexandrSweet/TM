@@ -17,7 +17,7 @@ export class TaskDetailComponent implements OnInit {
   private id: Identifiers = 1;
   private subscription: Subscription | undefined;
 
-  @Input() task: Task| null = new Task(1);
+  @Input() task: Task | null = new Task(1);
 
   constructor(
     private route: ActivatedRoute,
@@ -25,30 +25,18 @@ export class TaskDetailComponent implements OnInit {
     private location: Location
   ) {
     this.subscription = route.params.subscribe(params => this.id = params['id']);
-
-    //const id = this.tasksService.getCurrentTask()?.id;
-    //if (id != undefined)
-    //this.task = new Task(id);
   }
-  //const url = `${this.heroesUrl}/${id}`;
+
   ngOnInit(): void {
-    
-    
+
+
     this.task = this.tasksService.getCurrentTask();
-    
-   if (this.task == null) {
+
+    if (this.task == null) {
       this.task = this.tasksService.getTask(this.id);
     }
-  }    
+  }
 
-  /*getTask(): void {
-    const id = this.tasksService.getCurrentTask()?.id;
-    if (id != undefined) {
-      //this.tasksService.getTask(id);
-      this.task = new Task(id);
-      this.task = this.tasksService.getCurrentTask();
-    }          
-  }*/
 
   save(): void {
     if (this.task) {
@@ -60,7 +48,7 @@ export class TaskDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-      
+
 }
 
 

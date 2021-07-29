@@ -12,11 +12,9 @@ import { TasksService } from '../tasks.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  
+
   tasks: Task[] = [];
-  //task: Task = new Task(1);
-  
-  
+
   constructor(private tasksService: TasksService) { }
 
   ngOnInit(): void {
@@ -28,7 +26,7 @@ export class DashboardComponent implements OnInit {
       .subscribe(tasks => this.tasks = tasks);
   }
 
-  add(title: string, description: string, date: Date |null): void {//, data: Dates
+  add(title: string, description: string, date: Date | null): void {//, data: Dates
     const id: Identifiers = 1;
     title = title.trim();
     if (!title) { return; }
@@ -37,9 +35,9 @@ export class DashboardComponent implements OnInit {
       .subscribe();
   }
 
-  
-  onSelect(selectedTask: Task): void {    
-      this.tasksService.setCurrentTask(selectedTask.id);    
+
+  onSelect(selectedTask: Task): void {
+    this.tasksService.setCurrentTask(selectedTask.id);
   }
-  
+
 }

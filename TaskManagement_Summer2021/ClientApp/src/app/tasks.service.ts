@@ -18,7 +18,6 @@ export class TasksService {
   setCurrentTask(taskId: Identifiers) {
     if (taskId == this.currentTaskId) { return; }
     this.currentTaskId = taskId;
-    //this.currentTaskId = this.getTask(taskId).id;
   }
 
   getCurrentTask(): Task | null {
