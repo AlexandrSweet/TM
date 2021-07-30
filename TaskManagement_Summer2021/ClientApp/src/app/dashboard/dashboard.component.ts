@@ -25,15 +25,7 @@ export class DashboardComponent implements OnInit {
     this.tasksService.getTasksList(0)
       .subscribe(tasks => this.tasks = tasks);
   }
-
-  add(title: string, description: string, date: Date | null): void {//, data: Dates
-    const id: Identifiers = 1;
-    title = title.trim();
-    if (!title) { return; }
-    if (!date) { return; }
-    this.tasksService.addTask({ id, title, description, date } as Task)
-      .subscribe();
-  }
+  
 
 
   onSelect(selectedTask: Task): void {

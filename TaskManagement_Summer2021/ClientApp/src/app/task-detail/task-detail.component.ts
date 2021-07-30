@@ -6,6 +6,7 @@ import { TasksService } from '../tasks.service';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { __param } from 'tslib';
 import { Subscription } from 'rxjs';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-task-detail',
@@ -13,7 +14,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./task-detail.component.scss']
 })
 export class TaskDetailComponent implements OnInit {
-
+  private statusIdValue: string[] = ['New', 'In progress', 'Checking', 'Done'];
+  public statusValue: string | undefined;
+  public statusId: number[] = [0, 1, 2, 3];
   private id: Identifiers = 1;
   private subscription: Subscription | undefined;
 
@@ -25,24 +28,19 @@ export class TaskDetailComponent implements OnInit {
     private location: Location
   ) {
     this.subscription = route.params.subscribe(params => this.id = params['id']);
+    
   }
 
   ngOnInit(): void {
-
-
     this.task = this.tasksService.getCurrentTask();
 
     if (this.task == null) {
       this.task = this.tasksService.getTask(this.id);
+      if (this.task?.statusId != null) {
+        this.statusValue = this.statusIdValue[this.task.statusId];
+      }
     }
-  }
-
-
-  save(): void {
-    if (this.task) {
-      this.tasksService.updateTask(this.task)
-        .subscribe(() => this.goBack());
-    }
+    
   }
 
   goBack(): void {

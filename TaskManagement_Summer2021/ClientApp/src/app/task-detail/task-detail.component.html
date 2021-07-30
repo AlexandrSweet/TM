@@ -1,36 +1,38 @@
 <div *ngIf="task">
   <h2>{{task.title | uppercase}} Details</h2>
+  <nav><a routerLink="/edit/{{task.id}}">Edit task</a></nav>
+  <!--
   <div><span>id: </span>{{task.id}}</div>
+  <label for="task-status">Current status: </label>
+
+  <select id="task-statusId" [(ngModel)]="task.statusId">
+    <option value="task.statusId" selected>
+      Current status is {{statusValue}} {{task.statusId}}</option>
+    <option value="statusId[0]">New</option>
+    <option value="statusId[1]">In progress</option>
+    <option value="statusId[2]">Checking</option>
+    <option value="statusId[3]">Done</option>
+  </select>
+    -->
+
   <div>
     <label for="task-title">Title: </label>
-    <input id="task-title" [(ngModel)]="task.title" placeholder="Task's title" />
+    <input disabled id="task-title" [(ngModel)]="task.title" placeholder="Task's title" />
   </div>
   <div>
     <label for="task-description">Description: </label>
-    <input id="task-description" [(ngModel)]="task.description" placeholder="Task's description" />
+    <input disabled id="task-description" [(ngModel)]="task.description" placeholder="Task's description" />
   </div>
   <div>
     <label for="task-date">Deadline: </label>
-    <input id="task-date" [(ngModel)]="task.date" placeholder="Deadline" />
+    <input disabled id="task-date" [(ngModel)]="task.date" placeholder="Deadline" />
   </div>
   <div>
     <label for="task-userId">Worker: </label>
-    <input id="task-userId" [(ngModel)]="task.userId" placeholder="User's Id" />
+    <input disabled id="task-userId" [(ngModel)]="task.userId" placeholder="User's Id" />
   </div>
 
-  <!--When the form is submitted, each selected file's name will be added to
-    URL parameters in the following fashion: ?file=file1.txt&file=file2.txt
-    https://developer.mozilla.org/ru/docs/Web/HTML/Element/Input/file
-    https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-    -->
-  <p>
-    <input type="file" name="docx"
-           accept=".doc,.docx,.xls,.xlsx,.pdf,.csv,.txt"
-           multiple>
-    <input type="submit" value="Отправить">
-  </p>
-
   <button (click)="goBack()">go back</button>
-  <button (click)="save()">save</button>
+
 
 </div>
