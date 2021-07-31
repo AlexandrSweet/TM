@@ -40,11 +40,10 @@ export class RegistrationComponent implements OnInit {
 
     const payload = this.userToRegistration;
     this.http.post(this.baseUrl + 'account', payload).subscribe(
-      result => {
-        //this.router.navigate(['/login']);
+      result => {        
         console.log("Account controller says: OK");        
       },
-      error => { console.log("Account controller says: " + error) });
+      error => { console.error("Account controller says: " + error) });
     this.router.navigate(['/login']);
   }
  
