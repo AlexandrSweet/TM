@@ -34,9 +34,9 @@ export class TaskDetailComponent implements OnInit {
   ngOnInit(): void {
     this.task = this.tasksService.getCurrentTask();
 
-    if (this.task == null) {
+    if (!this.task) {
       this.task = this.tasksService.getTask(this.id);
-      if (this.task?.statusId != null) {
+      if (this.task?.statusId) {
         this.statusValue = this.statusIdValue[this.task.statusId];
       }
     }

@@ -1,8 +1,11 @@
 <h2>Current tasks</h2>
-<div class="tasks-menu">
-  <a *ngFor="let task of tasks"
-     (click)="onSelect(task)"
-     routerLink="/detail/{{task.id}}">
-    {{task.title}}
-  </a>
-</div>
+<body>
+  <div class="tasks-menu">
+    <a *ngFor="let task of tasks"
+       (click)="onSelect(task)"
+       routerLink="/detail/{{task.id}}">
+      {{task.title}}
+    </a>
+  </div>
+
+</body>

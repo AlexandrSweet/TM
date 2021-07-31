@@ -43,4 +43,11 @@ export class EditorComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-}
+
+  delete(): void {
+    if (this.task != null)
+      this.tasksService.deleteTask(this.task?.id)
+        .subscribe(() => this.goBack());
+    }
+  }
+

@@ -39,7 +39,7 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpGet]
         [Route("ViewTasks")]
-        public IEnumerable<ListViewTaskDto> GetTasks( int index=0)//!!![FromRoute] Guid userId,
+        public IEnumerable<TaskDto> GetTasks( int index=0)//!!![FromRoute] Guid userId,
         {
             return _taskService.GetTasks(index);
         }

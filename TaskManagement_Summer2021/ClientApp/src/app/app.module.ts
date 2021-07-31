@@ -19,7 +19,7 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 import { MaterialModule } from './material/material.module';
 import { EditorComponent } from './editor/editor.component';
 import { NewTaskComponent } from './new-task/new-task.component';
-
+import { DataTablesModule } from 'angular-datatables';
 
 
 
@@ -43,6 +43,7 @@ import { NewTaskComponent } from './new-task/new-task.component';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    DataTablesModule,
     BrowserAnimationsModule,
     MaterialModule
   ],

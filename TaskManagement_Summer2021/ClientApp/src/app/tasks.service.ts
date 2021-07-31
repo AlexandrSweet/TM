@@ -16,28 +16,28 @@ export class TasksService {
   constructor(private http: HttpClient) { }
 
   setCurrentTask(taskId: Identifiers) {
-    if (taskId == this.currentTaskId) { return; }
+    if (taskId === this.currentTaskId) { return; }
     this.currentTaskId = taskId;
   }
 
   getCurrentTask(): Task | null {
-    if (this.currentTaskId == null) { return null; }
+    if (!this.currentTaskId) { return null; }
     else
       return this.getTask(this.currentTaskId);
   }
 
   addTask(task: Task) {
-    return this.http.post(this.url + "AddTask", task);
+    return this.http.post(`${this.url}AddTask`, task);
   }
 
   getTasksList(index: number): Observable<Task[]> { //returns an Observable<Task[]>    
-    const tasks = this.http.get<Task[]>(this.url + "ViewTasks");
+    const tasks = this.http.get<Task[]>(`${this.url}ViewTasks`);
     return tasks;
   }
 
   getTask(id: Identifiers | string): Task {
     let taskTemp = new Task(id);
-    let observable = this.http.get<Task>(this.url + id)
+    let observable = this.http.get<Task>(`${this.url}${id}`)
       .subscribe(task => {
         taskTemp.title = task.title,
           taskTemp.description = task.description,
@@ -50,11 +50,11 @@ export class TasksService {
   }
 
   updateTask(task: Task): Observable<any> {
-    return this.http.put(this.url + task.id + '/edit', task);
+    return this.http.put(`${this.url}${task.id}/edit`, task);
   }
 
   deleteTask(id: Identifiers) {
-    return this.http.delete(this.url + id);
+    return this.http.delete(`${this.url}${id}`);
   }
 
 }

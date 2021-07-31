@@ -50,10 +50,10 @@ namespace BusinessLogicLayer.TaskService
 
         //Returns a list of a specific number of tasks
         //Index is where displaying list begins, count is how many items will be displayed
-        public List<ListViewTaskDto> GetTasks(int index)
+        public List<TaskDto> GetTasks(int index)
         {
             int count = 5;
-            var resultList = new List<ListViewTaskDto>();
+            var resultList = new List<TaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
             if (tasks.Count < index )
             {
@@ -62,8 +62,11 @@ namespace BusinessLogicLayer.TaskService
                 {
                     count = tasks.Count-index;
                 }                
-            }            
-            resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
+            }
+            if(index>0)
+                resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.GetRange(index,count));
+            else
+                resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.ToList());
             return resultList;           
         }
 
