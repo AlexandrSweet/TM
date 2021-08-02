@@ -23,7 +23,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   min: any = 0;
   max: any = 0;
 
-  tasks: any = [];  
+  tasks: Task []= [];  
 
   constructor(private tasksService: TasksService) { }
 
@@ -40,13 +40,13 @@ export class TasksComponent implements OnInit, OnDestroy {
       searching: false
     });
     
-    $.fn.dataTable.ext.search.push((settings: any, data: string[], dataIndex: any) => {
+   /* $.fn.dataTable.ext.search.push((settings: any, data: string[], dataIndex: any) => {
       const id = parseFloat(data[0]) || 0; // use data for the id column
       return (Number.isNaN(this.min) && Number.isNaN(this.max)) ||
         (Number.isNaN(this.min) && id <= this.max) ||
         (this.min <= id && Number.isNaN(this.max)) ||
         (this.min <= id && id <= this.max);
-    });
+    });*/
     this.dtOptions = {
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',

@@ -56,8 +56,8 @@ namespace TaskManagement_Summer2021.Controllers
         [Route("{taskId}/edit")]
         public ActionResult<EditTaskDto> EditTask( EditTaskDto taskDto, [FromRoute] Guid taskId)//[FromForm]
         {
-            taskDto.Id = taskId;
-            return Ok(_taskService.EditTask(taskDto));
+            
+            return Ok(_taskService.EditTask(taskDto, taskId));
         }
 
         [HttpDelete]

@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Debugging;
 using System.Linq;
-
+using System.Net.Mail;
+using System.Net;
 
 namespace BusinessLogicLayer.TaskService
 {
@@ -19,6 +20,30 @@ namespace BusinessLogicLayer.TaskService
         private readonly Mapper _autoMapper;
         private ILogger<TaskService> _logger;
 
+        private static async void SendEmail(string text)
+        {            
+            // отправитель - устанавливаем адрес и отображаемое в письме имя
+            MailAddress from = new MailAddress("TaskManagement.summer.2021@gmail.com", "Notifier");
+            // кому отправляем
+            MailAddress to = new MailAddress("molozhenko2011@gmail.com");
+            // создаем объект сообщения
+            MailMessage m = new MailMessage(from, to);            
+            // тема письма
+            m.Subject = "Test";
+            // письмо представляет код html
+            m.Body = $"<h2>{text}</h2>";
+            m.IsBodyHtml = true;
+
+            // адрес smtp-сервера и порт, с которого будем отправлять письмо
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                // логин и пароль
+                Credentials = new NetworkCredential("TaskManagement.summer.2021@gmail.com", "G2WAjhku6yWmFRh"),
+                EnableSsl = true
+            };
+           
+            await smtp.SendMailAsync(m);
+        }
 
         public TaskService(IApplicationDbContext applicationDbContext, ILogger<TaskService> logger)
         {
@@ -45,6 +70,7 @@ namespace BusinessLogicLayer.TaskService
             _applicationDbContext.SaveChanges();
             //TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
             _logger.LogInformation("New task added");
+            SendEmail("New task added");
             return newTask.Id.ToString();
         }
 
@@ -91,8 +117,9 @@ namespace BusinessLogicLayer.TaskService
 
         //Updates existing task
         //Saving requires User ID for current task (guid)
-        public EditTaskDto EditTask(EditTaskDto taskDto)
+        public EditTaskDto EditTask(EditTaskDto taskDto, Guid taskId)
         {
+            taskDto.Id = taskId;
             Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
             _applicationDbContext.Tasks.Update(updatedTask);
             _applicationDbContext.SaveChanges();
