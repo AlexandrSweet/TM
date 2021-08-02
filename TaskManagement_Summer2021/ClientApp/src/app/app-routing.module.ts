@@ -15,9 +15,9 @@ const routes: Routes = [
   { path: 'detail/:id', component: TaskDetailComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },  
- // { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
- // { path: 'task - list', component: TaskListComponent }];
+  { path: 'user-role-list', component: UserRoleEditComponent },
+
 ];
 
 @NgModule({

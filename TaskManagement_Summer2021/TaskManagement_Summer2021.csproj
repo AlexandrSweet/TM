@@ -38,8 +38,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\dist\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\dist\**" />
+    <EmbeddedResource Remove="ClientApp\dist\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\dist\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -58,10 +62,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\jwt-interceptor.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\User.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\task.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\dist\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
