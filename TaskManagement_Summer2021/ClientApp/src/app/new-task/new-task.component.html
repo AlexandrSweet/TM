@@ -1,0 +1,25 @@
+<body>
+  <div>
+    <h2>Create new task</h2>
+    <div>
+      <label for="new-task-title">Task's title: </label>
+      <input id="new-task-title" #taskTitle />
+    </div>
+    <div>
+      <label for="new-task-description">Task's description: </label>
+      <input id="new-task-description" #taskDescription />
+    </div>
+    <div>
+      <label for="new-task-date">Deadline date: </label>
+      <input id="new-task-date" type="date"
+             min="2021-01-01"
+             name="date" #deadline />
+    </div>
+    <button class="save-button"
+            (click)="add(taskTitle.value, taskDescription.value, deadline.valueAsDate);
+            taskTitle.value=''; taskDescription.value='' ">
+      Add task
+    </button>
+  </div>
+
+</body>

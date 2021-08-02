@@ -15,12 +15,11 @@ namespace BusinessLogicLayer.ModelsDto.TaskModel
         [MaxLength(50)]
         public string Title { get; set; }
         [Required]
-        public string Description { get; set; }
-        public string Requirement { get; set; }//is it necessary?
+        public string Description { get; set; }        
         public DateTime Date { get; set; }
         public string Files { get; set; }
         public TaskStatusId StatusId { get; set; }//change to enum type value
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public List<MessageDto> MessagesDto { get; set; }
     }
 }

@@ -1,14 +1,12 @@
 <body>
   <br />
-
   <div class="container">
-   
+    <h1>{{title}}</h1>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/tasks">List of tasks</a>
+      <a routerLink="/new-task">Add new task</a>
+    </nav>
+    <router-outlet></router-outlet>
   </div>
 </body>
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/tasks">List of tasks</a>
-</nav>
-<router-outlet></router-outlet>
-

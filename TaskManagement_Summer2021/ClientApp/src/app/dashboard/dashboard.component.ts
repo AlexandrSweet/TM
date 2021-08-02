@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { Data } from '@angular/router';
 import { from } from 'rxjs';
 import { Task } from '../task';
 import { TasksService } from '../tasks.service';
@@ -11,8 +14,6 @@ import { TasksService } from '../tasks.service';
 export class DashboardComponent implements OnInit {
 
   tasks: Task[] = [];
-  //task: Task = new Task(1);
-
 
   constructor(private tasksService: TasksService) { }
 
@@ -20,16 +21,15 @@ export class DashboardComponent implements OnInit {
     this.getCurrentTasks();
   }
 
-  getCurrentTasks(): void {
-    this.tasksService.getTasks(0, 4)
+  private getCurrentTasks(): void {
+    this.tasksService.getTasksList(0)
       .subscribe(tasks => this.tasks = tasks);
   }
+  
 
-  
+
   onSelect(selectedTask: Task): void {
-    if (selectedTask != undefined)
-      this.tasksService.setCurrentTask(selectedTask.id);
-    //this.task = selectedTask;
+    this.tasksService.setCurrentTask(selectedTask.id);
   }
-  
+
 }

@@ -1,37 +1,40 @@
-<form class="registration" [formGroup]="registrationForm" (submit)="onSubmit()">
+<body>
 
-  <!--*ngIf="registrationForm" лечение одинадцатого и выше ангуляра если не ставить восклицательные знаки-->
+  <form class="registration" [formGroup]="registrationForm" (submit)="onSubmit()">
 
-  <h1>REGISTRATION</h1>
+    <!--*ngIf="registrationForm" лечение одинадцатого и выше ангуляра если не ставить восклицательные знаки-->
 
-  <label>
-    First Name:
-    <input type="text" formControlName="firstName" />
-    <small *ngIf="isControlInvalid('firstName')">A 'First name' value is required</small>
-  </label>
-  <label>
-    Last Name:
-    <input type="text" formControlName="lastName" />
-    <small *ngIf="isControlInvalid('lastName')">A 'Last Name' value is required</small>
-  </label>
-  <label>
-    Email:
-    <input type="email" formControlName="email" />
-    <small *ngIf="isControlInvalid('email')">A 'Email' value is required</small>
-  </label>
-  <label>
-    Password:
-    <input type="password" formControlName="password" />
-    <small *ngIf="isControlInvalid('password')">A 'Password' value is required</small>
-  </label>
-  <label>
-    Confirm password:
-    <input type="password" formControlName="confirmPassword" />
-    <small *ngIf="isControlInvalid('confirmPassword')">A 'Confirm password' value is required</small>
-  </label>
+    <h1>REGISTRATION</h1>
 
-  <button type="submit" [disabled]="!registrationForm.valid">Add</button>
-  <button type="button" onclick="window.history.back()">Cancel</button>
+    <label>
+      First Name:
+      <input type="text" formControlName="firstName" />
+      <small *ngIf="isControlInvalid('firstName')">A 'First name' value is required</small>
+    </label>
+    <label>
+      Last Name:
+      <input type="text" formControlName="lastName" />
+      <small *ngIf="isControlInvalid('lastName')">A 'Last Name' value is required</small>
+    </label>
+    <label>
+      Email:
+      <input type="email" formControlName="email" />
+      <small *ngIf="isControlInvalid('email')">A 'Email' value is required</small>
+    </label>
+    <label>
+      Password:
+      <input type="password" formControlName="password" />
+      <small *ngIf="isControlInvalid('password')">A 'Password' value is required</small>
+    </label>
+    <label>
+      Confirm password:
+      <input type="password" formControlName="confirmPassword" />
+      <small *ngIf="isControlInvalid('confirmPassword')">A 'Confirm password' value is required</small>
+    </label>
 
+    <button type="submit" [disabled]="!registrationForm.valid">Add</button>
+    <button type="button" onclick="window.history.back()">Cancel</button>
 
-</form>
+  </form>
+
+</body>
