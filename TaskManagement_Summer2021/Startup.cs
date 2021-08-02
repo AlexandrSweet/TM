@@ -24,6 +24,7 @@ using System.Net;
 using BusinessLogicLayer.UserService;
 using Microsoft.AspNetCore.Identity;
 using DataAccessLayer.Entities;
+using ServiceStack.Text;
 
 namespace TaskManagement_Summer2021
 {
@@ -107,15 +108,15 @@ namespace TaskManagement_Summer2021
         {
             //Serilog
             app.UseSerilogRequestLogging();
-            
 
-                // Attach additional properties to the request completion event
-                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-                {
-                    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-                    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-                };
-            });
+
+            //// Attach additional properties to the request completion event
+            //options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+            //{
+            //    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+            //    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+            //};
+        
 
             if (env.IsDevelopment())
             {
@@ -201,4 +202,5 @@ namespace TaskManagement_Summer2021
             });
         }        
     }
+
 }
