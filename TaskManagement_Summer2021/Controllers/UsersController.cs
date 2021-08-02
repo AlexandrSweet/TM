@@ -12,7 +12,7 @@ namespace TaskManagement_Summer2021.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : Controller
     {
         private readonly IUserService _userService;
         public UsersController(IUserService userService)
@@ -84,7 +84,7 @@ namespace TaskManagement_Summer2021.Controllers
         {
             if (user != null)
             {
-                __userService.EditUserRole(user);
+                _userService.EditUserRole(user);
                 return true;
             }
             return false;

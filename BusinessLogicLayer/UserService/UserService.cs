@@ -104,5 +104,19 @@ namespace BusinessLogicLayer.UserService
             var resultList = _autoMapper.Map<List<User>, List<UserDto>>(Users);
             return resultList;
         }
+
+        public bool EditUserRole(UserDto userDto)
+        {
+            var user = _applicationDbContext.Users.FirstOrDefault(u => u.Id == userDto.Id);
+            if (user != null)
+            {                                     
+                user.RoleId = userDto.RoleId;          
+
+                _applicationDbContext.Users.Update(user);
+                _applicationDbContext.SaveChanges();
+                return true;
+            }
+            else return false;
+        }
     }
 }

@@ -4,20 +4,22 @@ import { User } from '../models/User';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 
+
 @Component({
-  selector: 'app-task-list',
-  templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.scss']
+  selector: 'app-user-role-edit',
+  templateUrl: './user-role-edit.component.html',
+  styleUrls: ['./user-role-edit.component.scss']
 })
-export class TaskListComponent implements OnInit {
+export class UserRoleEditComponent implements OnInit {
 
   public Users!: Array<User>;
   public userToEditRoleForm!: FormGroup;
   public userToEditRole!: User;
-  public user!: User;  
-  public baseUrl!: string;
+  public user!: User;
+  private baseUrl: string;
 
   constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private formBuilder: FormBuilder) {
+    this.baseUrl = baseUrl;
     http.get<Array<User>>(baseUrl + 'users/get-users').subscribe(
       result => { this.Users = result; },
       error => { console.log("Users controller says: " + error) });
@@ -26,18 +28,18 @@ export class TaskListComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
   }
-  public onEdit(userToEditRoleForm:any, user:any) {
+  public onEdit(userToEditRoleForm: any, user: any) {
     this.userToEditRole = this.userToEditRoleForm.value;
     this.user = user;
     if (this.userToEditRole.roleId !== "") {
       this.user.roleId = this.userToEditRole.roleId;
     }
     const payload = this.user;
-    this.http.put(this.baseUrl + 'user/edit-user', payload).subscribe(
+    this.http.put(this.baseUrl + 'users/edit-user', payload).subscribe(
       result => { console.log("User controller says: OK") },
       error => { console.log("User controller says: " + error) });
     /*this.router.navigate(['/tasks']);*/
-    this.userToEditRoleForm.reset();    
+    //this.userToEditRoleForm.reset();    
   }
   private buildForm() {
     this.userToEditRoleForm = this.formBuilder.group({
@@ -48,5 +50,4 @@ export class TaskListComponent implements OnInit {
       roleId: ['', Validators.required]
     });
   }
-
 }

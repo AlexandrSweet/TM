@@ -173,9 +173,7 @@ namespace TaskManagement_Summer2021
             app.UseRouting();
 
             
-            app.UseCors(MyAllowSpecificOrigins);
-
-            //SeedDefault(app); //по умолчанию добавляет админа.
+            app.UseCors(MyAllowSpecificOrigins);           
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -199,35 +197,6 @@ namespace TaskManagement_Summer2021
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-        }
-        //private void SeedDefault(IApplicationBuilder app)
-        //{
-        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-        //    using (var scope = scopeFactory.CreateScope())
-        //    {
-        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        //        if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
-        //        {
-        //            var user = new User { 
-        //                FirstName = "Admin", 
-        //                LastName = "Admin", 
-        //                Email = "Admin@Gmail.com", 
-        //                UserName = "Admin@Gmail.com", 
-        //                RoleId = DataAccessLayer.Entities.Role.Administrator };
-
-        //            _userManager.CreateAsync(user, "admin");
-
-        //            //dbContext.Users.Add(new DataAccessLayer.Entities.User
-        //            //{
-        //            //    FirstName = "Admin",
-        //            //    LastName = "Admin",
-        //            //    Email = "Admin@gmail.com",
-        //            //    Password = "admin",
-        //            //    RoleId = DataAccessLayer.Entities.Role.Administrator
-        //            //});
-        //            //dbContext.SaveChanges();
-        //        }
-        //    }
-        //}
+        }        
     }
 }
