@@ -13,6 +13,7 @@ namespace BusinessLogicLayer.UserService
         public void EditUser(RegisterUserDto userDto);
         public bool DeleteUser(Guid userId);
         public UserDto GetUserByEmail(string email);
+        public List<UserDto> GetAllUsers();
 
     }
 }

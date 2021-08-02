@@ -2,6 +2,7 @@
 using BusinessLogicLayer.ModelsDto.UserModel;
 using DataAccessLayer;
 using DataAccessLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -95,6 +96,13 @@ namespace BusinessLogicLayer.UserService
             }
             var userDto = _autoMapper.Map<User, UserDto>(userContext);
             return userDto;
+        }
+
+        public List<UserDto> GetAllUsers()
+        {
+            var Users = _applicationDbContext.Users.ToList();
+            var resultList = _autoMapper.Map<List<User>, List<UserDto>>(Users);
+            return resultList;
         }
     }
 }

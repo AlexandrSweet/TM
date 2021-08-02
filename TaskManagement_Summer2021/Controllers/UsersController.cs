@@ -72,6 +72,23 @@ namespace TaskManagement_Summer2021.Controllers
             }
             
         }
-        
+        [HttpGet]
+        [Route("get-users")]
+        public ActionResult<List<UserDto>> GetAllUsers()
+        {
+            return _userService.GetAllUsers();
+        }
+        [HttpPut]
+        [Route("edit-user")]
+        public bool EditUserRole(UserDto user)
+        {
+            if (user != null)
+            {
+                __userService.EditUserRole(user);
+                return true;
+            }
+            return false;
+        }
+
     }
 }

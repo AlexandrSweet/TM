@@ -1,1 +1,38 @@
-<p>task-list works!</p>
+<h1>All Users</h1>
+<br />
+<button [routerLink]="['/add-user']">Add User</button>
+<div *ngIf="Users">
+  <table class="redTable">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td colspan="4">          
+        </td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr *ngFor="let user of Users" [formGroup]="userToEditRoleForm">
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.email}}</td>        
+        <td>
+          <select formControlName="roleId">            
+            <option>{{user.roleId}}</option>
+            <option value="0">User</option>
+            <option value="1">Customer</option>
+            <option value="2">Administrator</option>
+          </select>
+        </td>
+        <td><button type="button" (click)="onEdit(userToEditRoleForm, user)">EDIT</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
