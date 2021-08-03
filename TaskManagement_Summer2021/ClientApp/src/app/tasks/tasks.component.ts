@@ -1,8 +1,11 @@
 import { Identifiers } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-import { from } from 'rxjs';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { from, Subscription, Subject } from 'rxjs';
 import { Task } from '../task';
 import { TasksService } from '../tasks.service';
+import { DataTableDirective } from 'angular-datatables';
+
+
 
 @Component({
   selector: 'app-tasks',
@@ -10,58 +13,69 @@ import { TasksService } from '../tasks.service';
   styleUrls: ['./tasks.component.scss'],
   providers: [TasksService]
 })
-export class TasksComponent implements OnInit {
-  task: Task = new Task(1);
-  tasks: Task[] = [];  
+
+export class TasksComponent implements OnInit, OnDestroy {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+
+  @ViewChild(DataTableDirective, { static: false })
+  datatableElement: any = DataTableDirective;
+  min: any = 0;
+  max: any = 0;
+
+  tasks: Task []= [];  
 
   constructor(private tasksService: TasksService) { }
 
   ngOnInit() {
-    this.loadTasks(0,5);    // загрузка данных при старте компонента
-  }
+    this.loadTasks();
+    $.fn.DataTable({
+      retrieve: true,
+      paging: false
 
-  // получаем данные через сервис
-  loadTasks(index:number,range: number) :void{
-    this.tasksService.getTasks(index, range)
-      .subscribe(tasks => this.tasks = tasks);
-  }
+    });
 
-  /*save() {
-    if (this.task.id == null) {
-      this.tasksService.addTask(this.task)
-        .subscribe((data: Task) => this.tasks.push(data));
-    } else {
-      this.tasksService.updateTask(this.task)
-        .subscribe(data => this.loadTasks(0,5));
-    }
-    this.cancel();
-  }*/
-
-  
-  editTask(t: Task) {
-    this.task = t;    
-  }
-
-  /*cancel(): boolean {
-    this.task = new Task();
-    this.tableMode = true;
-    return true;
-  }*/
-
-  delete(t: Task) {
-    if (t.id != null) {
-      this.tasksService.deleteTask(t.id)
-        .subscribe(data => this.loadTasks(0,3));
-    }
+    $.fn.DataTable({
+      destroy: true,
+      searching: false
+    });
     
+   /* $.fn.dataTable.ext.search.push((settings: any, data: string[], dataIndex: any) => {
+      const id = parseFloat(data[0]) || 0; // use data for the id column
+      return (Number.isNaN(this.min) && Number.isNaN(this.max)) ||
+        (Number.isNaN(this.min) && id <= this.max) ||
+        (this.min <= id && Number.isNaN(this.max)) ||
+        (this.min <= id && id <= this.max);
+    });*/
+    this.dtOptions = {
+      // Declare the use of the extension in the dom parameter
+      dom: 'Bfrtip',
+    };
+  }
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+    $.fn.dataTable.ext.search.pop();
   }
 
+  loadTasks(): void {
+    this.tasksService.getTasksList(0)
+      .subscribe((response: any) => {
+        this.tasks = response;
+        // initiate our data table
+        this.dtTrigger.next();
+      });
+  }
   
-    
+  
+  
   onSelect(selectedTask: Task): void {
-    if (selectedTask != undefined)
-      this.tasksService.setCurrentTask(selectedTask.id);
-    this.task = selectedTask;
+    this.tasksService.setCurrentTask(selectedTask.id);
+  }
+
+  filterById(): void {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.draw();
+    });
   }
 }
 

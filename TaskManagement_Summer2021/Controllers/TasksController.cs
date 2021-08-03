@@ -39,9 +39,9 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpGet]
         [Route("ViewTasks")]
-        public IEnumerable<ListViewTaskDto> GetTasks( int index=0, int count = 3)//!!![FromRoute] Guid userId,
+        public IEnumerable<TaskDto> GetTasks( int index=0)//!!![FromRoute] Guid userId,
         {
-            return _taskService.GetTasks(index, count);
+            return _taskService.GetTasks(index);
         }
 
         [HttpGet("{taskId}")]
@@ -54,10 +54,10 @@ namespace TaskManagement_Summer2021.Controllers
         [HttpPut]
         //[ValidateAntiForgeryToken]
         [Route("{taskId}/edit")]
-        public ActionResult<EditTaskDto> EditTask([FromForm] EditTaskDto taskDto, [FromRoute] Guid taskId)
+        public ActionResult<EditTaskDto> EditTask( EditTaskDto taskDto, [FromRoute] Guid taskId)//[FromForm]
         {
-            taskDto.Id = taskId;
-            return Ok(_taskService.EditTask(taskDto));
+            
+            return Ok(_taskService.EditTask(taskDto, taskId));
         }
 
         [HttpDelete]

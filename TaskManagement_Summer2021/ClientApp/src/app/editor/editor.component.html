@@ -1,0 +1,81 @@
+<!--
+<body>
+  <form [formGroup]="taskForm" (ngSubmit)="save()">
+    <button (click)="updateValues()">Update</button>
+    <label for="task-title">Title: </label>
+    <input id="task-title" formControlName="title" placeholder="Task's title" />
+
+    <label for="task-title">Description: </label>
+    <input id="task-description" type="text"
+           formControlName="description" placeholder="Task's description" />
+
+    <label for="task-date">Deadline: </label>
+    <input id="task-date" type="date"
+           formControlName="date" placeholder="Task's deadline date" />
+
+    <label for="task-userId">User Id: </label>
+    <input id="task-userId" type="text"
+           formControlName="userId" placeholder="User ID" />
+
+    <button (click)="goBack()">Go back</button>
+    <button type="submit" [disabled]="!taskForm.valid">Save</button>
+    <button (click)="delete()">Delete</button>
+    <p>Complete the form to enable "Save" button.</p>
+    <p>Form Status: {{ taskForm.status }}</p>
+    <p>Form Status: {{ taskForm.value | json  }}</p>
+  </form>
+</body>
+
+  -->
+
+<div *ngIf="task">
+  <h2>{{task.title | uppercase}} Details</h2>
+  
+  <label  for="task-statusId">Status: </label>
+  <select id="task-statusId" [(ngModel)]="task.statusId">
+    <option value="0"> NEw</option>
+    <option value="1"> in progress</option>
+    <option value="2"> poiuhbj</option>
+    <!-- <option [(value)]="task.statusId" *ngFor="let status of statuses">
+
+    {{status.viewValue}}
+  </option>-->
+  </select>
+   
+  <div><span>id: </span>{{task.id}}</div>
+  <div>
+    <label for="task-title">Title: </label>
+    <input id="task-title" [(ngModel)]="task.title" placeholder="Task's title" />
+  </div>
+  <div>
+    <label for="task-description">Description: </label>
+    <input id="task-description" [(ngModel)]="task.description" placeholder="Task's description" />
+  </div>
+  <div>
+    <label for="task-date">Deadline: </label>
+    <input id="task-date" type="date" [(ngModel)]="task.date" placeholder="Deadline" />
+  </div>
+  <div>
+    <label for="task-userId">Worker: </label>
+    <input id="task-userId" [(ngModel)]="task.userId" placeholder="User's Id" />
+  </div>
+
+  <!--When the form is submitted, each selected file's name will be added to
+  URL parameters in the following fashion: ?file=file1.txt&file=file2.txt
+  https://developer.mozilla.org/ru/docs/Web/HTML/Element/Input/file
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+  -->
+  <!--
+  <p>
+    <input disabled type="file" id="fileItem"
+           accept=".doc,.docx,.xls,.xlsx,.pdf,.csv,.txt"
+           multiple>
+    <input type="submit" value="Отправить">
+  </p>
+  -->
+  <button (click)="goBack()">go back</button>
+  <button (click)="save()">save</button>
+  <button (click)="delete()">delete</button>
+</div>
+
+  

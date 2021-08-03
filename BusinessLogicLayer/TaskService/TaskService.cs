@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Debugging;
 using System.Linq;
-
+using System.Net.Mail;
+using System.Net;
 
 namespace BusinessLogicLayer.TaskService
 {
@@ -19,6 +20,30 @@ namespace BusinessLogicLayer.TaskService
         private readonly Mapper _autoMapper;
         private ILogger<TaskService> _logger;
 
+        private static async void SendEmail(string text)
+        {            
+            // отправитель - устанавливаем адрес и отображаемое в письме имя
+            MailAddress from = new MailAddress("TaskManagement.summer.2021@gmail.com", "Notifier");
+            // кому отправляем
+            MailAddress to = new MailAddress("molozhenko2011@gmail.com");
+            // создаем объект сообщения
+            MailMessage m = new MailMessage(from, to);            
+            // тема письма
+            m.Subject = "Test";
+            // письмо представляет код html
+            m.Body = $"<h2>{text}</h2>";
+            m.IsBodyHtml = true;
+
+            // адрес smtp-сервера и порт, с которого будем отправлять письмо
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                // логин и пароль
+                Credentials = new NetworkCredential("TaskManagement.summer.2021@gmail.com", "G2WAjhku6yWmFRh"),
+                EnableSsl = true
+            };
+           
+            await smtp.SendMailAsync(m);
+        }
 
         public TaskService(IApplicationDbContext applicationDbContext, ILogger<TaskService> logger)
         {
@@ -38,34 +63,36 @@ namespace BusinessLogicLayer.TaskService
         //Creates new task in database
         //Requires minimum of information, no files, user ID or status
         public string AddTask(CreateTaskDto TaskDto)
-        {
-            TaskDto.Date = DateTime.UtcNow;
+        { 
+            //TaskDto.Date = DateTime.UtcNow;
             Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
             _applicationDbContext.Tasks.Add(newTask);
             _applicationDbContext.SaveChanges();
-            TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
+            //TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
             _logger.LogInformation("New task added");
+            SendEmail("New task added");
             return newTask.Id.ToString();
         }
 
         //Returns a list of a specific number of tasks
         //Index is where displaying list begins, count is how many items will be displayed
-        public List<ListViewTaskDto> GetTasks(int index, int count)
+        public List<TaskDto> GetTasks(int index)
         {
-            var resultList = new List<ListViewTaskDto>();
+            int count = 5;
+            var resultList = new List<TaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
             if (tasks.Count < index )
             {
-                index = tasks.Count-1;
+                index = tasks.Count-count;
                 if ((index+ count )>tasks.Count)
                 {
-                    count = 1;
-                }
-                
+                    count = tasks.Count-index;
+                }                
             }
-            if (count > tasks.Count)
-                count = tasks.Count;
-            resultList = _autoMapper.Map<List<Task>, List<ListViewTaskDto>>(tasks.GetRange(index,count));
+            if(index>0)
+                resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.GetRange(index,count));
+            else
+                resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.ToList());
             return resultList;           
         }
 
@@ -90,8 +117,9 @@ namespace BusinessLogicLayer.TaskService
 
         //Updates existing task
         //Saving requires User ID for current task (guid)
-        public EditTaskDto EditTask(EditTaskDto taskDto)
+        public EditTaskDto EditTask(EditTaskDto taskDto, Guid taskId)
         {
+            taskDto.Id = taskId;
             Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
             _applicationDbContext.Tasks.Update(updatedTask);
             _applicationDbContext.SaveChanges();
