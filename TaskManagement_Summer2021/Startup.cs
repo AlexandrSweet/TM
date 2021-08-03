@@ -22,14 +22,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using BusinessLogicLayer.UserService;
+using Microsoft.AspNetCore.Identity;
+using DataAccessLayer.Entities;
+using ServiceStack.Text;
 
 namespace TaskManagement_Summer2021
 {
     public class Startup
-    {
+    {        
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;            
         }
 
         public IConfiguration Configuration { get; }
@@ -44,11 +47,11 @@ namespace TaskManagement_Summer2021
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    /*builder.WithOrigins("https://localhost:44379",
+                    builder.WithOrigins("https://localhost:44379",
                                         "http://localhost:4200"
                                         )
                                         .AllowAnyHeader()
-                                        .AllowAnyMethod();*/
+                                        .AllowAnyMethod();
                 });
             });
 
@@ -56,8 +59,17 @@ namespace TaskManagement_Summer2021
             {
                 option.UseSqlServer(Configuration["SqlServerConnectionString"],
                     b => b.MigrationsAssembly("DataAccessLayer"));
-            });
-
+            })
+                .AddIdentity<User, ApplicationRole>(config =>
+                {
+                    config.Password.RequireDigit = false;
+                    config.Password.RequireLowercase = false;
+                    config.Password.RequireNonAlphanumeric = false;
+                    config.Password.RequireUppercase = false;
+                    config.Password.RequiredLength = 6;
+                })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -74,6 +86,8 @@ namespace TaskManagement_Summer2021
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
                 };
             });
+
+            services.AddAuthorization();
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITaskService, TaskService>();
@@ -94,11 +108,18 @@ namespace TaskManagement_Summer2021
         {
             //Serilog
             app.UseSerilogRequestLogging();
-            
+
+
+            //// Attach additional properties to the request completion event
+            //options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+            //{
+            //    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+            //    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+            //};
+        
 
             if (env.IsDevelopment())
             {
-                
                 app.UseDeveloperExceptionPage();
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
@@ -108,7 +129,7 @@ namespace TaskManagement_Summer2021
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });                                
+                });
             }
             else
             {
@@ -137,20 +158,20 @@ namespace TaskManagement_Summer2021
                 });
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }            
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
-                app.UseSpaStaticFiles();
-            }
+                app.UseSpaStaticFiles();            }
 
             app.UseRouting();
 
+            
+            app.UseCors(MyAllowSpecificOrigins);           
             app.UseCors(MyAllowSpecificOrigins);
-
-            SeedDefault(app); //по умолчанию добавляет админа.
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -178,21 +199,8 @@ namespace TaskManagement_Summer2021
                     spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 25);
                     //Time limit extended
                 }
-            });            
-        }
-        private void SeedDefault(IApplicationBuilder app)
-        {
-            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                if (dbContext.Users.FirstOrDefault(u => u.Email == "Admin@gmail.com") == null)
-                {
-                    dbContext.Users.Add(new DataAccessLayer.Entities.User {FirstName="Admin", LastName="Admin",
-                        Email = "Admin@gmail.com", Password = "admin", RoleId = DataAccessLayer.Entities.Role.Administrator });
-                    dbContext.SaveChanges();
-                }
-            }
-        }
+            });
+        }        
     }
+
 }

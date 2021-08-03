@@ -9,36 +9,41 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using BusinessLogicLayer.UserService;
 using BusinessLogicLayer.ModelsDto.UserModel;
+using Microsoft.AspNetCore.Identity;
+using DataAccessLayer.Entities;
+using System.Threading.Tasks;
 
 namespace TaskManagement_Summer2021.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
-    {
-        private readonly IUserService _userService;
-        public AuthController(IUserService userService)
-        {
-            _userService = userService;
+    public class AuthController : Controller
+    {       
+        private readonly UserManager<User> _userManager;       
+        public AuthController(UserManager<User> userManager)
+        {          
+            _userManager = userManager;          
         }
 
         [HttpPost]
         [Route("login")]        
-        public IActionResult Login(LoginModel user)
+        public async Task<IActionResult> Login(LoginModel user)
         {
             if (user == null)
             {
                 return BadRequest("Invalid data");
             }
 
-            UserDto foundUser = _userService.GetUserByEmail(user.Email);
+            var foundUser = await _userManager.FindByEmailAsync(user.Email);            
 
             if(foundUser == null)
             {
                 return BadRequest("User with this email non found");
             }
+            
+            var password = await _userManager.CheckPasswordAsync(foundUser, user.Password);
 
-            if (foundUser.Password == user.Password)
+            if (password)
             {         
                
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"));

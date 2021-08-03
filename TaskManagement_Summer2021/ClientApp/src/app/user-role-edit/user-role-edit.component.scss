@@ -1,0 +1,79 @@
+table.redTable {
+  border: 3px solid #48318C;
+  background-color: #EEE7DB;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+table.redTable td, table.redTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+
+table.redTable tbody td {
+  font-size: 13px;
+}
+
+table.redTable tr:nth-child(even) {
+  background: #CEBDF5;
+}
+
+table.redTable thead {
+  background: #48318C;
+}
+
+table.redTable thead th {
+  font-size: 19px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #48318C;
+}
+
+table.redTable thead th:first-child {
+  border-left: none;
+}
+
+table.redTable tfoot {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #48318C;
+}
+
+table.redTable tfoot td {
+  font-size: 13px;
+}
+
+table.redTable tfoot .links {
+  text-align: right;
+}
+
+table.redTable tfoot .links a {
+  display: inline-block;
+  background: #FFFFFF;
+  color: #48318C;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}

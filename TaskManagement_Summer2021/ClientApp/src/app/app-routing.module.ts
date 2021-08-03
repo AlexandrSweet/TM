@@ -8,6 +8,7 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { EditorComponent } from './editor/editor.component';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { UserRoleEditComponent } from './user-role-edit/user-role-edit.component';
 
 
 const routes: Routes = [
@@ -19,9 +20,9 @@ const routes: Routes = [
   { path: 'edit/:id', component: EditorComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },  
- // { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
- 
+  { path: 'user-role-list', component: UserRoleEditComponent },
+
 ];
 
 @NgModule({
