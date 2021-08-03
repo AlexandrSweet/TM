@@ -11,8 +11,7 @@ import { NewTaskComponent } from './new-task/new-task.component';
 import { UserRoleEditComponent } from './user-role-edit/user-role-edit.component';
 
 
-const routes: Routes = [
-  //{ path: '', redirectTo: "/dashboard", pathMatch: 'full' },
+const routes: Routes = [  
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'tasks', component: TasksComponent },
   { path: 'new-task', component: NewTaskComponent },
