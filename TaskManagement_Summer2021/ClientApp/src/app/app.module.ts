@@ -20,6 +20,8 @@ import { MaterialModule } from './material/material.module';
 import { EditorComponent } from './editor/editor.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { DataTablesModule } from 'angular-datatables';
+import { CookieService } from 'ngx-cookie-service';
+import { UserRoleEditComponent } from './user-role-edit/user-role-edit.component';
 
 
 
@@ -35,7 +37,8 @@ import { DataTablesModule } from 'angular-datatables';
     DashboardComponent,
     DatepickerComponent,
     EditorComponent,
-    NewTaskComponent
+    NewTaskComponent,       
+    UserRoleEditComponent
   ],
     imports: [
     BrowserModule,
@@ -48,7 +51,7 @@ import { DataTablesModule } from 'angular-datatables';
     MaterialModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: 'BASE_URL', useValue: "https://localhost:44379/", multi: true }
+     { provide: 'BASE_URL', useValue: "https://localhost:44379/", multi: true }
   ],
   //bootstrap: [DatepickerComponent]
   bootstrap: [AppComponent]
