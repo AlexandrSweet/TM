@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Task } from './task';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
@@ -11,12 +11,13 @@ import { DatePipe } from '@angular/common';
   providedIn: 'root'
 })
 export class TasksService {
-  private url = "/Tasks/";
+  private url = "Tasks/";
   private currentTaskId: Identifiers | string | any;
+  private baseUrl!: string;
   
 
-  constructor(private http: HttpClient) {
-    
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
   }
 
   setCurrentTask(taskId: Identifiers) {
@@ -31,17 +32,17 @@ export class TasksService {
   }
 
   addTask(task: Task) {
-    return this.http.post(`${this.url}AddTask`, task);
+    return this.http.post(this.baseUrl + `${this.url}AddTask`, task);
   }
-
+  
   getTasksList(index: number): Observable<Task[]> { //returns an Observable<Task[]>    
-    const tasks = this.http.get<Task[]>(`${this.url}ViewTasks`);
+    const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}ViewTasks`);
     return tasks;
   }
 
   getTask(id: Identifiers | string): Task {
     let taskTemp = new Task(id);
-    let observable = this.http.get<Task>(`${this.url}${id}`)
+    let observable = this.http.get<Task>(this.baseUrl + `${this.url}${id}`)
       .subscribe(task => {
         taskTemp.title = task.title,
           taskTemp.description = task.description,
@@ -54,15 +55,15 @@ export class TasksService {
   }
 
   get task() {
-    return this.http.get(`${this.url}${this.currentTaskId}`)
+    return this.http.get(this.baseUrl + `${this.url}${this.currentTaskId}`)
   }
 
   updateTask(task: Task): Observable<any> {
-    return this.http.put(`${this.url}${task.id}/edit`, task);
+    return this.http.put(this.baseUrl + `${this.url}${task.id}/edit`, task);
   }
 
   deleteTask(id: Identifiers) {
-    return this.http.delete(`${this.url}${id}`);
+    return this.http.delete(this.baseUrl + `${this.url}${id}`);
   }
 
 }
