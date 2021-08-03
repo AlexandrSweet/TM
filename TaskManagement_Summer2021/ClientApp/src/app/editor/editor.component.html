@@ -33,10 +33,11 @@
   
   <label  for="task-statusId">Status: </label>
   <select id="task-statusId" [(ngModel)]="task.statusId">
+    <option value="task.statusId"> current is {{task.statusId}}</option>
     <option value="0"> New</option>
     <option value="1"> In progress</option>
     <option value="2"> Checking</option>
-    <option value="3"> Done</option>       
+    <option value="3"> Done</option>
   </select>
    
   <div><span>id: </span>{{task.id}}</div>
@@ -55,10 +56,15 @@
   <div>
     <label for="new-task-user">Select a user for the task: </label>
     <select name="new-task-user" #user>
+      <!-- <option value="task.userId"> {{user.firstName}} {{user.lastName}}</option> -->
+      <option *ngIf="!task.userId" value=""> Select user</option>
       <option *ngFor="let user of users"
               [value]="user.id">
-        {{user.firstName}} {{user.lastName}}
+        {{user.firstName}} {{user.lastName}} <!-- {{user.id}} -->
+      </option>
+      <option *ngIf="task.userId" selected value="task.userId"> Current user is {{task.userId}}</option>
     </select>
+
   </div>
 
   <!--When the form is submitted, each selected file's name will be added to
