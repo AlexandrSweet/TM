@@ -30,7 +30,12 @@ namespace TaskManagement_Summer2021.Controllers
             if (ModelState.IsValid)
             {
                 
-                var user = new User { FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, UserName = model.Email };
+                var user = new User { 
+                    FirstName = model.FirstName, 
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    UserName = model.Email
+                };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

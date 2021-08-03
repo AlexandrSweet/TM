@@ -81,8 +81,8 @@ namespace TaskManagement_Summer2021
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    //ValidIssuer = Configuration["http://localhost:44379"],
-                    //ValidAudience = Configuration["http://localhost:44379"],
+                    ValidIssuer = Configuration["http://localhost:44379"],
+                    ValidAudience = Configuration["http://localhost:44379"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
                 };
             });

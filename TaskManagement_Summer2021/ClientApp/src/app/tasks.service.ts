@@ -5,6 +5,7 @@ import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Observable } from 'rxjs';
 import { __param } from 'tslib';
 import { DatePipe } from '@angular/common';
+import { User } from './models/User';
 
 
 @Injectable({
@@ -65,5 +66,12 @@ export class TasksService {
     return this.http.delete(`${this.url}${id}`);
   }
 
+  public u: User[] = [];
+  getUsers(): User[] {    
+    this.http.get<User[]>('users/get-users')
+      .subscribe(
+        result => { this.u = result });
+    return this.u;
+  }
 }
 

@@ -53,8 +53,12 @@
     <input id="task-date" type="date" [(ngModel)]="task.date" placeholder="Deadline" />
   </div>
   <div>
-    <label for="task-userId">Worker: </label>
-    <input id="task-userId" [(ngModel)]="task.userId" placeholder="User's Id" />
+    <label for="new-task-user">Select a user for the task: </label>
+    <select name="new-task-user" #user>
+      <option *ngFor="let user of users"
+              [value]="user.id">
+        {{user.firstName}} {{user.lastName}}
+    </select>
   </div>
 
   <!--When the form is submitted, each selected file's name will be added to

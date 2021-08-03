@@ -70,7 +70,7 @@ namespace BusinessLogicLayer.TaskService
             _applicationDbContext.SaveChanges();
             //TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
             _logger.LogInformation("New task added");
-            SendEmail("New task added");
+            //SendEmail("New task added");
             return newTask.Id.ToString();
         }
 
@@ -120,6 +120,8 @@ namespace BusinessLogicLayer.TaskService
         public EditTaskDto EditTask(EditTaskDto taskDto, Guid taskId)
         {
             taskDto.Id = taskId;
+            TaskStatusId statusId = (TaskStatusId) taskDto.StatusId;
+            taskDto.StatusId = statusId;
             Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
             _applicationDbContext.Tasks.Update(updatedTask);
             _applicationDbContext.SaveChanges();
