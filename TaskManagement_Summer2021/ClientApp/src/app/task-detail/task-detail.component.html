@@ -3,7 +3,14 @@
   <div *ngIf="task">
     <h2>{{task.title | uppercase}} Details</h2>
     <nav><a routerLink="/edit/{{task.id}}">Edit task</a></nav>
-
+    <br />
+    <label for="task-statusId">Status: </label>
+    <select id="task-statusId" [(ngModel)]="task.statusId">
+      <option value="0"> New</option>
+      <option value="1"> In progress</option>
+      <option value="2"> Checking</option>
+      <option value="3"> Done</option>
+    </select>
     <div>
       <label for="task-title">Title: </label>
       <input disabled id="task-title" [(ngModel)]="task.title" placeholder="Task's title" />
@@ -22,7 +29,7 @@
     </div>
 
     <button (click)="goBack()">go back</button>
-
+    <button (click)="save()">save</button>
   </div>
 
 </body>

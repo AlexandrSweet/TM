@@ -15,12 +15,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 export class EditorComponent implements OnInit {
   private id: Identifiers = 1;
   private subscription: Subscription | undefined;
-  statuses: StatusId[] = [
-    { value: 0, viewValue: 'New' },
-    { value: 1, viewValue: 'In Progress' },
-    { value: 2, viewValue: 'Checking' },
-    { value: 3, viewValue: 'Done' }
-  ];
+  
 
   @Input() task: Task | any = new Task(1);
   //tasokObservable?: any;
@@ -51,18 +46,9 @@ export class EditorComponent implements OnInit {
       this.task = this.tasksService.getTask(this.id);
     }
 
-    //this.tasokObservable = this.tasksService.task;
+    
   }
-  /*
-    updateValues() {
-      this.taskForm.patchValue({
-        title: this.task?.title,
-        description: this.task?.description,
-        date: this.task?.date,
-        userId: this.task?.userId
-      });
-    }
-    */
+  
 
   save(): void {
     if (this.task) {
@@ -80,12 +66,4 @@ export class EditorComponent implements OnInit {
       this.tasksService.deleteTask(this.task?.id)
         .subscribe(() => this.goBack());
   }
-}
-
-/*export enum StatusId {
-  New, InProgress, Checking, Done
-}*/
-interface StatusId {
-  value: number;
-  viewValue: string;
 }

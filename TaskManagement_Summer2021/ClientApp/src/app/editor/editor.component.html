@@ -33,13 +33,10 @@
   
   <label  for="task-statusId">Status: </label>
   <select id="task-statusId" [(ngModel)]="task.statusId">
-    <option value="0"> NEw</option>
-    <option value="1"> in progress</option>
-    <option value="2"> poiuhbj</option>
-    <!-- <option [(value)]="task.statusId" *ngFor="let status of statuses">
-
-    {{status.viewValue}}
-  </option>-->
+    <option value="0"> New</option>
+    <option value="1"> In progress</option>
+    <option value="2"> Checking</option>
+    <option value="3"> Done</option>       
   </select>
    
   <div><span>id: </span>{{task.id}}</div>

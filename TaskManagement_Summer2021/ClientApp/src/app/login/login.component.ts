@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       const token = (<any>result).token;
       localStorage.setItem('jwt', token);
       this.invalidLogin = false;
-      this.router.navigate(['/task - list']);
+      this.router.navigate(['/dashboard']);
     },
       err => { this.invalidLogin = true; }
     );
