@@ -51,16 +51,22 @@ namespace TaskManagement_Summer2021.Controllers
                 var tokenOptions = new JwtSecurityToken(
                     issuer: "https://localhost:44379",
                     audience: "https://localhost:44379",
-                    claims: new List<Claim> { new Claim(ClaimsIdentity.DefaultRoleClaimType, foundUser.RoleId.ToString()),
-                    new Claim("firstName", foundUser.FirstName),
-                    new Claim("lastName", foundUser.LastName),
-                    new Claim("email", foundUser.Email),
-                    new Claim("role", foundUser.RoleId.ToString())// роль брать у юсера с базы
-                         },
+                    claims: new List<Claim> 
+                    { 
+                        new Claim(ClaimsIdentity.DefaultRoleClaimType, foundUser.RoleId.ToString()),
+                        new Claim("firstName", foundUser.FirstName),
+                        new Claim("lastName", foundUser.LastName),
+                        new Claim("email", foundUser.Email),
+                        new Claim("role", foundUser.RoleId.ToString()),// роль брать у юсера с базы
+                        new Claim("id", foundUser.Id.ToString())
+                    },
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: signinCredentials);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-                return Ok(new { Token = tokenString });
+                return Ok(new { 
+                    Token = tokenString,
+                    id = foundUser.Id.ToString()
+                });
             }
             else
             {
