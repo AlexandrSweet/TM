@@ -15,8 +15,17 @@
              min="2021-01-01"
              name="date" #deadline />
     </div>
+    <div>
+      <label for="new-task-user">Select a user for the task: </label>
+      <select name="new-task-user" #user>
+        <option *ngFor="let user of users"
+                [value]="user.id">
+          {{user.firstName}} {{user.lastName}}
+      </select>
+    </div>
+
     <button class="save-button"
-            (click)="add(taskTitle.value, taskDescription.value, deadline.valueAsDate);
+            (click)="add(taskTitle.value, taskDescription.value, deadline.valueAsDate, user.value);
             taskTitle.value=''; taskDescription.value='' ">
       Add task
     </button>

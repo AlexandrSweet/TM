@@ -44,6 +44,14 @@ namespace TaskManagement_Summer2021.Controllers
             return _taskService.GetTasks(index);
         }
 
+        [HttpGet]
+        [Route("UserTasks/{userId}")]
+        public IEnumerable<TaskDto> GetUserTasks([FromRoute] Guid userId)//!!![FromRoute] Guid userId,
+        {
+
+            return _taskService.GetUserTasks(userId);
+        }
+
         [HttpGet("{taskId}")]
         //[Route("{userId}/")]
         public ActionResult<TaskDto> GetOneTask( [FromRoute] Guid taskId)//!!![FromRoute] Guid userId,

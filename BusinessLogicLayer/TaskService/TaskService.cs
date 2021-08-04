@@ -70,7 +70,7 @@ namespace BusinessLogicLayer.TaskService
             _applicationDbContext.SaveChanges();
             //TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
             _logger.LogInformation("New task added");
-            SendEmail("New task added");
+            //SendEmail("New task added");
             return newTask.Id.ToString();
         }
 
@@ -94,6 +94,16 @@ namespace BusinessLogicLayer.TaskService
             else
                 resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.ToList());
             return resultList;           
+        }
+
+        public List<TaskDto> GetUserTasks(Guid userId)
+        {
+            var resultList = new List<TaskDto>();
+            var tasks = _applicationDbContext.Tasks.Where(u =>  u.UserId == userId).ToList();
+            if (tasks==null)
+                return resultList;
+            resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.ToList());
+            return resultList;
         }
 
         //Returns task from database with all fields (either setted up or not)
@@ -120,6 +130,8 @@ namespace BusinessLogicLayer.TaskService
         public EditTaskDto EditTask(EditTaskDto taskDto, Guid taskId)
         {
             taskDto.Id = taskId;
+            //TaskStatusId statusId = (TaskStatusId) taskDto.StatusId;
+            //taskDto.StatusId = statusId;
             Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
             _applicationDbContext.Tasks.Update(updatedTask);
             _applicationDbContext.SaveChanges();

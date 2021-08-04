@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.ModelsDto.TaskModel
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public string Files { get; set; }
-        public TaskStatusId StatusId { get; set; }
+        public string StatusId { get; set; }
         [Required]
         public Guid UserId { get; set; }        
     }

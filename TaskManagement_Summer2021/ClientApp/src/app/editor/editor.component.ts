@@ -6,6 +6,8 @@ import { Task } from '../task';
 import { TasksService } from '../tasks.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { User } from '../models/User';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-editor',
@@ -15,14 +17,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 export class EditorComponent implements OnInit {
   private id: Identifiers = 1;
   private subscription: Subscription | undefined;
-  statuses: StatusId[] = [
-    { value: 0, viewValue: 'New' },
-    { value: 1, viewValue: 'In Progress' },
-    { value: 2, viewValue: 'Checking' },
-    { value: 3, viewValue: 'Done' }
-  ];
+  public users: User[] = [];
 
-  @Input() task: Task | any = new Task(1);
+  @Input() task: Task | any = new Task(this.id);
   //tasokObservable?: any;
 
   /*
@@ -37,7 +34,8 @@ export class EditorComponent implements OnInit {
     private route: ActivatedRoute,
     private tasksService: TasksService,
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient,
     
   ) {
     this.subscription = route.params.subscribe(params => this.id = params['id']);
@@ -50,23 +48,15 @@ export class EditorComponent implements OnInit {
     if (this.task == null) {
       this.task = this.tasksService.getTask(this.id);
     }
-
-    //this.tasokObservable = this.tasksService.task;
+    this.getUsers();
+    
   }
-  /*
-    updateValues() {
-      this.taskForm.patchValue({
-        title: this.task?.title,
-        description: this.task?.description,
-        date: this.task?.date,
-        userId: this.task?.userId
-      });
-    }
-    */
+  
 
   save(): void {
     if (this.task) {
-      this.tasksService.updateTask(this.task);
+      this.tasksService.updateTask(this.task)
+        .subscribe();
       this.location.back();
     }
   }
@@ -80,12 +70,10 @@ export class EditorComponent implements OnInit {
       this.tasksService.deleteTask(this.task?.id)
         .subscribe(() => this.goBack());
   }
-}
 
-/*export enum StatusId {
-  New, InProgress, Checking, Done
-}*/
-interface StatusId {
-  value: number;
-  viewValue: string;
+  private getUsers() {
+    this.http.get<User[]>('users/get-users')
+      .subscribe(
+        result => { this.users = result });
+  }
 }

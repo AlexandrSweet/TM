@@ -14,9 +14,7 @@ import { query } from '@angular/animations';
   styleUrls: ['./task-detail.component.scss']
 })
 export class TaskDetailComponent implements OnInit {
-  private statusIdValue: string[] = ['New', 'In progress', 'Checking', 'Done'];
-  public statusValue: string | undefined;
-  public statusId: number[] = [0, 1, 2, 3];
+  
   private id: Identifiers = 1;
   private subscription: Subscription | undefined;
 
@@ -35,12 +33,14 @@ export class TaskDetailComponent implements OnInit {
     this.task = this.tasksService.getCurrentTask();
 
     if (!this.task) {
-      this.task = this.tasksService.getTask(this.id);
-      if (this.task?.statusId) {
-        this.statusValue = this.statusIdValue[this.task.statusId];
-      }
+      this.task = this.tasksService.getTask(this.id);      
+    }    
+  }
+  save(): void {
+    if (this.task) {
+      this.tasksService.updateTask(this.task);
+      this.location.back();
     }
-    
   }
 
   goBack(): void {
