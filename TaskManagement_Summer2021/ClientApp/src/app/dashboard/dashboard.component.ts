@@ -3,6 +3,7 @@ import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { from } from 'rxjs';
+import { JwtInterceptor } from '../jwt-interceptor';
 import { Task } from '../task';
 import { TasksService } from '../tasks.service';
 
@@ -21,9 +22,12 @@ export class DashboardComponent implements OnInit {
     this.getCurrentTasks();
   }
 
+  private userId: Identifiers =  '27ae29fa-7ecc-44fe-ef56-08d95021f963';
   private getCurrentTasks(): void {
-    this.tasksService.getTasksList(0)
-      .subscribe(tasks => this.tasks = tasks);
+    this.tasksService.getUserTasksList(this.userId).
+      subscribe((list: any) => { this.tasks = list });;
+      
+      
   }
   
 

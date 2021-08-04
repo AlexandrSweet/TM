@@ -40,6 +40,12 @@ export class TasksService {
     const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}ViewTasks`);
     return tasks;
   }
+    
+  getUserTasksList(userId: Identifiers): Observable<Task[]> { //returns an Observable<Task[]>
+    const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}UserTasks/${userId}` )
+      
+    return tasks;
+  }
 
   getTask(id: Identifiers | string): Task {
     let taskTemp = new Task(id);

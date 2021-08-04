@@ -96,6 +96,16 @@ namespace BusinessLogicLayer.TaskService
             return resultList;           
         }
 
+        public List<TaskDto> GetUserTasks(Guid userId)
+        {
+            var resultList = new List<TaskDto>();
+            var tasks = _applicationDbContext.Tasks.Where(u =>  u.UserId == userId).ToList();
+            if (tasks==null)
+                return resultList;
+            resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.ToList());
+            return resultList;
+        }
+
         //Returns task from database with all fields (either setted up or not)
         //Requires  ID of existing task
         public TaskDto GetOneTask(Guid taskId)

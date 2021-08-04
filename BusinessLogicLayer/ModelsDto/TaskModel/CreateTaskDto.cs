@@ -7,6 +7,7 @@ namespace BusinessLogicLayer.ModelsDto.TaskModel
 {
     public class CreateTaskDto
     {
+        public Guid? Id { get; set; }
         [Required]
         [MaxLength(50)]
         public string Title { get; set; }
