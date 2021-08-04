@@ -64,8 +64,7 @@ namespace TaskManagement_Summer2021.Controllers
                     signingCredentials: signinCredentials);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 return Ok(new { 
-                    Token = tokenString,
-                    id = foundUser.Id.ToString()
+                    Token = tokenString
                 });
             }
             else

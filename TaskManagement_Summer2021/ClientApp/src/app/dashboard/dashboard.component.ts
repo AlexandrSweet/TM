@@ -28,13 +28,8 @@ export class DashboardComponent implements OnInit {
   private userId: any = localStorage.jwt;
   private getCurrentTasks(): void {
     const decodedToken = this.helper.decodeToken(this.userId)['id'];
-    
-    
-
     this.tasksService.getUserTasksList(decodedToken).
-      subscribe((list: any) => { this.tasks = list });;
-      
-      
+      subscribe((list: any) => { this.tasks = list });
   }
   
 
