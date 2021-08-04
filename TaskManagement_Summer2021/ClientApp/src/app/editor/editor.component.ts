@@ -19,7 +19,7 @@ export class EditorComponent implements OnInit {
   private subscription: Subscription | undefined;
   public users: User[] = [];
 
-  @Input() task: Task | any = new Task(1);
+  @Input() task: Task | any = new Task(this.id);
   //tasokObservable?: any;
 
   /*
@@ -55,7 +55,8 @@ export class EditorComponent implements OnInit {
 
   save(): void {
     if (this.task) {
-      this.tasksService.updateTask(this.task);
+      this.tasksService.updateTask(this.task)
+        .subscribe();
       this.location.back();
     }
   }

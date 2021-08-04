@@ -130,8 +130,8 @@ namespace BusinessLogicLayer.TaskService
         public EditTaskDto EditTask(EditTaskDto taskDto, Guid taskId)
         {
             taskDto.Id = taskId;
-            TaskStatusId statusId = (TaskStatusId) taskDto.StatusId;
-            taskDto.StatusId = statusId;
+            //TaskStatusId statusId = (TaskStatusId) taskDto.StatusId;
+            //taskDto.StatusId = statusId;
             Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
             _applicationDbContext.Tasks.Update(updatedTask);
             _applicationDbContext.SaveChanges();

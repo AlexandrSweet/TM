@@ -55,12 +55,12 @@
   </div>
   <div>
     <label for="new-task-user">Select a user for the task: </label>
-    <select name="new-task-user" #user>
+    <select name="new-task-user" #user [(ngModel)]="task.userId">
       <!-- <option value="task.userId"> {{user.firstName}} {{user.lastName}}</option> -->
       <option *ngIf="!task.userId" value=""> Select user</option>
       <option *ngFor="let user of users"
               [value]="user.id">
-        {{user.firstName}} {{user.lastName}} <!-- {{user.id}} -->
+        {{user.firstName}} {{user.lastName}}  {{user.id}}
       </option>
       <option *ngIf="task.userId" selected value="task.userId"> Current user is {{task.userId}}</option>
     </select>

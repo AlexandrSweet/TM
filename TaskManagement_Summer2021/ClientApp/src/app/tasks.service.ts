@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Task } from './task';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Observable } from 'rxjs';
@@ -61,12 +61,15 @@ export class TasksService {
     return taskTemp;
   }
 
-  get task() {
+  /*get task() {
     return this.http.get(this.baseUrl + `${this.url}${this.currentTaskId}`)
-  }
-
+  }*/
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+  
   updateTask(task: Task): Observable<any> {
-    return this.http.put(this.baseUrl + `${this.url}${task.id}/edit`, task);
+    return this.http.put(this.baseUrl + `${this.url}${task.id}/edit`, task, this.httpOptions);
   }
 
   deleteTask(id: Identifiers) {
