@@ -27,7 +27,7 @@
   <label>
     Confirm password:
     <input type="password" formControlName="passwordConfirm" />
-    <small *ngIf="isControlInvalid('passwordConfirm')">Passwords must match</small>
+    <small *ngIf="isControlInvalid('passwordConfirm')">Passwords must match</small><!-- registrationForm.submit && -->
   </label>
 
   <button type="submit" [disabled]="!registrationForm.valid">Add</button>

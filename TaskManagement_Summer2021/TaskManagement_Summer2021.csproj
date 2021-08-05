@@ -52,7 +52,10 @@
     <None Remove="ClientApp\src\app\file.ts" />
     <None Remove="ClientApp\src\app\jwt-interceptor.ts" />
     <None Remove="ClientApp\src\app\JwtService.ts" />
+    <None Remove="ClientApp\src\app\models\file.ts" />
+    <None Remove="ClientApp\src\app\models\TaskListModel.ts" />
     <None Remove="ClientApp\src\app\models\User.ts" />
+    <None Remove="ClientApp\src\app\models\UserListModel.ts" />
     <None Remove="ClientApp\src\app\task.ts" />
   </ItemGroup>
 
@@ -62,7 +65,9 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\jwt-interceptor.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\TaskListModel.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\User.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\UserListModel.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\task.ts" />
   </ItemGroup>
 

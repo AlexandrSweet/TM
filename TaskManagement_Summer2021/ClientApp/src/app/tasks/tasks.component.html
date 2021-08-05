@@ -9,36 +9,37 @@
   <body>
     <div class="container">
 
-      <div class="card m-5 p-3">
-        <div class="card-body">
-          <table class="table table-bordered table-striped table-hover"
-                 datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>User</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let task of tasks">
-                <td>{{ task.title }}</td>
-                <td>{{ task.description }}</td>
-                <td>{{ task.date }}</td>
-                <td>{{ task.userId }}</td>
-                <!--<td>{{ user.address.street }}, {{ user.address.city }}</td>-->
-                <td>
-                  <button class="edit" title="edit task"
-                          routerLink="/edit/{{task.id}}">
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            </tbody>          
-          </table>
-        </div>
+    <div class="card m-5 p-3">
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-hover"
+               datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Deadline</th>
+              <th>Status</th>
+              <th>User</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of tasks">
+              <td>{{ task.title }}</td>
+              <td>{{ task.description }}</td>
+              <td>{{ task.date |date:'d/M/Y'}}</td>
+              <td>{{ task.statusId }}</td>
+              <td>{{ task.user.firstName }} {{ task.user.lastName }}</td>
+              <td>
+                <button class="edit" title="edit task"
+                        routerLink="/edit/{{task.user.id}}">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </body>
+  </div>
+</body>
