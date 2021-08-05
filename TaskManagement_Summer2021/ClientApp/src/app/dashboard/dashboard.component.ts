@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
  
   helper = new JwtHelperService();
   tasks: Task[] = [];
+  username: string = '';
 
   constructor(private tasksService: TasksService) { }
 
@@ -28,6 +29,8 @@ export class DashboardComponent implements OnInit {
   private userId: any = localStorage.jwt;
   private getCurrentTasks(): void {
     const decodedToken = this.helper.decodeToken(this.userId)['id'];
+    this.username =
+      `${this.helper.decodeToken(this.userId)['firstName']} ${this.helper.decodeToken(this.userId)['lastName']}`;
     this.tasksService.getUserTasksList(decodedToken).
       subscribe((list: any) => { this.tasks = list });
   }
