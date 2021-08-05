@@ -35,7 +35,7 @@ export class UserRoleEditComponent implements OnInit {
       this.user.roleId = this.userToEditRole.roleId;
     }
     const payload = this.user;
-    this.http.put(this.baseUrl + 'users/edit-user', payload).subscribe(
+    this.http.put(this.baseUrl + 'Users/edit-user', payload).subscribe(
       result => { console.log("User controller says: OK") },
       error => { console.log("User controller says: " + error) });
     /*this.router.navigate(['/tasks']);*/
