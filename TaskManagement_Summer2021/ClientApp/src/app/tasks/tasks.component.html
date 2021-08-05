@@ -32,7 +32,8 @@
               <td>{{ task.user.firstName }} {{ task.user.lastName }}</td>
               <td>
                 <button class="edit" title="edit task"
-                        routerLink="/edit/{{task.user.id}}">
+                        (click)="onSelect(task)"
+                        routerLink="/edit/{{task.id}}">
                   Edit
                 </button>
               </td>

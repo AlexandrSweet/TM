@@ -30,10 +30,12 @@ export class TaskDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.task = this.tasksService.getCurrentTask();
+    this.tasksService.getCurrentTask()?.
+      subscribe(task => this.task = task);
 
     if (!this.task) {
-      this.task = this.tasksService.getTask(this.id);      
+      this.tasksService.getTask(this.id)
+        .subscribe(task => this.task = task);
     }    
   }
   save(): void {

@@ -17,6 +17,11 @@ export class DashboardComponent implements OnInit {
  
   helper = new JwtHelperService();
   tasks: Task[] = [];
+  new: Task[] =[];
+  inProgress: Task[] = [];
+  checking: Task[] = [];
+  done: Task[] = [];
+
   username: string = '';
   private decodedToken = this.helper.decodeToken(localStorage.jwt);
 
@@ -33,7 +38,7 @@ export class DashboardComponent implements OnInit {
     this.tasksService.getUserTasksList(userId).
       subscribe((list: any) => { this.tasks = list });    
   }
-  
+   
   onSelect(selectedTask: Task): void {
     this.tasksService.setCurrentTask(selectedTask.id);
   }

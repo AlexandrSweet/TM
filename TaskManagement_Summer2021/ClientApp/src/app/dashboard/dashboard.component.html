@@ -1,12 +1,14 @@
-<nav>
+<!--<nav>
   <a routerLink="/tasks">List of tasks</a>
   <a routerLink="/new-task">Add new task</a>
   <a routerLink="/user-role-list">Users</a>
 </nav>
-<br />
+<br />-->
 <h1>{{username}} current tasks</h1>
 <body>
+
   <div class="tasks-menu">
+    <h2> New tasks</h2>
     <a *ngFor="let task of tasks"
        (click)="onSelect(task)"
        routerLink="/detail/{{task.id}}">

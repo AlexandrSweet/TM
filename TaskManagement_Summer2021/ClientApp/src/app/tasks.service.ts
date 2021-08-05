@@ -14,7 +14,7 @@ import { User } from './models/User';
 export class TasksService {
   private url = "Tasks/";
   private currentTaskId: Identifiers | string | any;
-  private baseUrl!: string;
+  private baseUrl: string;
   
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -26,11 +26,13 @@ export class TasksService {
     this.currentTaskId = taskId;
   }
 
-  getCurrentTask(): Task | null {
+  
+  getCurrentTask() {    
     if (!this.currentTaskId) { return null; }
     else
       return this.getTask(this.currentTaskId);
   }
+  
 
   addTask(task: Task): Observable<string> {
     return this.http.post<string>(this.baseUrl + `${this.url}AddTask`, task);
@@ -46,7 +48,7 @@ export class TasksService {
       
     return tasks;
   }
-
+  /*
   getTask(id: Identifiers | string): Task {
     let taskTemp = new Task(id);
     let observable = this.http.get<Task>(this.baseUrl + `${this.url}${id}`)
@@ -59,17 +61,18 @@ export class TasksService {
       });
 
     return taskTemp;
+  }*/
+
+  getTask(id: Identifiers | string) {
+    return this.http.get<Task>(this.baseUrl + `${this.url}${id}`)
   }
 
-  /*get task() {
-    return this.http.get(this.baseUrl + `${this.url}${this.currentTaskId}`)
-  }*/
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
   
   updateTask(task: Task): Observable<any> {
-    return this.http.put(this.baseUrl + `${this.url}${task.id}/edit`, task, this.httpOptions);
+    return this.http.put(this.baseUrl + `${this.url}${task.id}/edit`, task);
   }
 
   deleteTask(id: Identifiers) {
