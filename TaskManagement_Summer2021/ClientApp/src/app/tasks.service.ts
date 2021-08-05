@@ -32,11 +32,11 @@ export class TasksService {
       return this.getTask(this.currentTaskId);
   }
 
-  addTask(task: Task) {
-    return this.http.post(this.baseUrl + `${this.url}AddTask`, task);
+  addTask(task: Task): Observable<string> {
+    return this.http.post<string>(this.baseUrl + `${this.url}AddTask`, task);
   }
   
-  getTasksList(index: number): Observable<Task[]> { //returns an Observable<Task[]>    
+  getTasksList(): Observable<Task[]> { //returns an Observable<Task[]>    
     const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}ViewTasks`);
     return tasks;
   }

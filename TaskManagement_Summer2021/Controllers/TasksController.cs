@@ -31,7 +31,7 @@ namespace TaskManagement_Summer2021.Controllers
             if (ModelState.IsValid)
             {
                 string taskId = _taskService.AddTask(taskModel);
-                return Ok($"Task created. ID {taskId}");
+                return Ok(taskId);
             }
             else
                 throw new ArgumentException("Enter valid data");
@@ -39,9 +39,9 @@ namespace TaskManagement_Summer2021.Controllers
 
         [HttpGet]
         [Route("ViewTasks")]
-        public IEnumerable<TaskDto> GetTasks( int index=0)//!!![FromRoute] Guid userId,
+        public IEnumerable<ListViewTaskDto> GetTasks()//!!![FromRoute] Guid userId,
         {
-            return _taskService.GetTasks(index);
+            return _taskService.GetTasks();
         }
 
         [HttpGet]

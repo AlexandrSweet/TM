@@ -31,15 +31,17 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.loadTasks();
     $.fn.DataTable({
       retrieve: true,
-      paging: false
+      paging: false,
+      destroy: true,
+      searching: false
 
     });
-
+    /*
     $.fn.DataTable({
       destroy: true,
       searching: false
     });
-    
+    */
    /* $.fn.dataTable.ext.search.push((settings: any, data: string[], dataIndex: any) => {
       const id = parseFloat(data[0]) || 0; // use data for the id column
       return (Number.isNaN(this.min) && Number.isNaN(this.max)) ||

@@ -11,6 +11,17 @@ namespace BusinessLogicLayer.ModelsDto.UserModel
         public string FirstName { get; set; }
         public string LastName { get; set; }        
         public Role RoleId { get; set; }
+
+        public ListViewUserDto() { }
+
+        public ListViewUserDto(User v)
+        {
+            Id = v.Id;
+            FirstName = v.FirstName;
+            LastName = v.LastName;
+            RoleId = v.RoleId;
+
+        }
     }
 }
 

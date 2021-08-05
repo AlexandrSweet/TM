@@ -76,24 +76,24 @@ namespace BusinessLogicLayer.TaskService
 
         //Returns a list of a specific number of tasks
         //Index is where displaying list begins, count is how many items will be displayed
-        public List<TaskDto> GetTasks(int index)
+        public List<ListViewTaskDto> GetTasks()
         {
-            int count = 5;
-            var resultList = new List<TaskDto>();
+            var resultList = new List<ListViewTaskDto>();
             var tasks = _applicationDbContext.Tasks.ToList();
-            if (tasks.Count < index )
+            foreach (var t in tasks)
             {
-                index = tasks.Count-count;
-                if ((index+ count )>tasks.Count)
+                var tempUser = _applicationDbContext.Users.Find(t.UserId);
+                resultList.Add(new ListViewTaskDto()
                 {
-                    count = tasks.Count-index;
-                }                
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    Date = t.Date,
+                    StatusId = t.StatusId,
+                    User = new ModelsDto.UserModel.ListViewUserDto(tempUser)                    
+                }) ;
             }
-            if(index>0)
-                resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.GetRange(index,count));
-            else
-                resultList = _autoMapper.Map<List<Task>, List<TaskDto>>(tasks.ToList());
-            return resultList;           
+            return resultList;
         }
 
         public List<TaskDto> GetUserTasks(Guid userId)
