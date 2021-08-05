@@ -55,14 +55,13 @@
   </div>
   <div>
     <label for="new-task-user">Select a user for the task: </label>
-    <select name="new-task-user" #user [(ngModel)]="task.userId">
-      <!-- <option value="task.userId"> {{user.firstName}} {{user.lastName}}</option> -->
+    <select name="new-task-user" #user [(ngModel)]="task.userId">      
       <option *ngIf="!task.userId" value=""> Select user</option>
       <option *ngFor="let user of users"
               [value]="user.id">
-        {{user.firstName}} {{user.lastName}}  {{user.id}}
+        {{user.firstName}} {{user.lastName}}
       </option>
-      <option *ngIf="task.userId" selected value="task.userId"> Current user is {{task.userId}}</option>
+      
     </select>
 
   </div>
@@ -72,7 +71,7 @@
   https://developer.mozilla.org/ru/docs/Web/HTML/Element/Input/file
   https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
   -->
-  <!--
+      <!--
   <p>
     <input disabled type="file" id="fileItem"
            accept=".doc,.docx,.xls,.xlsx,.pdf,.csv,.txt"
@@ -80,9 +79,9 @@
     <input type="submit" value="Отправить">
   </p>
   -->
-  <button (click)="goBack()">go back</button>
-  <button (click)="save()">save</button>
-  <button (click)="delete()">delete</button>
+      <button (click)="goBack()">go back</button>
+      <button (click)="save()">save</button>
+      <button (click)="delete()">delete</button>
 </div>
 
   

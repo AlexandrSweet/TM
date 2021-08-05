@@ -34,7 +34,7 @@ export class NewTaskComponent implements OnInit {
     title = title.trim();
     if (!title) { return; }
     if (!date) { return; }
-    this.tasksService.addTask({ id, title, description, date, userId } as Task)
+    this.tasksService.addTask({ title, description, date, userId } as Task)
       .subscribe();
     this.goBack();
   }

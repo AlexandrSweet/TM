@@ -1,5 +1,5 @@
-/*table.redTable {
-  border: 3px solid #48318C;
+table.redTable {
+  border: 3px solid #808080;
   background-color: #EEE7DB;
   width: 100%;
   text-align: center;
@@ -16,11 +16,11 @@ table.redTable tbody td {
 }
 
 table.redTable tr:nth-child(even) {
-  background: #CEBDF5;
+  background: #ffffff;
 }
 
 table.redTable thead {
-  background: #48318C;
+  background: #808080;
 }
 
 table.redTable thead th {
@@ -28,7 +28,7 @@ table.redTable thead th {
   font-weight: bold;
   color: #FFFFFF;
   text-align: center;
-  border-left: 2px solid #48318C;
+  border-left: 2px solid #ffffff;
 }
 
 table.redTable thead th:first-child {
@@ -39,7 +39,7 @@ table.redTable tfoot {
   font-size: 13px;
   font-weight: bold;
   color: #FFFFFF;
-  background: #48318C;
+  background: #808080;
 }
 
 table.redTable tfoot td {
@@ -77,10 +77,13 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
-*/
 
 
-.tasks {
+h1 {
+  text-align: center;
+}
+
+.user-role-edit {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
@@ -95,16 +98,16 @@ input {
   box-sizing: border-box;
 }
 
-.tasks li {
+.user-role-edit li {
   position: relative;
   cursor: pointer;
 }
 
-.tasks li:hover {
+.user-role-edit li:hover {
   left: .1em;
 }
 
-.tasks a {
+.user-role-edit a {
   color: #333;
   text-decoration: none;
   background-color: #EEE;
@@ -116,17 +119,17 @@ input {
   width: 100%;
 }
 
-.tasks a:hover {
+.user-role-edit a:hover {
   color: #2c3a41;
   background-color: #e6e6e6;
 }
 
-.tasks a:active {
+.user-role-edit a:active {
   background-color: #525252;
   color: #fafafa;
 }
 
-.tasks .badge {
+.user-role-edit .badge {
   display: inline-block;
   font-size: small;
   color: white;
@@ -168,4 +171,30 @@ button.delete:hover {
   background-color: #525252;
   color: white;
 }
-    
+
+@media (min-width: 500px) {
+  a {
+    width: 15%;
+    box-sizing: content-box;
+  }
+}
+
+nav a {
+  font-size: 1.2rem;
+  padding: 1rem;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #e8e8e8;
+  color: #3d3d3d;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  color: white;
+  background-color: #42545C;
+}
+
+nav a.active {
+  background-color: black;
+}

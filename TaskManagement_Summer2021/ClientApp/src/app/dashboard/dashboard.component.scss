@@ -1,6 +1,6 @@
 /* DashboardComponent's private CSS styles */
 
-h2 {
+h1 {
   text-align: center;
 }
 
@@ -45,4 +45,23 @@ a {
 
 a:hover {
   background-color: #000;
+}
+
+nav a {
+  padding: 1rem;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #e8e8e8;
+  color: #3d3d3d;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  color: white;
+  background-color: #42545C;
+}
+
+nav a.active {
+  background-color: black;
 }

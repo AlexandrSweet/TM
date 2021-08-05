@@ -1,4 +1,7 @@
 /* TaskDetailComponent's private CSS styles */
+h1 {
+  text-align: center;
+}
 label {
   color: #435960;
   font-weight: bold;
@@ -29,8 +32,14 @@ button:disabled {
   color: #ccc;
   cursor: auto;
 }
-
+@media (min-width: 500px) {
+  a {
+    width: 15%;
+    box-sizing: content-box;
+  }
+}
 nav a {
+  font-size: 1.2rem;
   padding: 1rem;
   text-decoration: none;
   margin-top: 10px;

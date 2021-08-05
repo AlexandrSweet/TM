@@ -1,38 +1,44 @@
-<h2>Tasks</h2>
-<br />
-<body>
-  <div class="container">
+  <nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/new-task">Add new task</a>
+    <a routerLink="/user-role-list">Users</a>
+  </nav>
+  <br />
+  <h1>Tasks</h1>
+  <br />
+  <body>
+    <div class="container">
 
-    <div class="card m-5 p-3">
-      <div class="card-body">
-        <table class="table table-bordered table-striped table-hover"
-               datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Date</th>
-              <th>User</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let task of tasks">
-              <td>{{ task.title }}</td>
-              <td>{{ task.description }}</td>
-              <td>{{ task.date }}</td>
-              <td>{{ task.userId }}</td>
-              <!--<td>{{ user.address.street }}, {{ user.address.city }}</td>-->
-              <td>
-                <button class="edit" title="edit task"
-                        routerLink="/edit/{{task.id}}">
-                  Edit
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="card m-5 p-3">
+        <div class="card-body">
+          <table class="table table-bordered table-striped table-hover"
+                 datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>User</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let task of tasks">
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.date }}</td>
+                <td>{{ task.userId }}</td>
+                <!--<td>{{ user.address.street }}, {{ user.address.city }}</td>-->
+                <td>
+                  <button class="edit" title="edit task"
+                          routerLink="/edit/{{task.id}}">
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            </tbody>          
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>

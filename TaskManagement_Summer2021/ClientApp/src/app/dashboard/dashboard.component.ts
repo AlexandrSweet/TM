@@ -6,6 +6,7 @@ import { from } from 'rxjs';
 import { JwtInterceptor } from '../jwt-interceptor';
 import { Task } from '../task';
 import { TasksService } from '../tasks.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,8 @@ import { TasksService } from '../tasks.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+ 
+  helper = new JwtHelperService();
   tasks: Task[] = [];
 
   constructor(private tasksService: TasksService) { }
@@ -22,12 +24,12 @@ export class DashboardComponent implements OnInit {
     this.getCurrentTasks();
   }
 
-  private userId: Identifiers =  '27ae29fa-7ecc-44fe-ef56-08d95021f963';
+  
+  private userId: any = localStorage.jwt;
   private getCurrentTasks(): void {
-    this.tasksService.getUserTasksList(this.userId).
-      subscribe((list: any) => { this.tasks = list });;
-      
-      
+    const decodedToken = this.helper.decodeToken(this.userId)['id'];
+    this.tasksService.getUserTasksList(decodedToken).
+      subscribe((list: any) => { this.tasks = list });
   }
   
 
