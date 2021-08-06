@@ -66,8 +66,8 @@ namespace BusinessLogicLayer.UserService
         {
             User updatedUser = _autoMapper.Map<RegisterUserDto, User>(userDto);   
             _applicationDbContext.Users.Update(updatedUser);
-            _applicationDbContext.SaveChanges();                
-            //return userDto;            
+            _applicationDbContext.SaveChanges();              
+                       
         }
 
         public List<ListViewUserDto> ListViewUserDtos()

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   private baseUrl?: string;
   public invalidLogin?: boolean;
+  //public loginForm!: NgForm;
 
   constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -35,4 +36,9 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  public isControlInvalid(loginForm: NgForm): boolean {    
+    return !loginForm.valid;
+    //let control = this.loginForm.getControl(controlName);
+    //return !control?.valid;
+  }
 }
