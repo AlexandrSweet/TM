@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.ModelsDto.UserModel;
 using BusinessLogicLayer.UserService;
+using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace TaskManagement_Summer2021.Controllers
         public UsersController(IUserService userService)
         {
             _userService = userService;
+
         }
 
         // GET: api/<UsersController>
@@ -26,7 +28,7 @@ namespace TaskManagement_Summer2021.Controllers
         [Route("AllUsers")]
         public IEnumerable<ListViewUserDto> GetAll()
         {
-            return _userService.ListViewUserDtos();            
+            return _userService.ListViewUserDtos();
         }
 
         // GET api/<UsersController>/5
@@ -54,7 +56,7 @@ namespace TaskManagement_Summer2021.Controllers
                 return BadRequest();
         }
 
-        
+
         //[HttpPut("Edit user")]
         [HttpPut]
         [Route("{guid}")]
@@ -70,7 +72,7 @@ namespace TaskManagement_Summer2021.Controllers
             {
                 return BadRequest("Fill in all fields");
             }
-            
+
         }
         [HttpGet]
         [Route("get-users")]
@@ -82,6 +84,8 @@ namespace TaskManagement_Summer2021.Controllers
         [Route("edit-user")]
         public bool EditUserRole(UserDto user)
         {
+            //var userDto1 = new UserDto();
+            //userDto1 = user;
             if (user != null)
             {
                 _userService.EditUserRole(user);
@@ -90,5 +94,13 @@ namespace TaskManagement_Summer2021.Controllers
             return false;
         }
 
+        public class UserMap
+        {
+            public Guid Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Email { get; set; }
+            public string Roleid { get; set; }
+        }
     }
 }

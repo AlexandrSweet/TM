@@ -1,5 +1,5 @@
 import { Identifiers } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Task } from '../task';
 import { TasksService } from '../tasks.service';
 import { Location } from '@angular/common';
@@ -14,12 +14,15 @@ import { forEach } from 'jszip';
   styleUrls: ['./new-task.component.scss']
 })
 export class NewTaskComponent implements OnInit {
-  public users: User[] = []; 
+  public users: User[] = [];
+  private baseUrl!: string;
   constructor(
     private tasksService: TasksService,
-    private http: HttpClient,
+    private http: HttpClient, @Inject ('BASE_URL') baseUrl: string,
     private location: Location
-  ) { }
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   ngOnInit(): void {
    // this.setUsers();
@@ -45,7 +48,7 @@ export class NewTaskComponent implements OnInit {
   }
 
   private getUsers() {
-    this.http.get <User[]>('users/get-users')
+    this.http.get<User[]>(this.baseUrl + 'users/get-users')
       .subscribe(
         result => { this.users = result });
   }

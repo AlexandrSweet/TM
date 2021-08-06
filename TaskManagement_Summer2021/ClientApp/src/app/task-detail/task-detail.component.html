@@ -1,7 +1,7 @@
 <body>
 
   <div *ngIf="task">
-    <h2>{{task.title | uppercase}} Details</h2>
+    <h1>{{task.title | uppercase}} Details</h1>
     <nav><a routerLink="/edit/{{task.id}}">Edit task</a></nav>
     <br />
     <label for="task-statusId">Status: </label>
