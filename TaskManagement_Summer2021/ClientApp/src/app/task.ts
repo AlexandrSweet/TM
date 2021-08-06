@@ -7,7 +7,7 @@ export class Task {
     public title?: string,
     public description?: string,
     public date?: Date,
-    public statusId?: number,
+    public statusId?: number|any,
     public userId?: Identifiers
     //public messages?:messages
   ) { }
