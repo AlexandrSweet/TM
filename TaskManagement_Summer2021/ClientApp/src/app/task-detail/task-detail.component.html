@@ -2,7 +2,7 @@
 
   <div *ngIf="task">
     <h2>{{task.title | uppercase}} Details</h2>
-    <nav><a routerLink="/edit/{{task.id}}">Edit task</a></nav>
+    <!--<nav><a routerLink="/edit/{{task.id}}">Edit task</a></nav>-->
     <br />
     <label for="task-statusId">Status: </label>
     <select id="task-statusId" [(ngModel)]="task.statusId">
@@ -13,19 +13,20 @@
     </select>
     <div>
       <label for="task-title">Title: </label>
-      <input disabled id="task-title" [(ngModel)]="task.title" placeholder="Task's title" />
+      <input disabled id="task-title" value="{{task.title}}" />
     </div>
     <div>
       <label for="task-description">Description: </label>
-      <input disabled id="task-description" [(ngModel)]="task.description" placeholder="Task's description" />
+      <input disabled id="task-description" value="{{task.description}}"  />
     </div>
     <div>
       <label for="task-date">Deadline: </label>
-      <input type="datetime" disabled id="task-date" value="task.date" placeholder="Deadline" />
+      <input disabled id="task-date" value="{{task.date | date:'d/M/Y'}}" />
     </div>
     <div>
+
       <label for="task-userId">Worker: </label>
-      <input disabled id="task-userId" [(ngModel)]="task.userId" placeholder="User's Id" />
+      <input disabled id="task-userId" value="{{username}}">
     </div>
 
     <button (click)="goBack()">go back</button>

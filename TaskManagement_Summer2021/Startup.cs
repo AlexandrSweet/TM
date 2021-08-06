@@ -92,7 +92,7 @@ namespace TaskManagement_Summer2021
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IUserService, UserService>();
-
+            
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

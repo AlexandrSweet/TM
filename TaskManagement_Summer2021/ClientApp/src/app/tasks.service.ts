@@ -6,16 +6,18 @@ import { Observable } from 'rxjs';
 import { __param } from 'tslib';
 import { DatePipe } from '@angular/common';
 import { User } from './models/User';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
+  helper = new JwtHelperService();
   private url = "Tasks/";
   private currentTaskId: Identifiers | string | any;
   private baseUrl: string;
-  
+  public decodedToken = this.helper.decodeToken(localStorage.jwt);
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;

@@ -42,6 +42,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.dtOptions = {
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',
+
     };
   }
   ngOnDestroy(): void {

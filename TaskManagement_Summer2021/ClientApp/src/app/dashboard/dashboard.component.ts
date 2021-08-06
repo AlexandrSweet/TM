@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   done: Task[] = [];
 
   username: string = '';
-  private decodedToken = this.helper.decodeToken(localStorage.jwt);
+  //private decodedToken = this.helper.decodeToken(localStorage.jwt);
 
   constructor(private tasksService: TasksService) { }
 
@@ -32,11 +32,20 @@ export class DashboardComponent implements OnInit {
   }
 
   private getCurrentTasks(): void {
-    const userId = this.decodedToken['id'];
+    const userId = this.tasksService.decodedToken['id'];
     this.username =
-      `${this.decodedToken['firstName']} ${this.decodedToken['lastName']}`;
+      `${this.tasksService.decodedToken['firstName']} ${this.tasksService.decodedToken['lastName']}`;
     this.tasksService.getUserTasksList(userId).
-      subscribe((list: any) => { this.tasks = list });    
+      subscribe((list: Task[]) => { this.tasks = list });
+    this.sort();
+  }
+  sort() {
+    for (let t in this.tasks) {
+      let temp = {
+        id: 1,
+        t
+      } as Task;
+    }
   }
    
   onSelect(selectedTask: Task): void {
