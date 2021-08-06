@@ -93,14 +93,6 @@ namespace TaskManagement_Summer2021.Controllers
             }
             return false;
         }
-
-        public class UserMap
-        {
-            public Guid Id { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string Email { get; set; }
-            public string Roleid { get; set; }
-        }
+       
     }
 }
