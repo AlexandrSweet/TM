@@ -32,9 +32,9 @@
         <td>
           <select formControlName="roleId">
             <option>{{user.roleId}}</option>
-            <option value="0">User</option>
-            <option value="1">Customer</option>
-            <option value="2">Administrator</option>
+            <option value="User">User</option>
+            <option value="Customer">Customer</option>
+            <option value="Administrator">Administrator</option>
           </select>
         </td>
         <td><button type="button" (click)="onEdit(userToEditRoleForm, user)">EDIT</button></td>

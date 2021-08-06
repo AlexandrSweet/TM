@@ -18,7 +18,7 @@ namespace BusinessLogicLayer.ModelsDto.UserModel
         [Required]
         [MaxLength(30)]
         public string Email { get; set; }
-        [Required]
+        
         [MaxLength(20)]
         public string Password { get; set; }
         public Role RoleId { get; set; }

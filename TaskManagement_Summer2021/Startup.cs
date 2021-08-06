@@ -29,7 +29,7 @@ using ServiceStack.Text;
 namespace TaskManagement_Summer2021
 {
     public class Startup
-    {        
+    {       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;            
@@ -42,6 +42,12 @@ namespace TaskManagement_Summer2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true; 
+                options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
