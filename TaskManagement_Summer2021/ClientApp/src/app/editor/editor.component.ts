@@ -43,10 +43,12 @@ export class EditorComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.task = this.tasksService.getCurrentTask();
+    this.task = this.tasksService.getCurrentTask()
+      ?.subscribe(task => this.task = task);
 
     if (this.task == null) {
-      this.task = this.tasksService.getTask(this.id);
+      this.task = this.tasksService.getTask(this.id).
+        subscribe(task => this.task = task);
     }
     this.getUsers();
     
