@@ -40,30 +40,15 @@ export class TasksService {
     return this.http.post<string>(this.baseUrl + `${this.url}AddTask`, task);
   }
   
-  getTasksList(): Observable<Task[]> { //returns an Observable<Task[]>    
+  getTasksList(): Observable<Task[]> {  
     const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}ViewTasks`);
     return tasks;
   }
 
-  getUserTasksList(userId: Identifiers | string): Observable<Task[]> { //returns an Observable<Task[]>
-    const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}UserTasks/${userId}` )
-      
+  getUserTasksList(userId: Identifiers | string): Observable<Task[]> {
+    const tasks = this.http.get<Task[]>(this.baseUrl + `${this.url}UserTasks/${userId}` )      
     return tasks;
-  }
-  /*
-  getTask(id: Identifiers | string): Task {
-    let taskTemp = new Task(id);
-    let observable = this.http.get<Task>(this.baseUrl + `${this.url}${id}`)
-      .subscribe(task => {
-        taskTemp.title = task.title,
-          taskTemp.description = task.description,
-          taskTemp.date = task.date,
-          taskTemp.statusId = task.statusId,
-          taskTemp.userId = task.userId
-      });
-
-    return taskTemp;
-  }*/
+  }  
 
   getTask(id: Identifiers | string) {
     return this.http.get<Task>(this.baseUrl + `${this.url}${id}`)
