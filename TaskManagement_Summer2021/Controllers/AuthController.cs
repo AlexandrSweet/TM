@@ -57,7 +57,7 @@ namespace TaskManagement_Summer2021.Controllers
                         new Claim("firstName", foundUser.FirstName),
                         new Claim("lastName", foundUser.LastName),
                         new Claim("email", foundUser.Email),
-                        new Claim("role", foundUser.RoleId.ToString()),// роль брать у юсера с базы
+                        new Claim("role", foundUser.RoleId.ToString()),
                         new Claim("id", foundUser.Id.ToString())
                     },
                     expires: DateTime.Now.AddMinutes(10),
