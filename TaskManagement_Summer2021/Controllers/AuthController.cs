@@ -63,8 +63,10 @@ namespace TaskManagement_Summer2021.Controllers
                     expires: DateTime.Now.AddMinutes(10),
                     signingCredentials: signinCredentials);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                string roleUser = foundUser.RoleId.ToString();
                 return Ok(new { 
-                    Token = tokenString
+                    Token = tokenString, roleUser
+                    
                 });
             }
             else

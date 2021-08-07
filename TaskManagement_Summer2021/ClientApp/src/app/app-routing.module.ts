@@ -9,18 +9,19 @@ import { RegistrationComponent } from './registration/registration.component';
 import { EditorComponent } from './editor/editor.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { UserRoleEditComponent } from './user-role-edit/user-role-edit.component';
+import { RoleGuardService } from './role-guard.service';
 
 
-const routes: Routes = [  
+const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'tasks', component: TasksComponent },
+  { path: 'tasks', component: TasksComponent, canActivate: [RoleGuardService] },
   { path: 'new-task', component: NewTaskComponent },
   { path: 'detail/:id', component: TaskDetailComponent },
   { path: 'edit/:id', component: EditorComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },  
   { path: 'registration', component: RegistrationComponent },
-  { path: 'user-role-list', component: UserRoleEditComponent },
+  { path: 'user-role-list', component: UserRoleEditComponent, canActivate: [RoleGuardService] },
 
 ];
 
