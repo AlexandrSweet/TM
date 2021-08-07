@@ -12,7 +12,11 @@ export class RoleGuardService implements CanActivate  {
     const role = localStorage.getItem('loginUserRole');
     if (role && role === 'Administrator') {
       return true;
-    } else {
+    }
+    if (role && role === 'Customer') {
+      return true;
+    }
+    else {
       this.router.navigate(['/dashboard']);
         return false;
     }
