@@ -15,13 +15,12 @@ import { forEach } from 'jszip';
 })
 export class NewTaskComponent implements OnInit {
   public users: User[] = [];
-  private baseUrl!: string;
+  
   constructor(
     private tasksService: TasksService,
-    private http: HttpClient, @Inject ('BASE_URL') baseUrl: string,
+    private http: HttpClient,    
     private location: Location
-  ) {
-    this.baseUrl = baseUrl;
+  ) {   
   }
 
   ngOnInit(): void {
@@ -48,9 +47,8 @@ export class NewTaskComponent implements OnInit {
   }
 
   private getUsers() {
-    this.http.get<User[]>(this.baseUrl + 'users/get-users')
-      .subscribe(
-        result => { this.users = result });
+    this.tasksService.getUsers()
+      .subscribe(result => { this.users = result });
   }
    
 }
