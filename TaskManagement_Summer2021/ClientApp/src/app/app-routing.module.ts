@@ -15,9 +15,9 @@ import { RoleGuardService } from './role-guard.service';
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'tasks', component: TasksComponent, canActivate: [RoleGuardService] },
-  { path: 'new-task', component: NewTaskComponent },
+  { path: 'new-task', component: NewTaskComponent, canActivate: [RoleGuardService] },
   { path: 'detail/:id', component: TaskDetailComponent },
-  { path: 'edit/:id', component: EditorComponent },
+  { path: 'edit/:id', component: EditorComponent, canActivate: [RoleGuardService] },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },  
   { path: 'registration', component: RegistrationComponent },
