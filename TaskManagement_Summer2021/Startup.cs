@@ -73,6 +73,8 @@ namespace TaskManagement_Summer2021
                     config.Password.RequireNonAlphanumeric = false;
                     config.Password.RequireUppercase = false;
                     config.Password.RequiredLength = 6;
+                    config.User.RequireUniqueEmail = true;
+                    config.SignIn.RequireConfirmedEmail = false;
                 })
             .AddEntityFrameworkStores<ApplicationDbContext>();
             
