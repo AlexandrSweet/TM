@@ -16,36 +16,48 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class DashboardComponent implements OnInit {
  
   helper = new JwtHelperService();
-  tasks: Task[] = [];
+  private tasks: Task[] = [];
   new: Task[] =[];
   inProgress: Task[] = [];
   checking: Task[] = [];
   done: Task[] = [];
+  username: string = '';  
 
-  username: string = '';
-  //private decodedToken = this.helper.decodeToken(localStorage.jwt);
-
-  constructor(private tasksService: TasksService) { }
+  constructor(private tasksService: TasksService) { this.getCurrentTasks(); }
 
   ngOnInit(): void {
-    this.getCurrentTasks();
+      
   }
 
   private getCurrentTasks(): void {
-    const userId = this.tasksService.decodedToken['id'];
+    const userId = this.tasksService.decodedToken['id'];    
+    this.tasksService.getUserTasksList(userId).
+      subscribe((list: Task[]) => {
+        this.tasks = list;
+        if (this.tasks.length > 0) {
+          this.sort();
+        }
+      });
     this.username =
       `${this.tasksService.decodedToken['firstName']} ${this.tasksService.decodedToken['lastName']}`;
-    this.tasksService.getUserTasksList(userId).
-      subscribe((list: Task[]) => { this.tasks = list });
-    this.sort();
   }
-  sort() {
-    for (let t in this.tasks) {
-      let temp = {
-        id: 1,
-        t
-      } as Task;
-    }
+
+  public sort() {
+    this.new = [];
+    this.inProgress = [];
+    this.checking = [];
+    this.done = [];
+
+    this.tasks.forEach(t => {
+      if (t.statusId == 'New')
+        this.new.push(t);
+      else if (t.statusId == 'InProgress')
+        this.inProgress.push(t);
+      else if (t.statusId == 'Checking')
+        this.checking.push(t);
+      else if (t.statusId == 'Done')
+        this.done.push(t);
+    });
   }
    
   onSelect(selectedTask: Task): void {
