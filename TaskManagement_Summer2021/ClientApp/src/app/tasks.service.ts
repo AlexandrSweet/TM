@@ -66,12 +66,8 @@ export class TasksService {
     return this.http.delete(this.baseUrl + `${this.url}${id}`);
   }
 
-  public u: User[] = [];
-  getUsers(): User[] {    
-    this.http.get<User[]>('users/get-users')
-      .subscribe(
-        result => { this.u = result });
-    return this.u;
+  getUsers() {
+    return this.http.get<User[]>(this.baseUrl + 'users/get-users');
   }
 }
 

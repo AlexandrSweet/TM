@@ -1,5 +1,5 @@
 import { Identifiers } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Task } from '../task';
@@ -18,7 +18,7 @@ export class EditorComponent implements OnInit {
   private id: Identifiers = 1;
   private subscription: Subscription | undefined;
   public users: User[] = [];
-
+  
   @Input() task: Task | any = new Task(this.id);
   //tasokObservable?: any;
 
@@ -35,10 +35,11 @@ export class EditorComponent implements OnInit {
     private tasksService: TasksService,
     private location: Location,
     private fb: FormBuilder,
-    private http: HttpClient,
+    private http: HttpClient
     
   ) {
     this.subscription = route.params.subscribe(params => this.id = params['id']);
+    
   }
 
 
@@ -50,8 +51,7 @@ export class EditorComponent implements OnInit {
       this.task = this.tasksService.getTask(this.id).
         subscribe(task => this.task = task);
     }
-    this.getUsers();
-    
+    this.getUsers();   
   }
   
 
@@ -74,8 +74,7 @@ export class EditorComponent implements OnInit {
   }
 
   private getUsers() {
-    this.http.get<User[]>('users/get-users')
-      .subscribe(
-        result => { this.users = result });
+    this.tasksService.getUsers()
+      .subscribe( result => { this.users = result });
   }
 }
