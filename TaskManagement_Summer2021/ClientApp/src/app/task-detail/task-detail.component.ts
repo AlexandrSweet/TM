@@ -30,7 +30,8 @@ export class TaskDetailComponent implements OnInit {
     private location: Location
   ) {
     this.subscription = route.params.subscribe(params => this.id = params['id']);
-    
+    this.tasksService.getTask(this.id)
+      .subscribe(task => this.task = task);
   }
 
   ngOnInit(): void {

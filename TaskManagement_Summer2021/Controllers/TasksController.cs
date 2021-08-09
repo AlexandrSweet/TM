@@ -7,21 +7,24 @@ using System.Threading.Tasks;
 using BusinessLogicLayer.TaskService;
 using BusinessLogicLayer.ModelsDto.TaskModel;
 using Microsoft.Extensions.Logging;
+using BusinessLogicLayer.EmailService;
 
 namespace TaskManagement_Summer2021.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
-    {
+    {        
         private readonly ITaskService _taskService;
+        private readonly IEmailService _emailService;
         private ILogger<TasksController> _logger;
 
 
-        public TasksController(ITaskService taskService, ILogger<TasksController> logger)
+        public TasksController(ITaskService taskService, ILogger<TasksController> logger, IEmailService emailService)
         {
             _taskService = taskService;
             _logger = logger;
+            _emailService = emailService;
         }
 
         [HttpPost]
@@ -30,7 +33,8 @@ namespace TaskManagement_Summer2021.Controllers
         {
             if (ModelState.IsValid)
             {
-                string taskId = _taskService.AddTask(taskModel);
+                Guid taskId = _taskService.AddTask(taskModel);
+                _emailService.SendEmailAsync(taskModel);
                 return Ok(taskId);
             }
             else
@@ -64,8 +68,14 @@ namespace TaskManagement_Summer2021.Controllers
         [Route("{taskId}/edit")]
         public ActionResult<EditTaskDto> EditTask( EditTaskDto taskDto, [FromRoute] Guid taskId)//[FromForm]
         {
-            
-            return Ok(_taskService.EditTask(taskDto, taskId));
+            if (ModelState.IsValid)
+            {
+                var task = _taskService.EditTask(taskDto, taskId);
+                _emailService.SendEmailUpdateAsync(task);
+                return Ok(task);
+            }                
+            else
+                return BadRequest();
         }
 
         [HttpDelete]

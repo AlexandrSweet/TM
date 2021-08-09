@@ -27,19 +27,19 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   tasks: TaskListModel []= [];  
 
-  constructor(private tasksService: TasksService) { }
+  constructor(private tasksService: TasksService) {  }
 
   ngOnInit() {
     this.loadTasks();
-    $.fn.DataTable({
-      retrieve: true,
-      paging: false,
-      destroy: true,
-      searching: false
-
-    });
+    $.fn.DataTable(
+      this.dtOptions
+    );
     
     this.dtOptions = {
+      retrieve: true,
+      paging: true,
+      destroy: true,
+      searching: true,
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',
 
@@ -56,20 +56,12 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.tasks = response;        
         // initiate our data table
         this.dtTrigger.next();
-      });
-    
-  }
-  
-  
+      });    
+  }  
   
   onSelect(selectedTask: Task): void {
     this.tasksService.setCurrentTask(selectedTask.id);
   }
 
-  filterById(): void {
-    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.draw();
-    });
-  }
 }
 

@@ -25,6 +25,7 @@ using BusinessLogicLayer.UserService;
 using Microsoft.AspNetCore.Identity;
 using DataAccessLayer.Entities;
 using ServiceStack.Text;
+using BusinessLogicLayer.EmailService;
 
 namespace TaskManagement_Summer2021
 {
@@ -100,6 +101,7 @@ namespace TaskManagement_Summer2021
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IEmailService, EmailService>();
             
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
