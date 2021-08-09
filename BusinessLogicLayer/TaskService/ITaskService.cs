@@ -7,7 +7,7 @@ namespace BusinessLogicLayer.TaskService
 {
     public interface ITaskService
     {
-        public string AddTask(CreateTaskDto task);
+        public Guid AddTask(CreateTaskDto task);
         public TaskDto GetOneTask(Guid taskId);
         public List<ListViewTaskDto> GetTasks();
         public List<TaskDto> GetUserTasks(Guid userId);

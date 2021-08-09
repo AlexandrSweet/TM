@@ -20,31 +20,6 @@ namespace BusinessLogicLayer.TaskService
         private readonly Mapper _autoMapper;
         private ILogger<TaskService> _logger;
 
-        private static async void SendEmail(string text)
-        {            
-            // отправитель - устанавливаем адрес и отображаемое в письме имя
-            MailAddress from = new MailAddress("TaskManagement.summer.2021@gmail.com", "Notifier");
-            // кому отправляем
-            MailAddress to = new MailAddress("molozhenko2011@gmail.com");
-            // создаем объект сообщения
-            MailMessage m = new MailMessage(from, to);            
-            // тема письма
-            m.Subject = "Test";
-            // письмо представляет код html
-            m.Body = $"<h2>{text}</h2>";
-            m.IsBodyHtml = true;
-
-            // адрес smtp-сервера и порт, с которого будем отправлять письмо
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
-            {
-                // логин и пароль
-                Credentials = new NetworkCredential("TaskManagement.summer.2021@gmail.com", "G2WAjhku6yWmFRh"),
-                EnableSsl = true
-            };
-           
-            await smtp.SendMailAsync(m);
-        }
-
         public TaskService(IApplicationDbContext applicationDbContext, ILogger<TaskService> logger)
         {
             _logger = logger;
@@ -62,16 +37,13 @@ namespace BusinessLogicLayer.TaskService
 
         //Creates new task in database
         //Requires minimum of information, no files, user ID or status
-        public string AddTask(CreateTaskDto TaskDto)
-        { 
-            //TaskDto.Date = DateTime.UtcNow;
+        public Guid AddTask(CreateTaskDto TaskDto)
+        {            
             Task newTask = _autoMapper.Map<CreateTaskDto, Task>(TaskDto);
             _applicationDbContext.Tasks.Add(newTask);
-            _applicationDbContext.SaveChanges();
-            //TaskDto = _autoMapper.Map<Task, CreateTaskDto>(newTask);
-            _logger.LogInformation("New task added");
-            //SendEmail("New task added");
-            return newTask.Id.ToString();
+            _applicationDbContext.SaveChanges();            
+            _logger.LogInformation("New task added");            
+            return newTask.Id;
         }
 
         //Returns a list of a specific number of tasks
@@ -96,6 +68,8 @@ namespace BusinessLogicLayer.TaskService
             return resultList;
         }
 
+        //Returns list of tasks assigned to user
+        //Requires  user ID
         public List<TaskDto> GetUserTasks(Guid userId)
         {
             var resultList = new List<TaskDto>();
@@ -114,10 +88,8 @@ namespace BusinessLogicLayer.TaskService
             Task task = _applicationDbContext.Tasks.Find(taskId);
             if (task==null)
             {
-                _logger.LogError($"Wrong taskID {taskId}");
-                //tempTaskDto.Description = "NOT EXIST";
-                return tempTaskDto;
-                //throw new Exception($"Wrong taskID {taskId}");
+                _logger.LogError($"Wrong taskID {taskId}");                
+                return tempTaskDto;                
             }
             tempTaskDto = _autoMapper.Map<Task, TaskDto>(task);
             _logger.LogInformation($"Task displayed, id = {tempTaskDto.Id}");
@@ -130,8 +102,6 @@ namespace BusinessLogicLayer.TaskService
         public EditTaskDto EditTask(EditTaskDto taskDto, Guid taskId)
         {
             taskDto.Id = taskId;
-            //TaskStatusId statusId = (TaskStatusId) taskDto.StatusId;
-            //taskDto.StatusId = statusId;
             Task updatedTask = _autoMapper.Map<EditTaskDto, Task>(taskDto);
             _applicationDbContext.Tasks.Update(updatedTask);
             _applicationDbContext.SaveChanges();
