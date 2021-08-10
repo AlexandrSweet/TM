@@ -61,12 +61,22 @@ namespace TaskManagement_Summer2021
                                         .AllowAnyMethod();
                 });
             });
-
-            services.AddDbContext<ApplicationDbContext>(option =>
-            {
-                option.UseSqlServer(Configuration["SqlServerConnectionString"],
-                    b => b.MigrationsAssembly("DataAccessLayer"));
-            })
+                       
+                services.AddDbContext<ApplicationDbContext>(option =>
+                {
+                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                    {
+                        option.UseSqlServer(Configuration["TaskManagerProd"],
+                            b => b.MigrationsAssembly("DataAccessLayer"));
+                    }
+                    else
+                    {
+                        option.UseSqlServer(Configuration["TaskManagerProd"],
+                            b => b.MigrationsAssembly("DataAccessLayer"));
+                    }
+                    //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+                })            
+            
                 .AddIdentity<User, ApplicationRole>(config =>
                 {
                     config.Password.RequireDigit = false;
@@ -79,6 +89,7 @@ namespace TaskManagement_Summer2021
                 })
             .AddEntityFrameworkStores<ApplicationDbContext>();
             
+
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

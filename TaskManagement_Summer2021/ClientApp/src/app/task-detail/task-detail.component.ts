@@ -29,9 +29,7 @@ export class TaskDetailComponent implements OnInit {
     private http: HttpClient,
     private location: Location
   ) {
-    this.subscription = route.params.subscribe(params => this.id = params['id']);
-    this.tasksService.getTask(this.id)
-      .subscribe(task => this.task = task);
+    this.subscription = route.params.subscribe(params => this.id = params['id']);   
   }
 
   ngOnInit(): void {

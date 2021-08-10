@@ -14,7 +14,7 @@ namespace TaskManagement_Summer2021
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()//create serilog configuration
+           /* var config = new ConfigurationBuilder()//create serilog configuration
             .AddJsonFile("appsettings.json")
             .Build();
 
@@ -26,7 +26,7 @@ namespace TaskManagement_Summer2021
                 //.Enrich.FromLogContext()
                 //.WriteTo.MSSqlServer();
                 //.CreateLogger();
-                .CreateBootstrapLogger();
+                .CreateBootstrapLogger();*/
             CreateHostBuilder(args).Build().Run();
         }
 
