@@ -66,16 +66,20 @@ namespace TaskManagement_Summer2021
                 {
                     option.UseSqlServer("Data Source=task-management-server.database.windows.net;Initial Catalog=postgres;User ID=task-management-server-admin;Password=8C5KPM0640W02ZFG$;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
                         b => b.MigrationsAssembly("DataAccessLayer"));
-                   /* if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-                    {
-                        option.UseSqlServer(Configuration["TaskManager"],
-                            b => b.MigrationsAssembly("DataAccessLayer"));
-                    }
-                    else
-                    {
-                        option.UseSqlServer(Configuration["TaskManagerProd"],
-                            b => b.MigrationsAssembly("DataAccessLayer"));
-                    }*/
+
+                    //option.UseSqlServer(Configuration["SqlServerConnectionString"],
+                    //b => b.MigrationsAssembly("DataAccessLayer"));
+
+                    /* if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                     {
+                         option.UseSqlServer(Configuration["TaskManager"],
+                             b => b.MigrationsAssembly("DataAccessLayer"));
+                     }
+                     else
+                     {
+                         option.UseSqlServer(Configuration["TaskManagerProd"],
+                             b => b.MigrationsAssembly("DataAccessLayer"));
+                     }*/
                     //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
                 })            
             
