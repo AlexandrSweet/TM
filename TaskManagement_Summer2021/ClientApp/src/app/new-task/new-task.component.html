@@ -9,30 +9,32 @@
     <br />
     <div>
       <label for="new-task-title">Task's title: </label>
-      <input id="new-task-title" #taskTitle />
+      <input id="new-task-title" #taskTitle required />
     </div>
     <div>
       <label for="new-task-description">Task's description: </label>
-      <input id="new-task-description" #taskDescription />
+      <input id="new-task-description" #taskDescription required />
     </div>
     <div>
       <label for="new-task-date">Deadline date: </label>
       <input id="new-task-date" type="date"
              min="2021-01-01"
-             name="date" #deadline />
+             name="date" #deadline required/>
     </div>
     <div>
       <label for="new-task-user">Select a user for the task: </label>
-      <select name="new-task-user" #user>
+      <select name="new-task-user" #user required>
         <option *ngFor="let user of users"
                 [value]="user.id">
           {{user.firstName}} {{user.lastName}}
       </select>
     </div>
+    <div *ngIf="!isValid">
+      Please enter title and description, choose deadline date and assign someone to this task.
+    </div>
 
     <button class="save-button"
-            (click)="add(taskTitle.value, taskDescription.value, deadline.valueAsDate, user.value);
-            taskTitle.value=''; taskDescription.value='' ">
+            (click)="add(taskTitle.value, taskDescription.value, deadline.valueAsDate, user.value);">
       Add task
     </button>
   </div>

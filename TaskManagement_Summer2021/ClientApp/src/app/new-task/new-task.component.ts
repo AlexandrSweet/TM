@@ -15,7 +15,7 @@ import { forEach } from 'jszip';
 })
 export class NewTaskComponent implements OnInit {
   public users: User[] = [];
-  
+  public isValid: boolean = true;
   constructor(
     private tasksService: TasksService,
     private http: HttpClient,    
@@ -33,9 +33,10 @@ export class NewTaskComponent implements OnInit {
 
   add(title: string, description: string, date: Date | null, userId:any): void {//, data: Dates
     const id: Identifiers = 1;
-    title = title.trim();
-    if (!title) { return; }
-    if (!date) { return; }
+    title = title.trim();    
+    if (!title) { this.isValid = false; return console.warn('enter title'); }
+    if (!title) { this.isValid = false; return console.warn('enter description'); }
+    if (!date) { this.isValid = false; return console.warn('enter date'); }
     this.tasksService.addTask({ title, description, date, userId } as Task)
       .subscribe();
     this.goBack();
@@ -50,5 +51,7 @@ export class NewTaskComponent implements OnInit {
     this.tasksService.getUsers()
       .subscribe(result => { this.users = result });
   }
-   
+  public setValid() {
+    this.isValid = true;
+  }
 }

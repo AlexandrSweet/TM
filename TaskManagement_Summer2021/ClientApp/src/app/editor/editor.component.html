@@ -21,8 +21,8 @@
     <input id="task-description" [(ngModel)]="task.description" placeholder="Task's description" />
   </div>
   <div>
-    <label for="task-date">Deadline: </label>
-    <input id="task-date" type="date" [(ngModel)]="task.date" placeholder="Deadline" />
+    <label for="task-date">Deadline:  </label>    
+    <input id="task-date" placeholder="{{task.date| date:'d/M/Y'}}" type="text" onfocus="(this.type='date')" >
   </div>
   <div>
     <label for="new-task-user">Select a user for the task: </label>

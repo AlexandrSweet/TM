@@ -26,7 +26,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   min: any = 0;
   max: any = 0;
 
-  tasks: TaskListModel []= [];  
+  tasks: TaskListModel [] = [];  
 
   constructor(private router: Router, private tasksService: TasksService) {  }
 
@@ -41,6 +41,7 @@ export class TasksComponent implements OnInit, OnDestroy {
       paging: true,
       destroy: true,
       searching: true,
+      order: [2, 'desc'],      
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',
 
