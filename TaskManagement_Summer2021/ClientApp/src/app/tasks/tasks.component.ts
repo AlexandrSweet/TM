@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 
 export class TasksComponent implements OnInit, OnDestroy {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
   @ViewChild(DataTableDirective, { static: false })
@@ -32,10 +32,11 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadTasks();
-    $.fn.DataTable(
+    var table = $.fn.DataTable(
+
       this.dtOptions
     );
-    
+        
     this.dtOptions = {
       retrieve: true,
       paging: true,
@@ -44,7 +45,10 @@ export class TasksComponent implements OnInit, OnDestroy {
       order: [2, 'desc'],      
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',
-
+      buttons: [
+        'csv', 'excel'
+      ]
+      
     };
   }
   ngOnDestroy(): void {
