@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Identifiers } from '@angular/compiler/src/render3/r3_identifiers';
 import { Component, NgModule, OnInit } from '@angular/core';
-import { Data } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { JwtInterceptor } from '../jwt-interceptor';
 import { Task } from '../task';
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   done: Task[] = [];
   username: string = '';  
 
-  constructor(private tasksService: TasksService) { this.getCurrentTasks(); }
+  constructor(private router: Router, private tasksService: TasksService) { this.getCurrentTasks(); }
 
   ngOnInit(): void {
       
@@ -64,4 +64,8 @@ export class DashboardComponent implements OnInit {
     this.tasksService.setCurrentTask(selectedTask.id);
   }
 
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }

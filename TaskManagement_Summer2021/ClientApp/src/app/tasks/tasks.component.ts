@@ -6,6 +6,7 @@ import { TasksService } from '../tasks.service';
 import { DataTableDirective } from 'angular-datatables';
 import { TaskListModel } from '../models/TaskListModel';
 import { forEach } from 'jszip';
+import { Router } from '@angular/router';
 
 
 
@@ -27,7 +28,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
   tasks: TaskListModel []= [];  
 
-  constructor(private tasksService: TasksService) {  }
+  constructor(private router: Router, private tasksService: TasksService) {  }
 
   ngOnInit() {
     this.loadTasks();
@@ -63,5 +64,9 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.tasksService.setCurrentTask(selectedTask.id);
   }
 
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }
 
