@@ -49,8 +49,8 @@ namespace TaskManagement_Summer2021.Controllers
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                 var tokenOptions = new JwtSecurityToken(
-                    issuer: "https://localhost:44379",
-                    audience: "https://localhost:44379",
+                    //issuer: "https://localhost:44379",
+                    //audience: "https://localhost:44379",
                     claims: new List<Claim> 
                     { 
                         new Claim(ClaimsIdentity.DefaultRoleClaimType, foundUser.RoleId.ToString()),
