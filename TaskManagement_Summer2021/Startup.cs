@@ -54,8 +54,8 @@ namespace TaskManagement_Summer2021
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("https://localhost:44379",
-                                        "http://localhost:4200"
+                    builder.WithOrigins("*"//"https://localhost:44379",
+                                       // "http://localhost:4200"
                                         )
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
@@ -64,16 +64,22 @@ namespace TaskManagement_Summer2021
                        
                 services.AddDbContext<ApplicationDbContext>(option =>
                 {
-                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-                    {
-                        option.UseSqlServer(Configuration["TaskManagerProd"],
-                            b => b.MigrationsAssembly("DataAccessLayer"));
-                    }
-                    else
-                    {
-                        option.UseSqlServer(Configuration["TaskManagerProd"],
-                            b => b.MigrationsAssembly("DataAccessLayer"));
-                    }
+                    option.UseSqlServer("Data Source=task-management-server.database.windows.net;Initial Catalog=postgres;User ID=task-management-server-admin;Password=8C5KPM0640W02ZFG$;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+                        b => b.MigrationsAssembly("DataAccessLayer"));
+
+                    //option.UseSqlServer(Configuration["SqlServerConnectionString"],
+                    //b => b.MigrationsAssembly("DataAccessLayer"));
+
+                    /* if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                     {
+                         option.UseSqlServer(Configuration["TaskManager"],
+                             b => b.MigrationsAssembly("DataAccessLayer"));
+                     }
+                     else
+                     {
+                         option.UseSqlServer(Configuration["TaskManagerProd"],
+                             b => b.MigrationsAssembly("DataAccessLayer"));
+                     }*/
                     //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
                 })            
             
@@ -101,8 +107,8 @@ namespace TaskManagement_Summer2021
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidIssuer = Configuration["http://localhost:44379"],
-                    ValidAudience = Configuration["http://localhost:44379"],
+                    //ValidIssuer = Configuration["http://localhost:44379"],
+                    //ValidAudience = Configuration["http://localhost:44379"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@123"))
                 };
             });
@@ -118,7 +124,7 @@ namespace TaskManagement_Summer2021
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                configuration.RootPath = "ClientApp/dist/ClientApp";
             });
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
@@ -130,27 +136,22 @@ namespace TaskManagement_Summer2021
             //Serilog
             app.UseSerilogRequestLogging();
 
+           
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
 
-            //// Attach additional properties to the request completion event
-            //options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-            //{
-            //    diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-            //    diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-            //};
-        
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
-
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                // specifying the Swagger JSON endpoint.
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });
+                
+                
             }
             else
             {
@@ -215,7 +216,7 @@ namespace TaskManagement_Summer2021
 
                     spa.UseAngularCliServer(npmScript: "start");
                     //Time limit extended
-                    spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 55);
+                    //spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 55);
                     //Time limit extended
                 }
             });

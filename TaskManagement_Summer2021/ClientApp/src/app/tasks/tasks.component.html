@@ -1,46 +1,45 @@
-  <nav>
-    <a routerLink="/dashboard">Dashboard</a>
+  <nav>    
     <a routerLink="/new-task">Add new task</a>
     <a routerLink="/user-role-list">Users</a>
   </nav>
   <br />
+<button type="button" class="out" (click)="logOut()">Logout</button>
   <h1>Tasks</h1>
   <br />
-  <body>
-    <div class="container">
-
-    <div class="card m-5 p-3">
-      <div class="card-body">
-        <table class="table table-bordered table-striped table-hover"
-               datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Deadline</th>
-              <th>Status</th>
-              <th>User</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let task of tasks">
-              <td>{{ task.title }}</td>
-              <td>{{ task.description }}</td>
-              <td>{{ task.date |date:'d/M/Y'}}</td>
-              <td>{{ task.statusId }}</td>
-              <td>{{ task.user.firstName }} {{ task.user.lastName }}</td>
-              <td>
-                <button class="edit" title="edit task"
-                        (click)="onSelect(task)"
-                        routerLink="/edit/{{task.id}}">
-                  Edit
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <body>       
+    <table class="redTable"
+           datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <th>User</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+          </td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr *ngFor="let task of tasks">
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.date |date:'d/M/Y'}}</td>
+          <td>{{ task.statusId }}</td>
+          <td>{{ task.user.firstName }} {{ task.user.lastName }}</td>
+          <td>
+            <button class="edit" title="edit task"
+                    (click)="onSelect(task)"
+                    routerLink="/edit/{{task.id}}">
+              Edit
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>       
 </body>

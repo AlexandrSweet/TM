@@ -6,6 +6,7 @@ import { TasksService } from '../tasks.service';
 import { DataTableDirective } from 'angular-datatables';
 import { TaskListModel } from '../models/TaskListModel';
 import { forEach } from 'jszip';
+import { Router } from '@angular/router';
 
 
 
@@ -17,7 +18,7 @@ import { forEach } from 'jszip';
 })
 
 export class TasksComponent implements OnInit, OnDestroy {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
   @ViewChild(DataTableDirective, { static: false })
@@ -25,24 +26,29 @@ export class TasksComponent implements OnInit, OnDestroy {
   min: any = 0;
   max: any = 0;
 
-  tasks: TaskListModel []= [];  
+  tasks: TaskListModel [] = [];  
 
-  constructor(private tasksService: TasksService) {  }
+  constructor(private router: Router, private tasksService: TasksService) {  }
 
   ngOnInit() {
     this.loadTasks();
-    $.fn.DataTable(
+    var table = $.fn.DataTable(
+
       this.dtOptions
     );
-    
+        
     this.dtOptions = {
       retrieve: true,
       paging: true,
       destroy: true,
       searching: true,
+      order: [2, 'desc'],      
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',
-
+      buttons: [
+        'csv', 'excel'
+      ]
+      
     };
   }
   ngOnDestroy(): void {
@@ -63,5 +69,9 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.tasksService.setCurrentTask(selectedTask.id);
   }
 
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }
 

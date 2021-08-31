@@ -10,6 +10,66 @@ h1 {
   width: 30em;
 }
 
+table.redTable {
+  border: 3px solid #808080;
+  background-color: #EEE7DB;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+table.redTable td, table.redTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+
+table.redTable tbody td {
+  font-size: 13px;
+}
+
+table.redTable tr:nth-child(even) {
+  background: #ffffff;
+}
+
+table.redTable thead {
+  background: #808080;
+}
+
+table.redTable thead th {
+  font-size: 19px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #ffffff;
+}
+
+table.redTable thead th:first-child {
+  border-left: none;
+}
+
+table.redTable tfoot {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #808080;
+}
+
+table.redTable tfoot td {
+  font-size: 13px;
+}
+
+table.redTable tfoot .links {
+  text-align: right;
+}
+
+table.redTable tfoot .links a {
+  display: inline-block;
+  background: #FFFFFF;
+  color: #48318C;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
 input {
   display: block;
   width: 100%;
@@ -118,4 +178,24 @@ nav a:hover {
 nav a.active {
   background-color: black;
 }
-    
+
+
+.out {
+  font-size: 1.2rem;
+  padding: 1rem;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #e8e8e8;
+  color: #3d3d3d;
+  border-radius: 4px;
+}
+
+.out:hover {
+  color: white;
+  background-color: #42545C;
+}
+
+.out.active {
+  background-color: black;
+}
