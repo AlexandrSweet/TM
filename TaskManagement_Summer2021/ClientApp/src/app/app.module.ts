@@ -51,7 +51,8 @@ import { UserRoleEditComponent } from './user-role-edit/user-role-edit.component
     MaterialModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: 'BASE_URL', useValue: "https://task-management.azurewebsites.net/", multi: true }
+    //{ provide: 'BASE_URL', useValue: "https://task-management.azurewebsites.net/", multi: true }
+    { provide: 'BASE_URL', useValue: "https://localhost:44379/", multi: true }
   ],
   //bootstrap: [DatepickerComponent]
   bootstrap: [AppComponent]
