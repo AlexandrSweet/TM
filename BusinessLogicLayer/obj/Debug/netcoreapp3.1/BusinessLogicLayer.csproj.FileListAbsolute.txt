@@ -1,0 +1,13 @@
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\bin\Debug\netcoreapp3.1\BusinessLogicLayer.deps.json
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\bin\Debug\netcoreapp3.1\BusinessLogicLayer.dll
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\bin\Debug\netcoreapp3.1\BusinessLogicLayer.pdb
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.dll
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.pdb
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.csproj.AssemblyReference.cache
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.AssemblyInfoInputs.cache
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.AssemblyInfo.cs
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.csproj.CopyComplete
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.dll
+C:\Users\tdtia\Downloads\tm\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.pdb
